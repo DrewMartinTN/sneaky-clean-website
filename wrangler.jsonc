@@ -1,0 +1,15 @@
+{
+  // Sneaky Clean booking worker — Cloudflare Workers config
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sneaky-clean-booking",
+  "main": "worker.js",
+  "compatibility_date": "2025-05-01",
+
+  // Non-secret values live here. Real secret is set via:
+  //   npx wrangler secret put SQUARE_ACCESS_TOKEN
+  "vars": {
+    "SQUARE_LOCATION_ID": "LHZDJKB0H96NH",
+    "SQUARE_TEAM_MEMBER_ID": "TMf-ND8UsRVBrYRS",
+    "ALLOWED_ORIGINS": "https://sneakycleantn.com,https://www.sneakycleantn.com,http://localhost:8787"
+  }
+}
