@@ -88,6 +88,52 @@ assets/images/seo/job-or-vehicle-name/
 
 The helper supports HEIC, HEIF, JPG, JPEG, and PNG files. It skips video files; export stills from edited video first if you want to use them on the website.
 
+### Sort Downloaded Photos
+
+After downloading a Drive folder, launch the local photo sorter:
+
+```bash
+npm run images:sort -- /path/to/downloaded/job-folder
+```
+
+Open:
+
+```text
+http://localhost:8791
+```
+
+By default, sorted copies go into:
+
+```text
+/path/to/downloaded/job-folder/_sneaky-sorted/
+```
+
+You can choose a separate output folder:
+
+```bash
+npm run images:sort -- /path/to/downloaded/job-folder /path/to/sorted-output
+```
+
+The sorter creates folders for:
+
+- Site Favorites
+- Before
+- After
+- Interior
+- Exterior
+- Ceramic
+- Motorcycle
+- Needs Edit
+- Archive
+
+Use the number keys `1` through `9` to toggle the selected file into those folders. Arrow keys move between files. Originals are copied into the sorted folders, not moved or deleted. The sorter also writes:
+
+```text
+sort-manifest.csv
+```
+
+inside the output folder.
+
 ## Update Service / Package Copy
 
 Most page copy lives in:
