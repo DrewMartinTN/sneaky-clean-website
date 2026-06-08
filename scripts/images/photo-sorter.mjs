@@ -5,6 +5,7 @@ import fsSync from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { promisify } from "node:util";
+import { importDriveManifest } from "./drive-importer.mjs";
 
 const run = promisify(execFile);
 
@@ -25,17 +26,27 @@ const CATEGORIES = [
 ];
 
 const args = process.argv.slice(2);
-const sourceArg = args.find((arg) => !arg.startsWith("--"));
-const outputArg = args.filter((arg) => !arg.startsWith("--"))[1];
+const positionalArgs = args.filter((arg) => !arg.startsWith("--"));
+const sourceArg = positionalArgs[0];
+const outputArg = positionalArgs[1];
 const portArg = args.find((arg) => arg.startsWith("--port="));
+const importDirArg = args.find((arg) => arg.startsWith("--import-dir="));
 const port = portArg ? Number(portArg.split("=")[1]) : DEFAULT_PORT;
 
 if (!sourceArg) {
-  console.error("Usage: npm run images:sort -- <source-dir> [output-dir] [--port=8791]");
+  console.error("Usage: npm run images:sort -- <source-dir-or-drive-manifest.json> [sort-output-dir] [--import-dir=imports/name] [--port=8791]");
   process.exit(1);
 }
 
-const sourceDir = path.resolve(sourceArg);
+let sourceDir = path.resolve(sourceArg);
+
+if (path.extname(sourceArg).toLowerCase() === ".json") {
+  const importOutputDir = importDirArg ? importDirArg.split("=").slice(1).join("=") : undefined;
+  const importSummary = await importDriveManifest(sourceArg, importOutputDir);
+  sourceDir = importSummary.outputDir;
+  console.log(`Imported ${importSummary.downloaded}/${importSummary.total} Drive file(s) before opening sorter`);
+}
+
 const outputDir = path.resolve(outputArg || path.join(sourceDir, "_sneaky-sorted"));
 const cacheDir = path.join(outputDir, ".photo-sorter-cache");
 const manifestPath = path.join(outputDir, "sort-manifest.csv");

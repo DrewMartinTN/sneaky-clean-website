@@ -4,6 +4,7 @@ node_modules/
 .DS_Store
 build/
 outputs/
+imports/
 **/_sneaky-sorted/
 **/.photo-sorter-cache/
 growth/reports/*

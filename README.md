@@ -134,6 +134,36 @@ sort-manifest.csv
 
 inside the output folder.
 
+### Import A Drive Folder Through Codex
+
+Codex can access Google Drive through the connected Drive app. The local sorter cannot directly inherit those Google credentials, so Drive imports use a manifest that Codex creates from the folder listing and raw file fetches.
+
+Import a manifest without opening the sorter:
+
+```bash
+npm run images:import-drive -- growth/private/drive-imports/sneaky-pics.json imports/sneaky-pics
+```
+
+Import a manifest and immediately open the sorter:
+
+```bash
+npm run images:sort -- growth/private/drive-imports/sneaky-pics.json
+```
+
+To choose where the raw imported files land:
+
+```bash
+npm run images:sort -- growth/private/drive-imports/sneaky-pics.json --import-dir=imports/sneaky-pics
+```
+
+Raw imported files are intentionally ignored by git:
+
+```text
+imports/
+```
+
+The importer supports manifest entries with either `b64_string` or `download_url`. It writes a `drive-import-manifest.csv` into the import folder so you can trace local files back to Drive IDs.
+
 ## Update Service / Package Copy
 
 Most page copy lives in:
