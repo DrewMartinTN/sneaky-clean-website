@@ -8,6 +8,8 @@
     "dev:site": "python3 -m http.server 8787 --directory .",
     "dev:worker": "wrangler dev",
     "deploy:worker": "wrangler deploy",
+    "site:generate": "node scripts/site/generate-seo-pages.mjs",
+    "images:prepare": "node scripts/images/prepare-images.mjs",
     "square:setup-groups": "node scripts/square/setup-groups.mjs",
     "square:audit": "node scripts/square/customer-audit.mjs",
     "square:retention": "node scripts/square/retention-report.mjs",

@@ -663,6 +663,128 @@ h3 {
   color: var(--teal);
 }
 
+.seo-hero {
+  padding: 1rem 0 3rem;
+}
+
+.seo-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.75fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: stretch;
+  min-height: min(620px, calc(100vh - 5.5rem));
+}
+
+.seo-hero__copy,
+.seo-hero__media,
+.seo-info-card,
+.seo-proof-list {
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background:
+    linear-gradient(135deg, rgba(21, 25, 31, 0.98), rgba(0, 18, 16, 0.98)),
+    var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.seo-hero__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(1.25rem, 4vw, 2.35rem);
+}
+
+.seo-hero__media {
+  position: relative;
+  overflow: hidden;
+  min-height: 430px;
+}
+
+.seo-hero__media > img {
+  width: 100%;
+  height: 100%;
+  min-height: 430px;
+  object-fit: cover;
+}
+
+.seo-hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(0, 18, 16, 0.9));
+}
+
+.breadcrumb {
+  width: fit-content;
+  margin-bottom: auto;
+  color: rgba(244, 255, 219, 0.58);
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.seo-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.55fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.seo-detail-grid > div {
+  max-width: 740px;
+}
+
+.seo-proof-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 1rem;
+  list-style: none;
+}
+
+.seo-proof-list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+  color: rgba(244, 255, 219, 0.86);
+  font-weight: 850;
+}
+
+.seo-proof-list li:last-child {
+  border-bottom: 0;
+}
+
+.seo-info {
+  padding-top: 0;
+}
+
+.seo-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.seo-info-card {
+  padding: clamp(1rem, 2.6vw, 1.5rem);
+}
+
+.seo-info-card h2 {
+  max-width: 720px;
+  font-size: clamp(1.8rem, 3.5vw, 3.4rem);
+}
+
+.seo-info-card p:last-child {
+  margin-bottom: 0;
+}
+
+.seo-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.seo-gallery .case-card {
+  min-height: 430px;
+}
+
 .booking-modal {
   position: fixed;
   inset: 0;
@@ -838,16 +960,27 @@ h3 {
   }
 
   .hero__grid,
+  .seo-hero__grid,
   .proof-grid,
   .section-head--split,
+  .seo-detail-grid,
   .investigator__panel,
   .membership__panel,
   .final-cta__panel {
     grid-template-columns: 1fr;
   }
 
+  .seo-info-grid,
+  .seo-gallery {
+    grid-template-columns: 1fr;
+  }
+
   .hero__media {
     min-height: 360px;
+  }
+
+  .seo-hero__media {
+    min-height: 380px;
   }
 
   .case-grid {
@@ -899,6 +1032,10 @@ h3 {
     padding-top: 0.75rem;
   }
 
+  .seo-hero {
+    padding-top: 0.75rem;
+  }
+
   .hero__copy {
     position: relative;
     overflow: hidden;
@@ -906,6 +1043,10 @@ h3 {
     background:
       linear-gradient(180deg, rgba(0, 18, 16, 0.7), rgba(0, 18, 16, 0.96)),
       url("../images/work/case-04.webp") center / cover;
+  }
+
+  .seo-hero__copy {
+    padding: 1rem;
   }
 
   h1 {
@@ -943,6 +1084,14 @@ h3 {
 
   .hero__media {
     display: none;
+  }
+
+  .seo-hero__media {
+    min-height: 330px;
+  }
+
+  .seo-gallery .case-card {
+    min-height: 330px;
   }
 
   .case-card,

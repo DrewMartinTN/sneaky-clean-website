@@ -74,6 +74,20 @@ Update image references in `index.html`. The Open Graph preview image is:
 assets/images/og-image.jpg
 ```
 
+For downloaded customer/job photos, place the originals in any local folder and run:
+
+```bash
+npm run images:prepare -- /path/to/downloaded/photos job-or-vehicle-name
+```
+
+Prepared images are written to:
+
+```text
+assets/images/seo/job-or-vehicle-name/
+```
+
+The helper supports HEIC, HEIF, JPG, JPEG, and PNG files. It skips video files; export stills from edited video first if you want to use them on the website.
+
 ## Update Service / Package Copy
 
 Most page copy lives in:
@@ -83,6 +97,27 @@ index.html
 ```
 
 The package cards are in the `#packages` section.
+
+SEO landing page copy lives in:
+
+```text
+content/seo-pages.json
+```
+
+After changing that file, regenerate the static pages and sitemap:
+
+```bash
+npm run site:generate
+```
+
+Current generated pages:
+
+- `mobile-detailing-murfreesboro/`
+- `ceramic-coating-murfreesboro/`
+- `motorcycle-detailing-murfreesboro/`
+- `interior-detailing-murfreesboro/`
+
+The generated pages reuse the same booking modal, tracking scripts, styles, and GitHub Pages-friendly relative links as the homepage.
 
 ## Update Booking Service Variation IDs
 
