@@ -131,3 +131,245 @@ If you update `wrangler.jsonc`, redeploy the Worker:
 ```bash
 CLOUDFLARE_API_TOKEN="$(tr -d '\n\r ' < .cf-token)" npm run deploy:worker
 ```
+
+## Sneaky Clean Growth System
+
+Square should remain the source of truth for customers, bookings, service history, customer groups, and message history. The scripts in this repo only audit Square data and produce lightweight CSV/Markdown reports for retention work.
+
+### What Square Handles
+
+- Customer profiles and contact info.
+- Bookings created by the website booking worker.
+- Completed service/payment history through Square Orders.
+- Customer groups for retention and service labels.
+- Square Messages, email exports, or manual texting for follow-ups.
+
+### What Scripts Handle
+
+Growth scripts live in:
+
+```text
+scripts/square/
+```
+
+Reusable business files live in:
+
+```text
+growth/customer-groups.json
+growth/message-templates.md
+growth/memberships.csv
+```
+
+Generated customer exports and reports are ignored by git:
+
+```text
+growth/reports/
+growth/exports/
+```
+
+### Square Access
+
+The scripts read the Square token from either:
+
+```bash
+SQUARE_ACCESS_TOKEN="..."
+```
+
+or the local ignored token file created by:
+
+```bash
+./save-sq-token.sh
+```
+
+The default location comes from `wrangler.jsonc`. To audit multiple locations, run:
+
+```bash
+SQUARE_LOCATION_IDS="LOCATION_1,LOCATION_2" npm run square:audit
+```
+
+Token permissions needed:
+
+- `CUSTOMERS_READ` for customer audits and group reads.
+- `CUSTOMERS_WRITE` for creating customer groups and applying suggested groups.
+- `ORDERS_READ` for service history, total visits, and total spend.
+
+Square API references:
+
+- Customers API: https://developer.squareup.com/reference/square/customers-api
+- Customer Groups API: https://developer.squareup.com/reference/square/customer-groups-api
+- Search Orders: https://developer.squareup.com/reference/square/orders-api/SearchOrders
+
+### Customer Groups
+
+The group system is defined in:
+
+```text
+growth/customer-groups.json
+```
+
+Current groups:
+
+- Maintenance Member
+- Recurring (existing Square group; treated as a monthly maintenance member)
+- Ceramic Customer
+- Paint Correction
+- Motorcycle
+- Reset Detail
+- Refresh Detail
+- Referral
+- Membership Prospect
+- Follow Up In 90 Days
+- Needs Follow-Up
+- 90+ Days Since Service
+
+Create any missing Square customer groups:
+
+```bash
+npm run square:setup-groups
+```
+
+This uses Square's Customer Groups API where possible and writes the group ID map to:
+
+```text
+growth/exports/square-group-map.json
+```
+
+Manual Square Dashboard setup if needed:
+
+1. Open Square Dashboard.
+2. Go to **Customers > Directory**.
+3. Open **Groups**.
+4. Create the group names listed above exactly.
+5. Use the customer audit or retention report to add customers to the right groups.
+
+Square customer groups are best used as business labels. Date-based groups like `90+ Days Since Service` should be refreshed from the weekly retention report.
+
+If a customer is in Square's existing `Recurring` group, the scripts treat them as a monthly maintenance member and will not include them in membership-offer lists.
+
+### Customer Audit
+
+Run:
+
+```bash
+npm run square:audit
+```
+
+Output:
+
+```text
+growth/reports/customer-audit-YYYY-MM-DD.csv
+```
+
+Columns include:
+
+- Customer name
+- Email
+- Phone
+- Last service date
+- Total visits
+- Total spend when Square Orders include totals
+- Services purchased when Square Orders include line items
+- Assigned groups
+- Suggested groups
+- Days since last service
+- Suggested follow-up action
+
+### Retention Report
+
+Run weekly:
+
+```bash
+npm run square:retention
+```
+
+Outputs:
+
+```text
+growth/reports/retention-report-YYYY-MM-DD.md
+growth/reports/follow-up-actions-YYYY-MM-DD.csv
+```
+
+The report highlights:
+
+- Customers inactive 60+ days.
+- Customers inactive 90+ days.
+- Customers who should be offered monthly maintenance.
+- Ceramic customers due for a maintenance/check-in.
+- Repeat customers who have not joined membership.
+- Customers missing phone or email.
+
+### Updating Customer Groups
+
+The audit CSV includes a `suggested_groups` column. Preview group assignments:
+
+```bash
+npm run square:apply-groups
+```
+
+Apply suggested group assignments to Square:
+
+```bash
+npm run square:apply-groups -- --apply
+```
+
+This only adds suggested groups. It does not remove old groups, because removals should be reviewed manually.
+
+### Membership Tracking
+
+Track active monthly members in:
+
+```text
+growth/memberships.csv
+```
+
+Membership offer:
+
+```text
+One detail per month. Customer can alternate between two vehicles.
+```
+
+Columns:
+
+- Member name
+- Email
+- Phone
+- Vehicle 1
+- Vehicle 2
+- Last serviced vehicle
+- Last service date
+- Next eligible service date
+- Status
+- Notes
+
+Generate a simple membership due report:
+
+```bash
+npm run square:membership
+```
+
+### Follow-Up Messages
+
+Templates live in:
+
+```text
+growth/message-templates.md
+```
+
+Recommended workflow:
+
+1. Run `npm run square:retention`.
+2. Open `growth/reports/follow-up-actions-YYYY-MM-DD.csv`.
+3. Send the matching message through Square Messages, email, or manual text.
+4. Add/remove `Needs Follow-Up` in Square after action is taken.
+5. Add `Referral`, `Maintenance Member`, or service-specific groups when the customer converts.
+
+### Website Tracking
+
+The GitHub Pages site currently tracks:
+
+- Phone link clicks as `click_call_now`.
+- Quote CTA clicks as `click_quote_cta`.
+- Booking/package CTA clicks as `click_booking_cta`.
+- Booking request submissions as `booking_request_submitted`.
+
+GA4 is configured in `index.html`. Google Ads conversion placeholders live in `assets/js/main.js` and should be filled in when the real Ads conversion ID and labels are available.

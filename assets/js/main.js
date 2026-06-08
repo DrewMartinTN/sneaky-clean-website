@@ -25,9 +25,20 @@
     });
   });
 
+  function bookingActionFor(link) {
+    const href = link.getAttribute("href") || "";
+    const text = link.textContent.trim().toLowerCase();
+
+    if (text.includes("quote") || text.includes("ask about") || href.includes("37OHZSEUAONVHAKJMBQ4YH6U")) {
+      return "quote";
+    }
+    return "booking";
+  }
+
   document.querySelectorAll('a[href^="#sc-book"]').forEach((link) => {
     link.addEventListener("click", () => {
-      track("click_booking_cta", {
+      const action = bookingActionFor(link);
+      track(action === "quote" ? "click_quote_cta" : "click_booking_cta", {
         link_text: link.textContent.trim(),
         booking_hash: link.getAttribute("href"),
       });

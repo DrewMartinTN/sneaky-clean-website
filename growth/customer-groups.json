@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Maintenance Member",
+    "description": "Active monthly maintenance plan customer."
+  },
+  {
+    "name": "Ceramic Customer",
+    "description": "Customer has purchased ceramic coating or needs ceramic maintenance check-ins."
+  },
+  {
+    "name": "Paint Correction",
+    "description": "Customer has purchased or requested paint correction."
+  },
+  {
+    "name": "Motorcycle",
+    "description": "Motorcycle detailing customer or motorcycle lead."
+  },
+  {
+    "name": "Reset Detail",
+    "description": "Customer has purchased a Full Reset Detail."
+  },
+  {
+    "name": "Refresh Detail",
+    "description": "Customer has purchased a Refresh Detail."
+  },
+  {
+    "name": "Referral",
+    "description": "Customer came from or sent a referral."
+  },
+  {
+    "name": "Membership Prospect",
+    "description": "Customer is actively considering monthly maintenance."
+  },
+  {
+    "name": "Follow Up In 90 Days",
+    "description": "Customer is not ready now but should be contacted again in about 90 days."
+  },
+  {
+    "name": "Needs Follow-Up",
+    "description": "Customer should receive a manual text, call, or email."
+  },
+  {
+    "name": "90+ Days Since Service",
+    "description": "Customer has not had a recorded service in 90+ days."
+  }
+]

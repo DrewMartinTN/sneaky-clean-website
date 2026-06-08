@@ -333,7 +333,9 @@ h3 {
 .rating-card,
 .review-card,
 .service-card,
-.why-grid article {
+.why-grid article,
+.area-grid article,
+.faq-grid article {
   border: 1px solid var(--line);
   border-radius: 1rem;
   background: rgba(21, 25, 31, 0.92);
@@ -419,6 +421,8 @@ h3 {
 .evidence,
 .services,
 .why,
+.service-area,
+.faq,
 .investigator {
   background: linear-gradient(180deg, var(--black), var(--black-2));
 }
@@ -607,8 +611,30 @@ h3 {
   gap: 0.75rem;
 }
 
-.why-grid article {
+.area-grid,
+.faq-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.area-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.faq-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.why-grid article,
+.area-grid article,
+.faq-grid article {
   padding: 1rem;
+}
+
+.area-grid p,
+.faq-grid p {
+  margin-bottom: 0;
+  font-size: 0.94rem;
 }
 
 .final-cta {
@@ -790,7 +816,9 @@ h3 {
 
 @media (max-width: 1040px) {
   .service-grid,
-  .why-grid {
+  .why-grid,
+  .area-grid,
+  .faq-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -899,6 +927,8 @@ h3 {
 
   .service-grid,
   .why-grid,
+  .area-grid,
+  .faq-grid,
   .case-strip {
     grid-template-columns: 1fr;
   }

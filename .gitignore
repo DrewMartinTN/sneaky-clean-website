@@ -2,3 +2,11 @@ node_modules/
 .cf-token
 .sq-token
 .DS_Store
+build/
+outputs/
+growth/reports/*
+!growth/reports/.gitkeep
+growth/exports/*
+!growth/exports/.gitkeep
+growth/private/*
+!growth/private/.gitkeep
