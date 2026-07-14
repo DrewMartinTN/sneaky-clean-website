@@ -338,36 +338,11 @@ POST /popup/manager
 
 Each successful request creates or updates a Square customer, assigns the appropriate group and writes the pop-up custom fields. A repeat submission from the same customer updates that customer's current pop-up fields; it does not create a separate historical form record.
 
-### Pop-Up Lead Notifications
+### Square Online Form Migration
 
-After Square successfully saves a resident or property-manager request, the Worker can send an immediate owner notification. Notification delivery runs in the background, so an email-provider outage cannot cause duplicate Square submissions.
+Square only creates native owner notifications for submissions made through a Square Online contact form. Customer profiles written through the Customers API do not trigger Square Messages notifications.
 
-Mailgun email alerts require these two Worker secrets:
-
-```bash
-npx wrangler secret put MAILGUN_API_KEY
-npx wrangler secret put POPUP_NOTIFICATION_EMAIL
-npm run deploy:worker
-```
-
-The safest setup is the project helper, which displays both values for confirmation and always targets the correct Cloudflare account and Worker:
-
-```bash
-./configure-popup-notifications.sh
-```
-
-The sending domain and sender are configured in `wrangler.jsonc` as `sneakycleantn.com` and `notifications@sneakycleantn.com`. If the Mailgun account is in the EU region, change `MAILGUN_API_BASE` to `https://api.eu.mailgun.net` before deploying.
-
-Optional SMS alerts use Twilio. The destination is already set to `+16154810464` in `wrangler.jsonc`; set the three Twilio credentials before deploying:
-
-```bash
-npx wrangler secret put TWILIO_ACCOUNT_SID
-npx wrangler secret put TWILIO_AUTH_TOKEN
-npx wrangler secret put TWILIO_FROM_NUMBER
-npm run deploy:worker
-```
-
-The Worker `/health` response reports whether email and SMS notifications are configured without exposing any credentials.
+The current GitHub forms remain live until the Square Online forms are published. Build two hidden Square Online pages using the field checklist in `growth/square-online-popup-forms.md`, then replace the GitHub form actions with the published Square URLs. The permanent resident QR can continue pointing to `https://www.sneakycleantn.com/pop-up/`.
 
 ## Sneaky Clean Growth System
 
