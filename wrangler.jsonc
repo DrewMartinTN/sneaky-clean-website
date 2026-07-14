@@ -2,6 +2,7 @@
   // Sneaky Clean booking worker — Cloudflare Workers config
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "sneaky-clean-booking",
+  "account_id": "15701de9385be8b48121d7377e8849f1",
   "main": "worker.js",
   "compatibility_date": "2025-05-01",
 
