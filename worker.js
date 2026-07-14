@@ -5,6 +5,9 @@
 //   SQUARE_LOCATION_ID    - LHZDJKB0H96NH
 //   SQUARE_TEAM_MEMBER_ID - TMf-ND8UsRVBrYRS
 //   ALLOWED_ORIGINS       - comma-separated allowed origins, no trailing slashes
+//   MAILGUN_API_KEY       - optional Mailgun sending key
+//   POPUP_NOTIFICATION_EMAIL - optional recipient for pop-up lead alerts
+//   TWILIO_*              - optional SMS alert credentials and sender
 
 const SQUARE_BASE = "https://connect.squareup.com/v2";
 const ISO_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$/;
@@ -77,6 +80,129 @@ async function square(env, path, method, body) {
 
 function badInput(msg, origin) {
   return json({ error: msg }, 400, origin);
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function notificationRows(rows) {
+  return rows
+    .filter(([, value]) => value !== "" && value !== null && value !== undefined)
+    .map(([label, value]) => `<tr><th align="left" style="padding:6px 12px 6px 0;color:#42504d;vertical-align:top">${escapeHtml(label)}</th><td style="padding:6px 0;color:#001210">${escapeHtml(value)}</td></tr>`)
+    .join("");
+}
+
+function buildPopupNotification(kind, data) {
+  const resident = kind === "resident";
+  const title = resident ? "New resident pop-up request" : "New property-manager pop-up inquiry";
+  const rows = resident
+    ? [
+        ["Resident", data.name],
+        ["Phone", data.phone],
+        ["Email", data.email],
+        ["Community", data.community],
+        ["Unit", data.unitNumber],
+        ["Vehicle", `${data.vehicleYear} ${data.vehicleMake} ${data.vehicleModel} (${data.vehicleColor})`],
+        ["Availability", data.availability],
+        ["Upgrades", data.upgrades.join(", ")],
+        ["Condition notes", data.conditionNotes],
+      ]
+    : [
+        ["Manager", data.name],
+        ["Phone", data.phone],
+        ["Email", data.email],
+        ["Community", data.community],
+        ["Property address", data.propertyAddress],
+        ["Estimated vehicles", data.estimatedVehicles],
+        ["Preferred dates", data.preferredDates],
+        ["Preferred window", data.preferredWindow],
+        ["Setup area", data.setupArea],
+        ["Property notes", data.propertyNotes],
+      ];
+  rows.push(["Square customer ID", data.customerId]);
+
+  const textRows = rows
+    .filter(([, value]) => value !== "" && value !== null && value !== undefined)
+    .map(([label, value]) => `${label}: ${value}`)
+    .join("\n");
+  const smsDetail = resident
+    ? `${data.name} at ${data.community}. ${data.vehicleYear} ${data.vehicleMake} ${data.vehicleModel}. ${data.availability}. ${data.phone}`
+    : `${data.name} at ${data.community}. About ${data.estimatedVehicles} vehicles. ${data.preferredDates}, ${data.preferredWindow}. ${data.phone}`;
+
+  return {
+    subject: `${title}: ${data.community}`,
+    text: `${title}\n\n${textRows}\n\nReview in Square: https://squareup.com/dashboard/customers/directory`,
+    html: `<!doctype html><html><body style="margin:0;background:#f4f7f6;font-family:Arial,sans-serif;color:#001210"><div style="max-width:640px;margin:0 auto;padding:28px 18px"><div style="background:#001210;padding:22px;color:#f4ffdb"><div style="color:#18e1b4;font-size:12px;font-weight:700;text-transform:uppercase">Sneaky Clean Pop-Up Alert</div><h1 style="margin:8px 0 0;font-size:26px">${escapeHtml(title)}</h1></div><div style="background:#fff;padding:22px;border:1px solid #dce4e2"><table style="width:100%;border-collapse:collapse">${notificationRows(rows)}</table><p style="margin:22px 0 0"><a href="https://squareup.com/dashboard/customers/directory" style="display:inline-block;padding:12px 16px;background:#db0758;color:#fff;text-decoration:none;font-weight:700">Review in Square</a></p></div></div></body></html>`,
+    sms: `Sneaky Clean pop-up lead: ${smsDetail}`.slice(0, 480),
+  };
+}
+
+async function sendMailgunNotification(env, notification) {
+  if (!env.MAILGUN_API_KEY || !env.POPUP_NOTIFICATION_EMAIL) return false;
+
+  const domain = env.MAILGUN_DOMAIN || "sneakycleantn.com";
+  const apiBase = (env.MAILGUN_API_BASE || "https://api.mailgun.net").replace(/\/$/, "");
+  const body = new FormData();
+  body.set("from", `Sneaky Clean Alerts <${env.MAILGUN_FROM_EMAIL || `notifications@${domain}`}>`);
+  body.set("to", env.POPUP_NOTIFICATION_EMAIL);
+  body.set("subject", notification.subject);
+  body.set("text", notification.text);
+  body.set("html", notification.html);
+
+  const response = await fetch(`${apiBase}/v3/${encodeURIComponent(domain)}/messages`, {
+    method: "POST",
+    headers: { Authorization: `Basic ${btoa(`api:${env.MAILGUN_API_KEY}`)}` },
+    body,
+  });
+  if (!response.ok) throw new Error(`Mailgun notification failed (${response.status})`);
+  return true;
+}
+
+async function sendTwilioNotification(env, notification) {
+  const configured = env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN && env.TWILIO_FROM_NUMBER && env.POPUP_NOTIFICATION_PHONE;
+  if (!configured) return false;
+
+  const body = new URLSearchParams({
+    To: env.POPUP_NOTIFICATION_PHONE,
+    From: env.TWILIO_FROM_NUMBER,
+    Body: notification.sms,
+  });
+  const response = await fetch(
+    `https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(env.TWILIO_ACCOUNT_SID)}/Messages.json`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${btoa(`${env.TWILIO_ACCOUNT_SID}:${env.TWILIO_AUTH_TOKEN}`)}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body,
+    },
+  );
+  if (!response.ok) throw new Error(`Twilio notification failed (${response.status})`);
+  return true;
+}
+
+async function sendPopupNotifications(env, notification) {
+  const results = await Promise.allSettled([
+    sendMailgunNotification(env, notification),
+    sendTwilioNotification(env, notification),
+  ]);
+  for (const result of results) {
+    if (result.status === "rejected") console.error(result.reason?.message || result.reason);
+  }
+}
+
+function queuePopupNotifications(ctx, env, kind, data) {
+  const notification = buildPopupNotification(kind, data);
+  const task = sendPopupNotifications(env, notification);
+  if (ctx?.waitUntil) ctx.waitUntil(task);
+  else task.catch((error) => console.error(error?.message || error));
 }
 
 async function handleAvailability(req, env, origin) {
@@ -210,7 +336,7 @@ function parseUpgrades(value) {
   return [...new Set(upgrades)];
 }
 
-async function handlePopupResident(req, env, origin) {
+async function handlePopupResident(req, env, origin, ctx) {
   let body;
   try { body = await req.json(); } catch { return badInput("Invalid JSON body", origin); }
   if (body.companyWebsite) return json({ ok: true }, 200, origin);
@@ -256,10 +382,24 @@ async function handlePopupResident(req, env, origin) {
     "popup-service-selection": POPUP_SERVICE,
   });
 
+  queuePopupNotifications(ctx, env, "resident", {
+    ...contact,
+    community,
+    unitNumber,
+    vehicleYear,
+    vehicleMake,
+    vehicleModel,
+    vehicleColor,
+    availability,
+    upgrades,
+    conditionNotes: cleanText(body.conditionNotes, MAX_FIELD),
+    customerId,
+  });
+
   return json({ ok: true, community }, 200, origin);
 }
 
-async function handlePopupManager(req, env, origin) {
+async function handlePopupManager(req, env, origin, ctx) {
   let body;
   try { body = await req.json(); } catch { return badInput("Invalid JSON body", origin); }
   if (body.companyWebsite) return json({ ok: true }, 200, origin);
@@ -297,6 +437,18 @@ async function handlePopupManager(req, env, origin) {
     "popup-setup-area": setupArea,
     "popup-property-notes": cleanText(body.propertyNotes, MAX_FIELD),
     "popup-site-permission": true,
+  });
+
+  queuePopupNotifications(ctx, env, "manager", {
+    ...contact,
+    community,
+    propertyAddress,
+    estimatedVehicles,
+    preferredDates,
+    preferredWindow,
+    setupArea,
+    propertyNotes: cleanText(body.propertyNotes, MAX_FIELD),
+    customerId,
   });
 
   return json({ ok: true, community }, 200, origin);
@@ -377,6 +529,8 @@ async function handleHealth(env, origin) {
       locationConfigured: !!env.SQUARE_LOCATION_ID,
       teamMemberConfigured: !!env.SQUARE_TEAM_MEMBER_ID,
       tokenConfigured: !!env.SQUARE_ACCESS_TOKEN,
+      emailNotificationsConfigured: !!(env.MAILGUN_API_KEY && env.POPUP_NOTIFICATION_EMAIL),
+      smsNotificationsConfigured: !!(env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN && env.TWILIO_FROM_NUMBER && env.POPUP_NOTIFICATION_PHONE),
       allowedOrigins: env.ALLOWED_ORIGINS || env.ALLOWED_ORIGIN || "(unset)",
     },
   };
@@ -384,7 +538,7 @@ async function handleHealth(env, origin) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = allowedOrigin(request, env);
 
     if (request.method === "OPTIONS") {
@@ -410,12 +564,12 @@ export default {
       if (url.pathname === "/popup/resident") {
         if (request.method !== "POST")
           return json({ error: "Method not allowed" }, 405, origin);
-        return await handlePopupResident(request, env, origin);
+        return await handlePopupResident(request, env, origin, ctx);
       }
       if (url.pathname === "/popup/manager") {
         if (request.method !== "POST")
           return json({ error: "Method not allowed" }, 405, origin);
-        return await handlePopupManager(request, env, origin);
+        return await handlePopupManager(request, env, origin, ctx);
       }
       return json({ error: "Not found" }, 404, origin);
     } catch (err) {

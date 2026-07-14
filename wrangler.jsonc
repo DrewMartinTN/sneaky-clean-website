@@ -12,6 +12,10 @@
     "SQUARE_TEAM_MEMBER_ID": "TMf-ND8UsRVBrYRS",
     "SQUARE_POPUP_INTEREST_GROUP_ID": "1E0FGYNTCMFHCD01RQ11A69XYB",
     "SQUARE_POPUP_MANAGER_GROUP_ID": "5T3KQMY1QZVRDHN27RZSS9H64D",
+    "MAILGUN_DOMAIN": "sneakycleantn.com",
+    "MAILGUN_FROM_EMAIL": "notifications@sneakycleantn.com",
+    "MAILGUN_API_BASE": "https://api.mailgun.net",
+    "POPUP_NOTIFICATION_PHONE": "+16154810464",
     "ALLOWED_ORIGINS": "https://sneakycleantn.com,https://www.sneakycleantn.com,http://localhost:8787"
   }
 }
