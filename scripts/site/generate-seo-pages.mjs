@@ -328,6 +328,16 @@ function sitemapXml() {
       priority: "1.0",
       changefreq: "weekly",
     },
+    {
+      loc: `${BASE_URL}/pop-up/`,
+      priority: "0.8",
+      changefreq: "monthly",
+    },
+    {
+      loc: `${BASE_URL}/host-a-pop-up/`,
+      priority: "0.7",
+      changefreq: "monthly",
+    },
     ...pages.map((page) => ({
       loc: `${BASE_URL}/${page.slug}/`,
       priority: "0.8",
@@ -359,4 +369,4 @@ for (const page of pages) {
 }
 
 await fs.writeFile(path.join(ROOT, "sitemap.xml"), sitemapXml());
-console.log(`Generated sitemap.xml with ${pages.length + 1} URLs`);
+console.log(`Generated sitemap.xml with ${pages.length + 3} URLs`);

@@ -10,7 +10,7 @@ export const ROOT = path.resolve(__dirname, "../..");
 export const REPORT_DIR = path.join(ROOT, "growth", "reports");
 export const EXPORT_DIR = path.join(ROOT, "growth", "exports");
 export const SQUARE_BASE = "https://connect.squareup.com/v2";
-export const SQUARE_VERSION = process.env.SQUARE_VERSION || "2025-01-23";
+export const SQUARE_VERSION = process.env.SQUARE_VERSION || "2026-05-20";
 
 const DEFAULT_LOCATION_ID = "LHZDJKB0H96NH";
 
@@ -92,6 +92,42 @@ export async function listCustomers() {
 
 export async function listCustomerGroups() {
   return paginate("/customers/groups?limit=50", "groups");
+}
+
+export async function listCustomerCustomAttributeDefinitions() {
+  return paginate("/customers/custom-attribute-definitions?limit=100", "custom_attribute_definitions");
+}
+
+export async function listCustomerCustomAttributes(customerId) {
+  return paginate(
+    `/customers/${encodeURIComponent(customerId)}/custom-attributes?limit=100`,
+    "custom_attributes",
+  );
+}
+
+export async function createCustomerCustomAttributeDefinition(definition) {
+  const data = await square("/customers/custom-attribute-definitions", {
+    method: "POST",
+    body: {
+      idempotency_key: randomUUID(),
+      custom_attribute_definition: definition,
+    },
+  });
+  return data.custom_attribute_definition;
+}
+
+export async function upsertCustomerCustomAttribute(customerId, key, value) {
+  const data = await square(
+    `/customers/${encodeURIComponent(customerId)}/custom-attributes/${encodeURIComponent(key)}`,
+    {
+      method: "POST",
+      body: {
+        idempotency_key: randomUUID(),
+        custom_attribute: { value },
+      },
+    },
+  );
+  return data.custom_attribute;
 }
 
 export async function createCustomerGroup(name) {

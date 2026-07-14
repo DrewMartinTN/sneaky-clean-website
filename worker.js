@@ -11,6 +11,21 @@ const ISO_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_NOTES = 2000;
 const MAX_NAME = 200;
+const MAX_FIELD = 1000;
+const POPUP_SERVICE = "$60 Express Wash + Vacuum";
+const POPUP_AVAILABILITY = new Set([
+  "Weekday morning",
+  "Weekday afternoon",
+  "Weekday evening",
+  "Saturday morning",
+  "Saturday afternoon",
+]);
+const POPUP_UPGRADES = new Set([
+  "Glass ceramic",
+  "Ceramic wax",
+  "Interior spray and wipe",
+  "None",
+]);
 
 function allowedOrigin(req, env) {
   const requestOrigin = req.headers.get("Origin") || "";
@@ -44,7 +59,7 @@ async function square(env, path, method, body) {
     headers: {
       Authorization: `Bearer ${env.SQUARE_ACCESS_TOKEN}`,
       "Content-Type": "application/json",
-      "Square-Version": "2025-01-23",
+      "Square-Version": "2026-05-20",
     },
     body: body ? JSON.stringify(body) : undefined,
   });
@@ -115,6 +130,15 @@ async function findOrCreateCustomer(env, { name, email, phone }) {
     if (existing) return existing.id;
   }
 
+  if (phone) {
+    const search = await square(env, "/customers/search", "POST", {
+      query: { filter: { phone_number: { exact: phone } } },
+      limit: 1,
+    });
+    const existing = search.customers?.[0];
+    if (existing) return existing.id;
+  }
+
   const created = await square(env, "/customers", "POST", {
     idempotency_key: crypto.randomUUID(),
     given_name,
@@ -123,6 +147,159 @@ async function findOrCreateCustomer(env, { name, email, phone }) {
     phone_number: phone || undefined,
   });
   return created.customer.id;
+}
+
+function cleanText(value, max = MAX_FIELD) {
+  return String(value || "").trim().replace(/\s+/g, " ").slice(0, max);
+}
+
+function normalizePhone(value) {
+  const digits = String(value || "").replace(/\D/g, "");
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+  return "";
+}
+
+function communityKey(value) {
+  return cleanText(value)
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 120);
+}
+
+function validNameEmailPhone(body, origin) {
+  const name = cleanText(body.name, MAX_NAME);
+  const email = cleanText(body.email, 320).toLowerCase();
+  const phone = normalizePhone(body.phone);
+  if (name.length < 2) return { error: badInput("Please provide your full name", origin) };
+  if (!EMAIL_RE.test(email)) return { error: badInput("Please provide a valid email address", origin) };
+  if (!phone) return { error: badInput("Please provide a valid 10-digit mobile phone number", origin) };
+  return { name, email, phone };
+}
+
+async function addCustomerToGroup(env, customerId, groupId) {
+  if (!groupId) throw new Error("Pop-up customer group is not configured");
+  await square(
+    env,
+    `/customers/${encodeURIComponent(customerId)}/groups/${encodeURIComponent(groupId)}`,
+    "PUT",
+  );
+}
+
+async function upsertCustomerAttributes(env, customerId, attributes) {
+  for (const [key, value] of Object.entries(attributes)) {
+    if (value === "" || value === null || value === undefined) continue;
+    await square(
+      env,
+      `/customers/${encodeURIComponent(customerId)}/custom-attributes/${encodeURIComponent(key)}`,
+      "POST",
+      {
+        idempotency_key: crypto.randomUUID(),
+        custom_attribute: { value: typeof value === "string" ? value.slice(0, MAX_FIELD) : value },
+      },
+    );
+  }
+}
+
+function parseUpgrades(value) {
+  const upgrades = Array.isArray(value) ? value.map((item) => cleanText(item, 100)) : [];
+  if (!upgrades.length || upgrades.some((item) => !POPUP_UPGRADES.has(item))) return null;
+  if (upgrades.includes("None")) return ["None"];
+  return [...new Set(upgrades)];
+}
+
+async function handlePopupResident(req, env, origin) {
+  let body;
+  try { body = await req.json(); } catch { return badInput("Invalid JSON body", origin); }
+  if (body.companyWebsite) return json({ ok: true }, 200, origin);
+
+  const contact = validNameEmailPhone(body, origin);
+  if (contact.error) return contact.error;
+
+  const community = cleanText(body.community, 200);
+  const unitNumber = cleanText(body.unitNumber, 100);
+  const vehicleYear = cleanText(body.vehicleYear, 4);
+  const vehicleMake = cleanText(body.vehicleMake, 100);
+  const vehicleModel = cleanText(body.vehicleModel, 100);
+  const vehicleColor = cleanText(body.vehicleColor, 100);
+  const availability = cleanText(body.availability, 100);
+  const upgrades = parseUpgrades(body.upgrades);
+
+  if (!community) return badInput("Please provide your apartment community", origin);
+  if (!unitNumber) return badInput("Please provide your building or unit number", origin);
+  if (!/^\d{4}$/.test(vehicleYear)) return badInput("Please provide a four-digit vehicle year", origin);
+  if (!vehicleMake || !vehicleModel || !vehicleColor) return badInput("Please complete the vehicle information", origin);
+  if (!POPUP_AVAILABILITY.has(availability)) return badInput("Please choose a preferred availability window", origin);
+  if (body.service !== POPUP_SERVICE) return badInput("Please select the Express Wash + Vacuum", origin);
+  if (!upgrades) return badInput("Please choose an upgrade preference", origin);
+  if (body.smsConsent !== true) return badInput("SMS consent is required for event coordination", origin);
+
+  const customerId = await findOrCreateCustomer(env, contact);
+  await addCustomerToGroup(env, customerId, env.SQUARE_POPUP_INTEREST_GROUP_ID);
+  await upsertCustomerAttributes(env, customerId, {
+    "apartment-community": community,
+    "unit-number": unitNumber,
+    "vehicle-year": vehicleYear,
+    "vehicle-make": vehicleMake,
+    "vehicle-model": vehicleModel,
+    "vehicle-color": vehicleColor,
+    "popup-upgrade-interest": upgrades.join(" | "),
+    "popup-preferred-availability": availability,
+    "popup-vehicle-notes": cleanText(body.conditionNotes, MAX_FIELD),
+    "popup-sms-consent": true,
+    "popup-role": "Resident",
+    "popup-status": "Interest received",
+    "popup-requested-at": new Date().toISOString(),
+    "popup-community-key": communityKey(community),
+    "popup-service-selection": POPUP_SERVICE,
+  });
+
+  return json({ ok: true, community }, 200, origin);
+}
+
+async function handlePopupManager(req, env, origin) {
+  let body;
+  try { body = await req.json(); } catch { return badInput("Invalid JSON body", origin); }
+  if (body.companyWebsite) return json({ ok: true }, 200, origin);
+
+  const contact = validNameEmailPhone(body, origin);
+  if (contact.error) return contact.error;
+
+  const community = cleanText(body.community, 200);
+  const propertyAddress = cleanText(body.propertyAddress, 300);
+  const estimatedVehicles = Number(body.estimatedVehicles);
+  const preferredDates = cleanText(body.preferredDates, 500);
+  const preferredWindow = cleanText(body.preferredWindow, 200);
+  const setupArea = cleanText(body.setupArea, 500);
+
+  if (!community || !propertyAddress) return badInput("Please complete the community name and property address", origin);
+  if (!Number.isInteger(estimatedVehicles) || estimatedVehicles < 1 || estimatedVehicles > 200)
+    return badInput("Please provide a reasonable estimated vehicle count", origin);
+  if (!preferredDates || !preferredWindow || !setupArea)
+    return badInput("Please complete the preferred dates, time window, and setup area", origin);
+  if (body.sitePermission !== true)
+    return badInput("Please confirm permission for mobile vehicle cleaning on-site", origin);
+
+  const customerId = await findOrCreateCustomer(env, contact);
+  await addCustomerToGroup(env, customerId, env.SQUARE_POPUP_MANAGER_GROUP_ID);
+  await upsertCustomerAttributes(env, customerId, {
+    "apartment-community": community,
+    "popup-role": "Property Manager",
+    "popup-status": "Manager inquiry received",
+    "popup-requested-at": new Date().toISOString(),
+    "popup-community-key": communityKey(community),
+    "property-address": propertyAddress,
+    "popup-estimated-vehicles": String(estimatedVehicles),
+    "popup-preferred-dates": preferredDates,
+    "popup-time-window": preferredWindow,
+    "popup-setup-area": setupArea,
+    "popup-property-notes": cleanText(body.propertyNotes, MAX_FIELD),
+    "popup-site-permission": true,
+  });
+
+  return json({ ok: true, community }, 200, origin);
 }
 
 function friendlyBookingError(err) {
@@ -200,7 +377,7 @@ async function handleHealth(env, origin) {
       locationConfigured: !!env.SQUARE_LOCATION_ID,
       teamMemberConfigured: !!env.SQUARE_TEAM_MEMBER_ID,
       tokenConfigured: !!env.SQUARE_ACCESS_TOKEN,
-      allowedOrigin: env.ALLOWED_ORIGIN || "(unset)",
+      allowedOrigins: env.ALLOWED_ORIGINS || env.ALLOWED_ORIGIN || "(unset)",
     },
   };
   return json(ok, 200, origin);
@@ -229,6 +406,16 @@ export default {
         if (request.method !== "POST")
           return json({ error: "Method not allowed" }, 405, origin);
         return await handleBook(request, env, origin);
+      }
+      if (url.pathname === "/popup/resident") {
+        if (request.method !== "POST")
+          return json({ error: "Method not allowed" }, 405, origin);
+        return await handlePopupResident(request, env, origin);
+      }
+      if (url.pathname === "/popup/manager") {
+        if (request.method !== "POST")
+          return json({ error: "Method not allowed" }, 405, origin);
+        return await handlePopupManager(request, env, origin);
       }
       return json({ error: "Not found" }, 404, origin);
     } catch (err) {

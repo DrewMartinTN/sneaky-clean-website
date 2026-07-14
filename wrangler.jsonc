@@ -10,6 +10,8 @@
   "vars": {
     "SQUARE_LOCATION_ID": "LHZDJKB0H96NH",
     "SQUARE_TEAM_MEMBER_ID": "TMf-ND8UsRVBrYRS",
+    "SQUARE_POPUP_INTEREST_GROUP_ID": "1E0FGYNTCMFHCD01RQ11A69XYB",
+    "SQUARE_POPUP_MANAGER_GROUP_ID": "5T3KQMY1QZVRDHN27RZSS9H64D",
     "ALLOWED_ORIGINS": "https://sneakycleantn.com,https://www.sneakycleantn.com,http://localhost:8787"
   }
 }

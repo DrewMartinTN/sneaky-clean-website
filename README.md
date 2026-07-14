@@ -243,6 +243,101 @@ If you update `wrangler.jsonc`, redeploy the Worker:
 CLOUDFLARE_API_TOKEN="$(tr -d '\n\r ' < .cf-token)" npm run deploy:worker
 ```
 
+## Apartment Pop-Up System
+
+The pop-up flow keeps Square as the customer source of truth while preventing residents from booking random dates before a property event is approved.
+
+Public pages:
+
+- Resident request: `https://www.sneakycleantn.com/pop-up/`
+- Property manager inquiry: `https://www.sneakycleantn.com/host-a-pop-up/`
+- Printable resident QR card: `https://www.sneakycleantn.com/pop-up/qr-card.html`
+
+The resident QR files live in:
+
+```text
+assets/images/pop-up/resident-pop-up-qr.png
+assets/images/pop-up/resident-pop-up-qr.svg
+```
+
+Regenerate them with:
+
+```bash
+npm run site:popup-qr
+```
+
+### What Square Handles
+
+- Resident and property-manager contact profiles.
+- Apartment community, unit, vehicle, availability, upgrade interest and consent fields.
+- `Apartment Pop-Up Interest` and `Apartment Property Manager` customer groups.
+- The hidden `Resident Pop-Up — $60 Express Clean (Template)` appointment service.
+- Confirmed event appointments and payments after the event is approved.
+
+The template is fixed at $60 and 45 minutes. It stays unavailable for online booking until a real community event is confirmed. Upgrade interest is captured without prices; do not publish upgrades until pricing is decided.
+
+### What The Scripts Handle
+
+Initialize or audit the Square configuration without changing anything:
+
+```bash
+npm run square:setup-popup -- --dry-run
+```
+
+Apply missing groups, fields and the hidden template:
+
+```bash
+npm run square:setup-popup
+```
+
+Generate the community threshold report:
+
+```bash
+npm run square:popup-report
+```
+
+Reports are written to `growth/reports/` as Markdown and CSV. A community is flagged when it has two or more resident profiles in the interest group. The report recommends outreach but never confirms an event automatically.
+
+After Drew approves a community and service window, preview a community-specific hidden service:
+
+```bash
+npm run square:create-popup-event -- --community "Community Name"
+```
+
+Create it only after approval:
+
+```bash
+npm run square:create-popup-event -- --community "Community Name" --apply
+```
+
+### Manual Square Steps For A Confirmed Event
+
+1. Open the newly created community service in **Square Dashboard > Appointments > Services**.
+2. Assign the lead tech or appropriate bookable team member.
+3. Keep the service private until the property date and arrival window are confirmed.
+4. Configure the confirmed event availability and optional 5-minute buffer.
+5. Set payment to pay at service initially.
+6. Set the cancellation cutoff to either 12 or 24 hours.
+7. Enable online booking only for the confirmed event, then disable it when the event closes.
+8. Send the confirmed booking link to residents from that community's report.
+
+Team-member service assignment, cancellation settings, event-specific availability, resident messaging and final event approval remain manual Square Dashboard steps. The API does not turn a two-resident threshold into an approved event.
+
+### Form And Customer Fields
+
+Resident requests require name, mobile phone, email, apartment community, unit/building, vehicle year/make/model/color, general availability, the fixed $60 service, upgrade interest and SMS consent. Vehicle-condition notes are optional.
+
+Property inquiries require community and manager details, property address, estimated vehicle count, preferred dates/window, setup area and on-site permission. Property notes are optional.
+
+The Worker endpoints are:
+
+```text
+POST /popup/resident
+POST /popup/manager
+```
+
+Each successful request creates or updates a Square customer, assigns the appropriate group and writes the pop-up custom fields. A repeat submission from the same customer updates that customer's current pop-up fields; it does not create a separate historical form record.
+
 ## Sneaky Clean Growth System
 
 Square should remain the source of truth for customers, bookings, service history, customer groups, and message history. The scripts in this repo only audit Square data and produce lightweight CSV/Markdown reports for retention work.
