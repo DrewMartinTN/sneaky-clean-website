@@ -350,6 +350,12 @@ npx wrangler secret put POPUP_NOTIFICATION_EMAIL
 npm run deploy:worker
 ```
 
+The safest setup is the project helper, which displays both values for confirmation and always targets the correct Cloudflare account and Worker:
+
+```bash
+./configure-popup-notifications.sh
+```
+
 The sending domain and sender are configured in `wrangler.jsonc` as `sneakycleantn.com` and `notifications@sneakycleantn.com`. If the Mailgun account is in the EU region, change `MAILGUN_API_BASE` to `https://api.eu.mailgun.net` before deploying.
 
 Optional SMS alerts use Twilio. The destination is already set to `+16154810464` in `wrangler.jsonc`; set the three Twilio credentials before deploying:
