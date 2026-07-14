@@ -147,21 +147,31 @@ async function sendMailgunNotification(env, notification) {
   if (!env.MAILGUN_API_KEY || !env.POPUP_NOTIFICATION_EMAIL) return false;
 
   const domain = env.MAILGUN_DOMAIN || "sneakycleantn.com";
-  const apiBase = (env.MAILGUN_API_BASE || "https://api.mailgun.net").replace(/\/$/, "");
-  const body = new FormData();
-  body.set("from", `Sneaky Clean Alerts <${env.MAILGUN_FROM_EMAIL || `notifications@${domain}`}>`);
-  body.set("to", env.POPUP_NOTIFICATION_EMAIL);
-  body.set("subject", notification.subject);
-  body.set("text", notification.text);
-  body.set("html", notification.html);
+  const configuredBase = (env.MAILGUN_API_BASE || "https://api.mailgun.net").replace(/\/$/, "");
+  const alternateBase = configuredBase.includes("api.eu.mailgun.net")
+    ? "https://api.mailgun.net"
+    : "https://api.eu.mailgun.net";
+  let lastStatus = 0;
 
-  const response = await fetch(`${apiBase}/v3/${encodeURIComponent(domain)}/messages`, {
-    method: "POST",
-    headers: { Authorization: `Basic ${btoa(`api:${env.MAILGUN_API_KEY}`)}` },
-    body,
-  });
-  if (!response.ok) throw new Error(`Mailgun notification failed (${response.status})`);
-  return true;
+  for (const apiBase of [configuredBase, alternateBase]) {
+    const body = new FormData();
+    body.set("from", `Sneaky Clean Alerts <${env.MAILGUN_FROM_EMAIL || `notifications@${domain}`}>`);
+    body.set("to", env.POPUP_NOTIFICATION_EMAIL);
+    body.set("subject", notification.subject);
+    body.set("text", notification.text);
+    body.set("html", notification.html);
+
+    const response = await fetch(`${apiBase}/v3/${encodeURIComponent(domain)}/messages`, {
+      method: "POST",
+      headers: { Authorization: `Basic ${btoa(`api:${env.MAILGUN_API_KEY}`)}` },
+      body,
+    });
+    if (response.ok) return true;
+    lastStatus = response.status;
+    if (response.status !== 401) break;
+  }
+
+  throw new Error(`Mailgun notification failed (${lastStatus})`);
 }
 
 async function sendTwilioNotification(env, notification) {
@@ -193,7 +203,9 @@ async function sendPopupNotifications(env, notification) {
     sendMailgunNotification(env, notification),
     sendTwilioNotification(env, notification),
   ]);
-  for (const result of results) {
+  const channelNames = ["email", "SMS"];
+  for (const [index, result] of results.entries()) {
+    if (result.status === "fulfilled" && result.value) console.log(`Pop-up ${channelNames[index]} notification sent`);
     if (result.status === "rejected") console.error(result.reason?.message || result.reason);
   }
 }
