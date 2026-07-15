@@ -110,13 +110,6 @@ h3 {
   border-radius: 999px;
 }
 
-.brand picture,
-.detective-card picture,
-.investigator__image picture,
-.popup-case-note picture {
-  display: contents;
-}
-
 .nav {
   display: flex;
   align-items: center;
@@ -270,15 +263,6 @@ h3 {
   position: relative;
   overflow: hidden;
   min-height: 430px;
-}
-
-.hero__media > picture,
-.seo-hero__media > picture,
-.popup-hero__image > picture {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: inherit;
 }
 
 .hero__car {
@@ -472,13 +456,6 @@ h3 {
   object-fit: cover;
 }
 
-.case-card picture {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: inherit;
-}
-
 .case-card::after {
   content: "";
   position: absolute;
@@ -523,11 +500,6 @@ h3 {
   border-radius: 0.85rem;
   background: var(--panel);
   box-shadow: 0 16px 38px rgba(0, 0, 0, 0.2);
-}
-
-.case-strip picture {
-  display: block;
-  min-width: 0;
 }
 
 .investigator {
@@ -760,8 +732,7 @@ h3 {
   min-height: 430px;
 }
 
-.seo-hero__media > img,
-.seo-hero__media > picture > img {
+.seo-hero__media > img {
   width: 100%;
   height: 100%;
   min-height: 430px;
@@ -1087,8 +1058,7 @@ h3 {
   content: "";
 }
 
-.popup-hero__image > img,
-.popup-hero__image > picture > img {
+.popup-hero__image > img {
   width: 100%;
   height: 100%;
   object-fit: cover;

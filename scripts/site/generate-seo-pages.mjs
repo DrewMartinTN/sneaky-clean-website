@@ -57,16 +57,6 @@ function imageDimensions(src) {
 
 function responsiveImage(src, alt, options = {}) {
   const normalized = src.replace(/^\/+/, "");
-  const isMascot = normalized === "assets/images/sneaky-clean-mascot.png";
-  const candidates = isMascot
-    ? [
-        ["assets/images/sneaky-clean-mascot-96.avif", 96],
-        ["assets/images/sneaky-clean-mascot-320.avif", 320],
-      ]
-    : [640, 960, 1200].map((width) => [normalized.replace(/\.webp$/, `-${width}.avif`), width]);
-  const sourceSet = candidates
-    .map(([candidate, width]) => `${escapeHtml(prefixedAsset(candidate))} ${width}w`)
-    .join(", ");
   const attributes = [
     options.className ? `class="${escapeHtml(options.className)}"` : "",
     `src="${escapeHtml(prefixedAsset(normalized))}"`,
@@ -79,10 +69,7 @@ function responsiveImage(src, alt, options = {}) {
     .filter(Boolean)
     .join(" ");
 
-  return `<picture>
-              <source type="image/avif" srcset="${sourceSet}" sizes="${escapeHtml(options.sizes || "100vw")}">
-              <img ${attributes}>
-            </picture>`;
+  return `<img ${attributes}>`;
 }
 
 function hrefForPage(href) {
