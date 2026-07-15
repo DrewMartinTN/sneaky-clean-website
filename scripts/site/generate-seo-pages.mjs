@@ -6,7 +6,19 @@ const BASE_URL = "https://www.sneakycleantn.com";
 const PHONE_DISPLAY = "615-481-0464";
 const PHONE_HREF = "tel:+16154810464";
 const GA4_ID = "G-8ZBE3LNX5E";
-const TODAY = new Date().toISOString().slice(0, 10);
+const GOOGLE_BUSINESS_URL = "https://share.google/ccDIurFU3rWaVM44L";
+
+const IMAGE_DIMENSIONS = {
+  "assets/images/sneaky-clean-mascot.png": [879, 879],
+  "assets/images/work/case-01.webp": [1800, 1350],
+  "assets/images/work/case-02.webp": [1800, 1350],
+  "assets/images/work/case-03.webp": [1800, 1356],
+  "assets/images/work/case-04.webp": [1800, 1426],
+  "assets/images/work/case-05.webp": [1800, 1073],
+  "assets/images/work/case-06.webp": [1800, 1350],
+  "assets/images/work/case-07.webp": [1585, 838],
+  "assets/images/work/case-08.webp": [1800, 1350],
+};
 
 const contentPath = path.join(ROOT, "content", "seo-pages.json");
 const pages = JSON.parse(await fs.readFile(contentPath, "utf8"));
@@ -32,6 +44,45 @@ function prefixedAsset(src) {
 function absoluteAsset(src) {
   if (/^https?:\/\//.test(src)) return src;
   return `${BASE_URL}/${src.replace(/^\/+/, "")}`;
+}
+
+function imageDimensions(src) {
+  const normalized = src.replace(/^\/+/, "");
+  const dimensions = IMAGE_DIMENSIONS[normalized];
+  if (!dimensions) {
+    throw new Error(`Missing dimensions for image: ${src}`);
+  }
+  return `width="${dimensions[0]}" height="${dimensions[1]}"`;
+}
+
+function responsiveImage(src, alt, options = {}) {
+  const normalized = src.replace(/^\/+/, "");
+  const isMascot = normalized === "assets/images/sneaky-clean-mascot.png";
+  const candidates = isMascot
+    ? [
+        ["assets/images/sneaky-clean-mascot-96.avif", 96],
+        ["assets/images/sneaky-clean-mascot-320.avif", 320],
+      ]
+    : [640, 960, 1200].map((width) => [normalized.replace(/\.webp$/, `-${width}.avif`), width]);
+  const sourceSet = candidates
+    .map(([candidate, width]) => `${escapeHtml(prefixedAsset(candidate))} ${width}w`)
+    .join(", ");
+  const attributes = [
+    options.className ? `class="${escapeHtml(options.className)}"` : "",
+    `src="${escapeHtml(prefixedAsset(normalized))}"`,
+    `alt="${escapeHtml(alt)}"`,
+    imageDimensions(normalized),
+    options.loading ? `loading="${options.loading}"` : "",
+    "decoding=\"async\"",
+    options.fetchPriority ? `fetchpriority="${options.fetchPriority}"` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return `<picture>
+              <source type="image/avif" srcset="${sourceSet}" sizes="${escapeHtml(options.sizes || "100vw")}">
+              <img ${attributes}>
+            </picture>`;
 }
 
 function hrefForPage(href) {
@@ -107,7 +158,40 @@ function localBusinessSchema(page) {
           "Christiana, TN",
           "Middle Tennessee",
         ],
-        sameAs: ["https://www.google.com/search?q=Sneaky+Clean+LLC+Reviews"],
+        sameAs: [GOOGLE_BUSINESS_URL],
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${BASE_URL}/#website`,
+        url: `${BASE_URL}/`,
+        name: "Sneaky Clean",
+        publisher: {
+          "@id": `${BASE_URL}/#localbusiness`,
+        },
+      },
+      {
+        "@type": "WebPage",
+        "@id": `${BASE_URL}/${page.slug}/#webpage`,
+        url: `${BASE_URL}/${page.slug}/`,
+        name: page.title,
+        description: page.description,
+        isPartOf: {
+          "@id": `${BASE_URL}/#website`,
+        },
+        about: {
+          "@id": `${BASE_URL}/${page.slug}/#service`,
+        },
+        mainEntity: [
+          {
+            "@id": `${BASE_URL}/${page.slug}/#service`,
+          },
+          {
+            "@id": `${BASE_URL}/${page.slug}/#faq`,
+          },
+        ],
+        breadcrumb: {
+          "@id": `${BASE_URL}/${page.slug}/#breadcrumb`,
+        },
       },
       {
         "@type": "Service",
@@ -120,10 +204,35 @@ function localBusinessSchema(page) {
         areaServed: page.serviceArea,
         description: page.description,
         url: `${BASE_URL}/${page.slug}/`,
+        mainEntityOfPage: {
+          "@id": `${BASE_URL}/${page.slug}/#webpage`,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${BASE_URL}/${page.slug}/#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Sneaky Clean",
+            item: `${BASE_URL}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: `${page.serviceName} in ${page.serviceArea}`,
+            item: `${BASE_URL}/${page.slug}/`,
+          },
+        ],
       },
       {
         "@type": "FAQPage",
         "@id": `${BASE_URL}/${page.slug}/#faq`,
+        url: `${BASE_URL}/${page.slug}/#faq`,
+        isPartOf: {
+          "@id": `${BASE_URL}/${page.slug}/#webpage`,
+        },
         mainEntity: page.faqs.map((faq) => ({
           "@type": "Question",
           name: faq.question,
@@ -154,7 +263,10 @@ function pageHtml(page) {
     .map(
       (item) => `
           <figure class="case-card">
-            <img src="${escapeHtml(prefixedAsset(item.src))}" alt="${escapeHtml(item.alt)}">
+            ${responsiveImage(item.src, item.alt, {
+              loading: "lazy",
+              sizes: "(max-width: 860px) calc(100vw - 1.5rem), 33vw",
+            })}
             <figcaption>
               <span>The Evidence</span>
               <strong>${escapeHtml(item.caption)}</strong>
@@ -180,6 +292,8 @@ function pageHtml(page) {
   <title>${escapeHtml(page.title)}</title>
   <meta name="description" content="${escapeHtml(page.description)}">
   <link rel="canonical" href="${canonical}">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <meta name="theme-color" content="#001210">
   <meta property="og:site_name" content="Sneaky Clean">
   <meta property="og:title" content="${escapeHtml(page.title)}">
   <meta property="og:description" content="${escapeHtml(page.description)}">
@@ -204,7 +318,7 @@ function pageHtml(page) {
 <body class="seo-page">
   <header class="site-header">
     <a class="brand" href="../" aria-label="Sneaky Clean home">
-      <img src="../assets/images/sneaky-clean-mascot.png" alt="Sneaky Clean detective mascot">
+      ${responsiveImage("assets/images/sneaky-clean-mascot.png", "Sneaky Clean detective mascot", { sizes: "44px" })}
       <span>Sneaky Clean</span>
     </a>
     <nav class="nav" aria-label="Primary navigation">
@@ -220,7 +334,7 @@ function pageHtml(page) {
     <section class="seo-hero">
       <div class="wrap seo-hero__grid">
         <div class="seo-hero__copy">
-          <a class="breadcrumb" href="../">Sneaky Clean / ${escapeHtml(page.serviceArea)}</a>
+          <a class="breadcrumb" href="../">Sneaky Clean / ${escapeHtml(page.serviceName)} / ${escapeHtml(page.serviceArea)}</a>
           <p class="eyebrow">${escapeHtml(page.eyebrow)}</p>
           <h1>${escapeHtml(page.headline)}</h1>
           <p class="lead">${escapeHtml(page.lead)}</p>
@@ -236,9 +350,12 @@ function pageHtml(page) {
         </div>
 
         <div class="seo-hero__media" aria-label="${escapeHtml(page.caseText)}">
-          <img src="${escapeHtml(prefixedAsset(page.heroImage))}" alt="${escapeHtml(page.heroAlt)}">
+          ${responsiveImage(page.heroImage, page.heroAlt, {
+            fetchPriority: "high",
+            sizes: "(max-width: 860px) calc(100vw - 1.5rem), 42vw",
+          })}
           <div class="detective-card">
-            <img src="../assets/images/sneaky-clean-mascot.png" alt="">
+            ${responsiveImage("assets/images/sneaky-clean-mascot.png", "", { sizes: "64px" })}
             <div>
               <span>${escapeHtml(page.caseLabel)}</span>
               <strong>${escapeHtml(page.caseText)}</strong>
@@ -308,7 +425,14 @@ function pageHtml(page) {
 
   <footer class="site-footer">
     <div class="wrap site-footer__inner">
-      <span>Professional mobile detailing throughout Middle Tennessee.</span>
+      <span>Sneaky Clean is a locally owned mobile auto detailing company based in Murfreesboro, Tennessee, serving Murfreesboro, Smyrna, Nashville, La Vergne, and surrounding Middle Tennessee.</span>
+      <nav aria-label="Sneaky Clean services">
+        <a href="../mobile-detailing-murfreesboro/">Mobile detailing</a> ·
+        <a href="../interior-detailing-murfreesboro/">Interior detailing</a> ·
+        <a href="../ceramic-coating-murfreesboro/">Ceramic coating</a> ·
+        <a href="../motorcycle-detailing-murfreesboro/">Motorcycle detailing</a>
+      </nav>
+      <a href="../host-a-pop-up/">Host a resident detailing pop-up</a>
       <a href="${PHONE_HREF}">${PHONE_DISPLAY}</a>
     </div>
   </footer>
@@ -323,25 +447,10 @@ ${bookingModal()}
 
 function sitemapXml() {
   const urls = [
-    {
-      loc: `${BASE_URL}/`,
-      priority: "1.0",
-      changefreq: "weekly",
-    },
-    {
-      loc: `${BASE_URL}/pop-up/`,
-      priority: "0.8",
-      changefreq: "monthly",
-    },
-    {
-      loc: `${BASE_URL}/host-a-pop-up/`,
-      priority: "0.7",
-      changefreq: "monthly",
-    },
+    { loc: `${BASE_URL}/` },
+    { loc: `${BASE_URL}/host-a-pop-up/` },
     ...pages.map((page) => ({
       loc: `${BASE_URL}/${page.slug}/`,
-      priority: "0.8",
-      changefreq: "monthly",
     })),
   ];
 
@@ -351,9 +460,6 @@ ${urls
   .map(
     (url) => `  <url>
     <loc>${url.loc}</loc>
-    <lastmod>${TODAY}</lastmod>
-    <changefreq>${url.changefreq}</changefreq>
-    <priority>${url.priority}</priority>
   </url>`,
   )
   .join("\n")}
@@ -369,4 +475,4 @@ for (const page of pages) {
 }
 
 await fs.writeFile(path.join(ROOT, "sitemap.xml"), sitemapXml());
-console.log(`Generated sitemap.xml with ${pages.length + 3} URLs`);
+console.log(`Generated sitemap.xml with ${pages.length + 2} URLs`);

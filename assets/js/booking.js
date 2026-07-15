@@ -11,7 +11,7 @@ const SERVICES = {
     ],
   },
   reset: {
-    title: "Reset Detail",
+    title: "Full Reset Detail",
     subtitle: "Full reset for daily drivers and family vehicles",
     tiers: [
       { id: "AU7PB35CEVMIJ2CUVNVPNPIF", label: "Coupe/Sedan - $299 (4h)" },
@@ -44,9 +44,77 @@ const state = {
   slot: null,
 };
 
+const modal = el("booking-modal");
+const modalPanel = modal.querySelector(".booking-modal__panel");
+const focusableSelector = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled]):not([type="hidden"])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(",");
+
+let lastFocusedElement = null;
+let bodyOverflowBeforeModal = "";
+let bookingCloseTimer = null;
+
+function getFocusableElements() {
+  return Array.from(modalPanel.querySelectorAll(focusableSelector)).filter((element) => {
+    return !element.closest("[hidden]") && element.getClientRects().length > 0;
+  });
+}
+
+function handleModalKeydown(event) {
+  if (!modal.classList.contains("is-open")) return;
+
+  if (event.key === "Escape") {
+    event.preventDefault();
+    closeBooking();
+    return;
+  }
+
+  if (event.key !== "Tab") return;
+
+  const focusableElements = getFocusableElements();
+  if (!focusableElements.length) {
+    event.preventDefault();
+    modalPanel.focus();
+    return;
+  }
+
+  const firstElement = focusableElements[0];
+  const lastElement = focusableElements[focusableElements.length - 1];
+  const focusIsInsideModal = modal.contains(document.activeElement);
+
+  if (event.shiftKey && (!focusIsInsideModal || document.activeElement === firstElement)) {
+    event.preventDefault();
+    lastElement.focus();
+  } else if (!event.shiftKey && (!focusIsInsideModal || document.activeElement === lastElement)) {
+    event.preventDefault();
+    firstElement.focus();
+  }
+}
+
 function openBooking(serviceKey) {
   const service = SERVICES[serviceKey];
   if (!service) return;
+
+  const wasOpen = modal.classList.contains("is-open");
+  if (bookingCloseTimer !== null) {
+    clearTimeout(bookingCloseTimer);
+    bookingCloseTimer = null;
+  }
+
+  if (!wasOpen) {
+    const activeElement = document.activeElement;
+    lastFocusedElement = activeElement instanceof HTMLElement
+      && activeElement !== document.body
+      && !modal.contains(activeElement)
+      ? activeElement
+      : null;
+    bodyOverflowBeforeModal = document.body.style.overflow;
+  }
 
   state.service = service;
   state.variationId = service.tiers[0].id;
@@ -74,16 +142,35 @@ function openBooking(serviceKey) {
   el("submit").disabled = true;
   el("submit").textContent = "Request Booking";
 
-  el("booking-modal").classList.add("is-open");
+  modal.classList.add("is-open");
+  modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
+
+  if (!wasOpen) {
+    el("booking-close").focus({ preventScroll: true });
+  }
 }
 
 function closeBooking() {
-  el("booking-modal").classList.remove("is-open");
-  document.body.style.overflow = "";
+  if (!modal.classList.contains("is-open")) return;
+
+  if (bookingCloseTimer !== null) {
+    clearTimeout(bookingCloseTimer);
+    bookingCloseTimer = null;
+  }
+
+  modal.classList.remove("is-open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = bodyOverflowBeforeModal;
 
   if (/^#sc-book(var)?-/.test(location.hash)) {
     history.replaceState(null, "", location.pathname + location.search);
+  }
+
+  const focusTarget = lastFocusedElement;
+  lastFocusedElement = null;
+  if (focusTarget?.isConnected && !focusTarget.hasAttribute("disabled")) {
+    focusTarget.focus({ preventScroll: true });
   }
 }
 
@@ -131,12 +218,15 @@ async function loadSlots() {
       const button = document.createElement("button");
       button.type = "button";
       button.textContent = formatSlot(iso);
+      button.setAttribute("aria-pressed", "false");
       button.addEventListener("click", () => {
         state.slot = iso;
         el("slots").querySelectorAll("button").forEach((slotButton) => {
           slotButton.classList.remove("selected");
+          slotButton.setAttribute("aria-pressed", "false");
         });
         button.classList.add("selected");
+        button.setAttribute("aria-pressed", "true");
         checkReady();
       });
       el("slots").appendChild(button);
@@ -184,7 +274,10 @@ async function submitBooking() {
     message.textContent = "Booking requested! You'll receive an email confirmation once it's accepted.";
     submit.textContent = "Done";
     window.dispatchEvent(new CustomEvent("sneakyclean:booking-submitted"));
-    setTimeout(closeBooking, 3500);
+    bookingCloseTimer = setTimeout(() => {
+      bookingCloseTimer = null;
+      closeBooking();
+    }, 3500);
   } catch {
     message.className = "message error";
     message.textContent = "Something went wrong. Please try again or text us.";
@@ -218,10 +311,18 @@ function checkHash() {
   if (variationMatch) openByVariation(variationMatch[1]);
 }
 
+modal.setAttribute("aria-hidden", "true");
+modal.setAttribute("aria-describedby", "booking-subtitle");
+modalPanel.setAttribute("tabindex", "-1");
+el("message").setAttribute("aria-live", "polite");
+el("message").setAttribute("aria-atomic", "true");
+el("slots").setAttribute("aria-live", "polite");
+
 el("booking-close").addEventListener("click", closeBooking);
-el("booking-modal").addEventListener("click", (event) => {
+modal.addEventListener("click", (event) => {
   if (event.target.id === "booking-modal") closeBooking();
 });
+document.addEventListener("keydown", handleModalKeydown);
 el("tier").addEventListener("change", (event) => {
   state.variationId = event.target.value;
   state.slot = null;
