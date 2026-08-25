@@ -40,6 +40,8 @@ const el = (id) => document.getElementById(id);
 
 const SMS_LINK = 'sms:+16154810464?&body=Hi%20Sneaky%20Clean!%20I%20couldn%27t%20find%20a%20time%20online%20%E2%80%94%20can%20you%20fit%20me%20in%3F';
 const DIRECT_BOOK_KEYS = ["refresh", "reset"];
+const SELF_BOOK_DAYS = [1, 3, 6]; // Mon, Wed, Sat
+const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const state = {
   serviceKey: null,
@@ -212,6 +214,14 @@ async function loadSlots() {
 
   state.slot = null;
   checkReady();
+
+  const chosenDay = new Date(`${date}T12:00:00`).getDay();
+  if (!SELF_BOOK_DAYS.includes(chosenDay)) {
+    const rushSms = `sms:+16154810464?&body=${encodeURIComponent(`Hi Sneaky Clean! Any chance of a rush detail on ${date}?`)}`;
+    el("slots").innerHTML = `<div class="empty">Online booking runs <strong>Mon, Wed & Sat</strong>. Need ${DAY_NAMES[chosenDay]}? <a href="${rushSms}">Text us about a rush slot</a> — we can usually make it happen.</div>`;
+    return;
+  }
+
   el("slots").innerHTML = '<div class="empty">Loading...</div>';
 
   try {

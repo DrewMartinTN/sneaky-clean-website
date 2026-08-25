@@ -353,18 +353,25 @@
     </section>
 
     <section class="membership" id="membership" aria-labelledby="membership-title">
-      <div class="wrap membership__panel">
-        <div>
-          <p class="eyebrow">Open Cases</p>
-          <h2 id="membership-title">Monthly maintenance without the hassle.</h2>
-          <p>One detail per month, scheduled at your location. Members may alternate between two vehicles.</p>
+      <div class="wrap membership__panel membership__panel--retainer">
+        <div class="membership__copy">
+          <p class="eyebrow">The Monthly Retainer</p>
+          <h2 id="membership-title">Keep a detailer on retainer.</h2>
+          <p>Your vehicle professionally detailed every month — without leaving the driveway or thinking about it twice.</p>
+          <ul class="membership-perks">
+            <li>One full detail every month at your home or office</li>
+            <li>Alternate between two vehicles</li>
+            <li>Priority scheduling — members book first</li>
+            <li>No contract. Cancel anytime.</li>
+          </ul>
         </div>
-        <ul class="membership-list">
-          <li><strong>$150/month</strong> — one detail every month</li>
-          <li>Alternate between two vehicles</li>
-          <li>Priority scheduling, we come to you</li>
-        </ul>
-        <a class="button" href="sms:+16154810464?&amp;body=Hi!%20I%27m%20interested%20in%20the%20monthly%20plan.">Text Us About Membership</a>
+        <aside class="membership-card" aria-label="Membership pricing">
+          <p class="membership-card__price"><strong>$150</strong><span>/month</span></p>
+          <p class="membership-card__value">The $199 Refresh Detail, every month, for less.</p>
+          <a class="button" href="sms:+16154810464?&amp;body=Hi!%20I%27d%20like%20to%20join%20the%20monthly%20plan.">Text Us to Join</a>
+          <p class="membership-card__alt">or call <a href="tel:+16154810464">615-481-0464</a></p>
+          <p class="membership-card__proof">7 Middle Tennessee members strong</p>
+        </aside>
       </div>
     </section>
 
@@ -508,7 +515,7 @@
         <select id="tier"></select>
       </div>
 
-      <label for="date">Pick a Date</label>
+      <label for="date">Pick a Date <span class="optional">(online: Mon · Wed · Sat)</span></label>
       <input type="date" id="date">
 
       <label>Available Times</label>

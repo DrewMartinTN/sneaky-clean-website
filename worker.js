@@ -21,6 +21,9 @@ const BUFFER_MINUTES = 60;
 const DETAIL_MIN_MINUTES = 60;
 const BOOKABLE_STATUSES = new Set(["PENDING", "ACCEPTED"]);
 const BUSINESS_TIME_ZONE = "America/Chicago";
+// Online self-booking days. Other days stay open for manual rush bookings
+// placed directly in Square (they bypass this worker entirely).
+const SELF_BOOK_DAYS = new Set(["Mon", "Wed", "Sat"]);
 // Shortest mainline detail; used to find the next bookable opening.
 const NEXT_OPEN_VARIATION_ID = "BYS5Z5ZZU3IQ3SPMKWPSWOF4";
 const NEXT_OPEN_CACHE_SECONDS = 600;
@@ -98,6 +101,14 @@ function businessDay(iso) {
     month: "2-digit",
     day: "2-digit",
   }).format(new Date(iso));
+}
+
+function selfBookableDay(iso) {
+  const weekday = new Intl.DateTimeFormat("en-US", {
+    timeZone: BUSINESS_TIME_ZONE,
+    weekday: "short",
+  }).format(new Date(iso));
+  return SELF_BOOK_DAYS.has(weekday);
 }
 
 async function fetchBookingsInRange(env, startAt, endAt) {
@@ -183,6 +194,7 @@ async function handleAvailability(req, env, origin) {
   const windows = detailWindows(bookings);
 
   const slots = availabilities
+    .filter((a) => selfBookableDay(a.start_at))
     .filter((a) => slotAllowed(a.start_at, segmentsMinutes(a.appointment_segments) || 120, windows))
     .map((a) => a.start_at);
   return json({ slots }, 200, origin);
@@ -212,6 +224,7 @@ async function handleNextAvailability(env, origin) {
   const windows = detailWindows(bookings);
 
   const next = availabilities.find((a) =>
+    selfBookableDay(a.start_at) &&
     slotAllowed(a.start_at, segmentsMinutes(a.appointment_segments) || 120, windows));
 
   const payload = JSON.stringify({ nextSlot: next ? next.start_at : null });
@@ -468,6 +481,14 @@ async function handleBook(req, env, origin) {
   try {
     const variation = await getVariationInfo(env, serviceVariationId);
     if (!variation) return json({ error: "Service not found" }, 404, origin);
+
+    if (!selfBookableDay(startAt)) {
+      return json(
+        { error: "Online booking runs Monday, Wednesday, and Saturday. For other days, text 615-481-0464 about a rush slot." },
+        400,
+        origin,
+      );
+    }
 
     // Re-check the day cap and drive buffer at booking time: the slot list in
     // the customer's browser may be minutes old.
