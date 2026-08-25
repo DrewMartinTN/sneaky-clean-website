@@ -6,13 +6,12 @@
     "eyebrow": "Murfreesboro Mobile Detailing",
     "headline": "Mobile Detailing In Murfreesboro That Comes To You",
     "lead": "Professional detailing at your home, office, apartment, or approved location in Murfreesboro and nearby Middle Tennessee communities.",
-    "primaryCta": "Call Now",
-    "secondaryCta": "View Packages",
-    "secondaryHref": "../#packages",
+    "primaryCta": "Book Online",
+    "secondaryCta": "Call Now",
     "heroImage": "assets/images/work/case-05.webp",
     "heroAlt": "White SUV after mobile detail in Murfreesboro",
     "caseLabel": "Case File #071",
-    "caseText": "Family SUV · Refresh Detail",
+    "caseText": "Family SUV \u00b7 Refresh Detail",
     "serviceName": "Mobile Detailing",
     "serviceArea": "Murfreesboro, TN",
     "intro": "Sneaky Clean is built for people who want the result without rearranging their day. We bring the mobile setup to you and handle the detail while your vehicle is already parked where life happens.",
@@ -36,12 +35,12 @@
       {
         "src": "assets/images/work/case-05.webp",
         "alt": "White SUV detailed by Sneaky Clean",
-        "caption": "Family SUV · Refresh Detail"
+        "caption": "Family SUV \u00b7 Refresh Detail"
       },
       {
         "src": "assets/images/work/case-04.webp",
         "alt": "Black BMW after mobile detail",
-        "caption": "Luxury SUV · Full Reset Detail"
+        "caption": "Luxury SUV \u00b7 Full Reset Detail"
       },
       {
         "src": "assets/images/work/case-03.webp",
@@ -66,6 +65,392 @@
         "question": "Can I call before booking?",
         "answer": "Yes. Calling is often the fastest way to choose the right package or decide if photos are needed for a quote."
       }
+    ],
+    "primaryHref": "#sc-book-reset"
+  },
+  {
+    "slug": "mobile-detailing-smyrna",
+    "title": "Mobile Detailing Smyrna TN | Sneaky Clean",
+    "description": "Mobile detailing in Smyrna, TN. Sneaky Clean details your car at home or work. Refresh from $199, Full Reset from $299. Book online Mon, Wed, Sat.",
+    "eyebrow": "Smyrna Mobile Detailing",
+    "headline": "Mobile Detailing In Smyrna That Doesn't Need Your Day Off",
+    "lead": "Sneaky Clean brings the detail to your Smyrna driveway, office lot, or apartment parking \u2014 no drop-off, no waiting room, no lost Saturday.",
+    "primaryCta": "Book Online",
+    "primaryHref": "#sc-book-reset",
+    "secondaryCta": "Call Now",
+    "heroImage": "assets/images/work/case-07.webp",
+    "heroAlt": "Gray commuter hatchback after a Sneaky Clean mobile detail",
+    "caseLabel": "Case File #058",
+    "caseText": "Commuter Hatchback \u00b7 Case Closed",
+    "serviceName": "Mobile Detailing",
+    "serviceArea": "Smyrna, TN",
+    "intro": "Smyrna keeps long hours \u2014 plant shifts, I-24 commutes into Nashville, and everything the family calendar stacks on top. Sneaky Clean details your car where it's already parked, at home or at work, so the only thing that changes about your day is how good the drive feels afterward.",
+    "proof": [
+      "Comes to your home, office, or apartment in Smyrna",
+      "Refresh Details from $199",
+      "Full Reset Details from $299",
+      "5.0 rating on Google"
+    ],
+    "sections": [
+      {
+        "heading": "Who books mobile detailing in Smyrna?",
+        "body": "Mostly people whose cars work as hard as they do: commuters logging daily miles into Nashville, shift workers with early clock-ins, and families running the school-and-practice circuit from newer subdivisions. The one thing they share is a car that sits parked for hours at home or at the office \u2014 which is exactly when we do the job."
+      },
+      {
+        "heading": "Refresh or Full Reset?",
+        "body": "If the car is basically maintained and just needs the road film, floor-mat grit, and drive-thru evidence cleared, the Refresh Detail from $199 handles it in about 2 to 2.5 hours. If it's a hard-working daily driver or the family hauler, the Full Reset Detail from $299 goes deeper and runs about 4 to 5 hours."
+      },
+      {
+        "heading": "Two cars, one membership",
+        "body": "Plenty of Smyrna households run a commuter car and a family vehicle, and both collect their share of the week. The monthly membership is $150 a month for one detail each month, and you can alternate it between two vehicles so neither one falls behind."
+      }
+    ],
+    "gallery": [
+      {
+        "src": "assets/images/work/case-05.webp",
+        "alt": "White family SUV after a Refresh Detail by Sneaky Clean",
+        "caption": "Family SUV \u00b7 Refresh Detail"
+      },
+      {
+        "src": "assets/images/work/case-08.webp",
+        "alt": "Silver BMW M3 after a Full Reset Detail",
+        "caption": "BMW M3 \u00b7 Full Reset Detail"
+      },
+      {
+        "src": "assets/images/work/case-04.webp",
+        "alt": "Black BMW X5 after a Full Reset Detail",
+        "caption": "Luxury SUV \u00b7 Full Reset Detail"
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Will you come to my house or my workplace in Smyrna?",
+        "answer": "Yes \u2014 homes, offices, apartments, and approved locations all work. Booking the detail at your workplace is an easy way to have it finished by the time you clock out."
+      },
+      {
+        "question": "What days can I book online?",
+        "answer": "Online booking shows live times for Monday, Wednesday, and Saturday. Other days are often possible as rush slots \u2014 text 615-481-0464 and we'll see what fits."
+      },
+      {
+        "question": "What does mobile detailing in Smyrna cost?",
+        "answer": "Refresh Details start at $199 for maintained vehicles, and Full Reset Details start at $299 for daily drivers and family vehicles. Paint correction, ceramic coating, and motorcycle detailing are quoted individually."
+      },
+      {
+        "question": "How long does a detail take?",
+        "answer": "A Refresh Detail takes about 2 to 2.5 hours and a Full Reset Detail about 4 to 5. Either one fits inside a normal workday or a shift."
+      },
+      {
+        "question": "Aren't you based in Murfreesboro?",
+        "answer": "We are, and Smyrna sits squarely in our regular service area alongside Nashville and surrounding Middle Tennessee. Mobile means the drive is our job, not yours."
+      }
+    ]
+  },
+  {
+    "slug": "mobile-detailing-la-vergne",
+    "title": "Mobile Detailing La Vergne TN | Sneaky Clean",
+    "description": "Mobile detailing in La Vergne, TN. Sneaky Clean comes to your apartment, driveway, or workplace. Refresh from $199, Full Reset from $299. Book online.",
+    "eyebrow": "La Vergne Mobile Detailing",
+    "headline": "Mobile Detailing In La Vergne That Comes To Your Parking Spot",
+    "lead": "We bring the detail to your apartment community, driveway, or workplace in La Vergne \u2014 no garage required, Saturdays included.",
+    "primaryCta": "Book Online",
+    "primaryHref": "#sc-book-reset",
+    "secondaryCta": "Call Now",
+    "heroImage": "assets/images/work/case-06.webp",
+    "heroAlt": "Front of a white BMW after a Sneaky Clean mobile detail",
+    "caseLabel": "Case File #064",
+    "caseText": "White BMW \u00b7 Ready For The Week",
+    "serviceName": "Mobile Detailing",
+    "serviceArea": "La Vergne, TN",
+    "intro": "La Vergne cars work hard \u2014 I-24 miles, warehouse parking lots, school runs \u2014 and the interior keeps the evidence. Sneaky Clean comes to wherever yours is parked, at home or on the clock, and returns it looking like it got a day off.",
+    "proof": [
+      "Comes to apartments, homes, and workplaces",
+      "Saturday openings bookable online",
+      "Refresh from $199 \u00b7 Full Reset from $299",
+      "5.0 Google rating"
+    ],
+    "sections": [
+      {
+        "heading": "Who books us in La Vergne?",
+        "body": "Commuters and working families, mostly. If your car logs an hour a day on I-24, the Refresh Detail (from $199, about 2 to 2.5 hours) keeps a maintained vehicle presentable. If the interior has drifted into rolling-storage territory \u2014 car seats, work boots, drive-thru evidence \u2014 the Full Reset Detail (from $299, about 4 to 5 hours) is built for exactly that."
+      },
+      {
+        "heading": "No driveway? Not a problem.",
+        "body": "A lot of La Vergne is apartment and townhome living, and that suits us fine \u2014 we come straight to your community's lot whenever the property gives permission. Workplaces work too: with the site's okay, your car can be detailed during your shift, so you clock out and drive home in the clean one."
+      },
+      {
+        "heading": "When can you actually come?",
+        "body": "Online booking shows live openings on Mondays, Wednesdays, and Saturdays \u2014 and Saturday earns its keep in a commuter town. Need another day? Text 615-481-0464 and we will try to line up a rush slot. Two-car household? The $150 per month membership covers one detail a month and lets you alternate vehicles."
+      }
+    ],
+    "gallery": [
+      {
+        "src": "assets/images/work/case-05.webp",
+        "alt": "White family SUV after a Refresh Detail",
+        "caption": "Family SUV \u00b7 Refresh Detail"
+      },
+      {
+        "src": "assets/images/work/case-08.webp",
+        "alt": "Silver BMW M3 after a Full Reset Detail",
+        "caption": "Silver M3 \u00b7 Full Reset Detail"
+      },
+      {
+        "src": "assets/images/work/case-04.webp",
+        "alt": "Black BMW X5 after a Full Reset Detail",
+        "caption": "Luxury SUV \u00b7 Full Reset Detail"
+      }
+    ],
+    "faqs": [
+      {
+        "question": "What days can I book online in La Vergne?",
+        "answer": "Monday, Wednesday, and Saturday are the days with live times on the online calendar. If none of those fit, text 615-481-0464 and we will try to arrange a rush slot."
+      },
+      {
+        "question": "How much does mobile detailing cost in La Vergne?",
+        "answer": "A Refresh Detail starts at $199 and a Full Reset Detail starts at $299 \u2014 the right pick depends on how hard the vehicle works between cleanings. Anything specialized, like paint correction, ceramic coating, or a motorcycle, gets its own quote."
+      },
+      {
+        "question": "Can you detail my car at my apartment?",
+        "answer": "Yes, as long as the property allows it. Apartment lots, townhome communities, and other approved locations all work."
+      },
+      {
+        "question": "Can you come to my workplace?",
+        "answer": "Yes. With the site's permission, we can detail your vehicle at offices and job sites while you work."
+      },
+      {
+        "question": "How long will the detail take?",
+        "answer": "Plan on roughly 2 to 2.5 hours for a Refresh Detail and 4 to 5 for a Full Reset. Since we come to you, your day keeps moving while we work."
+      }
+    ]
+  },
+  {
+    "slug": "mobile-detailing-nashville",
+    "title": "Mobile Detailing Nashville TN | Sneaky Clean",
+    "description": "Sneaky Clean brings mobile detailing to Nashville driveways and office garages by appointment. Refresh from $199, Full Reset from $299. 5.0 Google rating.",
+    "eyebrow": "Nashville Mobile Detailing",
+    "headline": "Mobile Detailing That Makes The Drive To Nashville",
+    "lead": "By-appointment detailing at your Nashville home, office garage, or apartment community \u2014 the vehicle gets handled where it is already parked.",
+    "primaryCta": "Book Online",
+    "primaryHref": "#sc-book-reset",
+    "secondaryCta": "Call Now",
+    "heroImage": "assets/images/work/case-08.webp",
+    "heroAlt": "Silver BMW M3 after a Sneaky Clean Full Reset Detail",
+    "caseLabel": "Case File #074",
+    "caseText": "BMW M3 \u00b7 Full Reset Detail",
+    "serviceName": "Mobile Detailing",
+    "serviceArea": "Nashville, TN",
+    "intro": "A detail should not cost you a crosstown errand on top of the price. Sneaky Clean drives up from Murfreesboro by appointment and works where your vehicle already sits \u2014 the driveway at home, or the office garage while you are upstairs working.",
+    "proof": [
+      "By-appointment visits routed from our Murfreesboro home base",
+      "Driveways, office garages, apartments, and approved locations",
+      "Refresh Details from $199, Full Reset Details from $299",
+      "Rated 5.0 on Google"
+    ],
+    "sections": [
+      {
+        "heading": "How do Nashville appointments work?",
+        "body": "Straight answer: we are based in Murfreesboro, so Nashville is served by appointment when route timing works \u2014 not same-day. Book online for live times on Monday, Wednesday, or Saturday, or text 615-481-0464 about a rush slot on another day."
+      },
+      {
+        "heading": "Can you detail while I'm at work?",
+        "body": "That is the arrangement Nashville schedules usually call for. If your building or property manager allows it, we detail the vehicle right in its parking spot \u2014 a Refresh takes about 2 to 2.5 hours and a Full Reset about 4 to 5, so the car is usually finished before your workday is."
+      },
+      {
+        "heading": "Which detail fits a Nashville commute?",
+        "body": "Daily miles on I-24 pile up inside a car faster than most people expect, so commuter vehicles usually start with a Full Reset Detail from $299 and stay ahead of it with Refresh Details from $199. Paint correction, ceramic coating, and motorcycle details are quoted case-by-case, and the $150 monthly membership is there for anyone who wants the clean on autopilot."
+      }
+    ],
+    "gallery": [
+      {
+        "src": "assets/images/work/case-04.webp",
+        "alt": "Black BMW X5 after a Full Reset Detail",
+        "caption": "Luxury SUV \u00b7 Full Reset Detail"
+      },
+      {
+        "src": "assets/images/work/case-05.webp",
+        "alt": "White family SUV after a Refresh Detail",
+        "caption": "Family SUV \u00b7 Refresh Detail"
+      },
+      {
+        "src": "assets/images/work/case-07.webp",
+        "alt": "Gray hatchback after a mobile detail",
+        "caption": "Daily driver \u00b7 Detailed on location"
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Do you offer same-day detailing in Nashville?",
+        "answer": "Usually not \u2014 we are based in Murfreesboro, so Nashville visits run by appointment when the route timing works. Booking a few days ahead is the reliable move."
+      },
+      {
+        "question": "Which days can I book online?",
+        "answer": "Live times go up for Monday, Wednesday, and Saturday when you book online. Other days are sometimes possible as rush slots \u2014 text 615-481-0464 and we will check the route."
+      },
+      {
+        "question": "What does mobile detailing cost in Nashville?",
+        "answer": "Refresh Details start at $199 and Full Reset Details at $299 in Nashville \u2014 same pricing as the rest of our service area. Specialty work like paint correction, ceramic coating, or a motorcycle is priced by individual quote."
+      },
+      {
+        "question": "Can you work in my office garage or apartment lot?",
+        "answer": "In most cases, yes. Office garages and apartment lots just need the property's okay and space for us to set up \u2014 once that is squared away, we work right in your parking spot."
+      },
+      {
+        "question": "Is there a plan for keeping the car clean year-round?",
+        "answer": "Yes \u2014 the monthly plan. It is $150 a month, covers one detail every month, and two-car households can rotate it between vehicles."
+      }
+    ]
+  },
+  {
+    "slug": "mobile-detailing-franklin",
+    "title": "Mobile Detailing Franklin TN | Sneaky Clean",
+    "description": "Sneaky Clean brings mobile detailing to Franklin driveways and offices by appointment. Refresh from $199, Full Reset from $299, ceramic coating by quote.",
+    "eyebrow": "Franklin Mobile Detailing",
+    "headline": "Your Franklin Driveway Just Became The Detail Shop",
+    "lead": "Sneaky Clean comes to Franklin by appointment \u2014 your home, your office, or another approved spot \u2014 and handles the detail while you get on with your day.",
+    "primaryCta": "Book Online",
+    "primaryHref": "#sc-book-reset",
+    "secondaryCta": "Call Now",
+    "heroImage": "assets/images/work/case-04.webp",
+    "heroAlt": "Black BMW luxury SUV after a Sneaky Clean Full Reset Detail",
+    "caseLabel": "Case File #067",
+    "caseText": "Luxury SUV \u00b7 Full Reset Detail",
+    "serviceName": "Mobile Detailing",
+    "serviceArea": "Franklin, TN",
+    "intro": "Franklin keeps its vehicles nice: garage-kept sedans, luxury SUVs, daily drivers that still get compliments at school pickup. We plan Franklin appointments along our route from Murfreesboro, roll up to your driveway or office, and put in the kind of unhurried time those vehicles deserve.",
+    "proof": [
+      "Driveway and office appointments across Franklin",
+      "Refresh from $199 \u00b7 Full Reset from $299",
+      "Paint correction and ceramic coating by quote",
+      "5.0 Google rating"
+    ],
+    "sections": [
+      {
+        "heading": "Do you really drive to Franklin?",
+        "body": "We do \u2014 by appointment, when the day's route from Murfreesboro lines up. Think of it like any good traveling specialist: book a few days out, and we show up scheduled and unhurried instead of squeezed between jobs."
+      },
+      {
+        "heading": "What about paint correction and ceramic coating?",
+        "body": "Williamson County has more than its share of vehicles worth protecting, and that is exactly where correction and coating earn their keep. Both are quoted per vehicle \u2014 text us a few photos and we will tell you straight what your paint needs and what it does not."
+      },
+      {
+        "heading": "Can I just put this on a schedule?",
+        "body": "That is the monthly membership: $150 a month for one detail each month, with the option to alternate two vehicles. For a two-car Franklin household, both stay handled without anyone having to think about it."
+      }
+    ],
+    "gallery": [
+      {
+        "src": "assets/images/work/case-08.webp",
+        "alt": "Silver BMW M3 after a Full Reset Detail",
+        "caption": "Silver BMW M3 \u00b7 Full Reset Detail"
+      },
+      {
+        "src": "assets/images/work/case-03.webp",
+        "alt": "Black BMW with deep gloss after detailing",
+        "caption": "Black BMW \u00b7 gloss restored"
+      },
+      {
+        "src": "assets/images/work/case-05.webp",
+        "alt": "White family SUV after a Refresh Detail",
+        "caption": "White family SUV \u00b7 Refresh Detail"
+      }
+    ],
+    "faqs": [
+      {
+        "question": "When can I book online?",
+        "answer": "Online booking shows live times on Mondays, Wednesdays, and Saturdays. Need a different day? Text 615-481-0464 and we will look at rush slots along the route."
+      },
+      {
+        "question": "What does mobile detailing cost in Franklin?",
+        "answer": "Refresh Details start at $199 and Full Reset Details start at $299, same as anywhere we work. Paint correction, ceramic coating, and motorcycle detailing are quoted per vehicle."
+      },
+      {
+        "question": "Can you come out same-day?",
+        "answer": "Usually not, honestly \u2014 Franklin runs by appointment so we can plan the route from Murfreesboro and give your vehicle the full window. Booking a few days ahead is the move."
+      },
+      {
+        "question": "Where in Franklin will you work?",
+        "answer": "Your driveway, your office lot, your apartment, or another approved spot \u2014 anywhere the vehicle can sit while we work."
+      },
+      {
+        "question": "My car is garage-kept \u2014 do I still need the big detail?",
+        "answer": "Probably not. Maintained, garage-kept vehicles usually do great with a Refresh Detail, and the Full Reset is there when a daily driver needs deeper attention."
+      }
+    ]
+  },
+  {
+    "slug": "mobile-detailing-brentwood",
+    "title": "Mobile Detailing Brentwood TN | Sneaky Clean",
+    "description": "Mobile detailing in Brentwood, TN by appointment. Sneaky Clean comes to your home or office \u2014 details from $199, monthly plans for two-car garages.",
+    "eyebrow": "Brentwood Mobile Detailing",
+    "headline": "Mobile Detailing In Brentwood That Works Around Your Calendar",
+    "lead": "Sneaky Clean comes to Brentwood homes and offices by appointment \u2014 a planned detail in your driveway instead of one more stop in your week.",
+    "primaryCta": "Book Online",
+    "primaryHref": "#sc-book-reset",
+    "secondaryCta": "Call Now",
+    "heroImage": "assets/images/work/case-03.webp",
+    "heroAlt": "Black BMW with deep gloss after a Sneaky Clean detail",
+    "caseLabel": "Case File #061",
+    "caseText": "Black BMW \u00b7 Gloss Restored",
+    "serviceName": "Mobile Detailing",
+    "serviceArea": "Brentwood, TN",
+    "intro": "Plenty of Brentwood garages hold two vehicles worth protecting, and neither one should cost you an afternoon of errands to stay that way. Book ahead and we handle the detail at your home or office while you stay on schedule.",
+    "proof": [
+      "By-appointment service at Brentwood homes, offices, and approved locations",
+      "Refresh Details from $199",
+      "Full Reset Details from $299",
+      "$150/month membership \u2014 alternate between two vehicles"
+    ],
+    "sections": [
+      {
+        "heading": "Why plan ahead for a Brentwood detail?",
+        "body": "We are based in Murfreesboro, so Brentwood runs are scheduled by appointment when the route lines up. That means a little planning on the front end, and a detail that happens in your driveway while you get on with your day."
+      },
+      {
+        "heading": "What about a two-car garage?",
+        "body": "The monthly membership is $150 for one detail a month, and you can alternate it between two vehicles. Daily driver one month, the other car the next \u2014 both stay presentable without another thing on your list."
+      },
+      {
+        "heading": "Which package suits a well-kept car?",
+        "body": "Garaged and maintained usually means a Refresh Detail, about 2 to 2.5 hours, does the job. Daily drivers and family vehicles that carry real life around are better served by the Full Reset Detail, and paint correction or ceramic coating gets a custom quote."
+      }
+    ],
+    "gallery": [
+      {
+        "src": "assets/images/work/case-08.webp",
+        "alt": "Silver BMW M3 sedan after a Sneaky Clean Full Reset",
+        "caption": "Silver M3 \u00b7 Full Reset Detail"
+      },
+      {
+        "src": "assets/images/work/case-05.webp",
+        "alt": "White SUV fresh from a Refresh Detail",
+        "caption": "The family hauler \u00b7 Refresh Detail"
+      },
+      {
+        "src": "assets/images/work/case-06.webp",
+        "alt": "Front of a white BMW after mobile detailing",
+        "caption": "White BMW \u00b7 ready for the week"
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Do you serve Brentwood or just Murfreesboro?",
+        "answer": "Both \u2014 we are based in Murfreesboro and detail in Brentwood by appointment when route timing works. Booking a few days out is the reliable way to get on the schedule."
+      },
+      {
+        "question": "Which days can I book online?",
+        "answer": "Live online booking runs Monday, Wednesday, and Saturday. For other days, text 615-481-0464 and we will check whether a rush slot fits the route."
+      },
+      {
+        "question": "What does a mobile detail cost?",
+        "answer": "Refresh Details start at $199 and Full Reset Details start at $299. Paint correction, ceramic coating, and motorcycle detailing are quoted individually."
+      },
+      {
+        "question": "Can two of our cars share the membership?",
+        "answer": "Yes. The $150 monthly membership includes one detail per month, and you can alternate which of two vehicles gets it."
+      },
+      {
+        "question": "Where can you set up in Brentwood?",
+        "answer": "Homes, offices, apartments, and approved locations \u2014 anywhere your vehicle can park and the property allows it."
+      }
     ]
   },
   {
@@ -75,13 +460,12 @@
     "eyebrow": "Ceramic Coating",
     "headline": "Ceramic Coating For Murfreesboro Vehicles",
     "lead": "Protection, gloss, and easier maintenance for vehicles that deserve more than a basic wash.",
-    "primaryCta": "Call Now",
-    "secondaryCta": "Request Coating Quote",
-    "secondaryHref": "#sc-book-ceramic-consult",
+    "primaryCta": "Request Coating Quote",
+    "secondaryCta": "Call Now",
     "heroImage": "assets/images/work/case-08.webp",
     "heroAlt": "Silver BMW after ceramic coating style detail",
     "caseLabel": "Case File #074",
-    "caseText": "BMW · Gloss & protection",
+    "caseText": "BMW \u00b7 Gloss & protection",
     "serviceName": "Ceramic Coating",
     "serviceArea": "Murfreesboro, TN",
     "intro": "Ceramic coating is for customers who want their vehicle to stay cleaner longer and look easier to maintain. Sneaky Clean starts with a consultation so the recommendation matches the paint, the use case, and the expectation.",
@@ -131,7 +515,8 @@
         "question": "Do coated vehicles still need maintenance?",
         "answer": "Yes. Coatings make maintenance easier, but they still need proper washing and periodic check-ins."
       }
-    ]
+    ],
+    "primaryHref": "#sc-book-ceramic-consult"
   },
   {
     "slug": "motorcycle-detailing-murfreesboro",
@@ -140,13 +525,12 @@
     "eyebrow": "Motorcycle Detailing",
     "headline": "Motorcycle Detailing With A Careful Eye",
     "lead": "Detailed attention for bikes, chrome, paint, wheels, and the tight spots that make motorcycles different from cars.",
-    "primaryCta": "Call Now",
-    "secondaryCta": "Request Motorcycle Quote",
-    "secondaryHref": "#sc-bookvar-37OHZSEUAONVHAKJMBQ4YH6U",
+    "primaryCta": "Request Motorcycle Quote",
+    "secondaryCta": "Call Now",
     "heroImage": "assets/images/work/case-02.webp",
     "heroAlt": "Motorcycle detailed by Sneaky Clean",
     "caseLabel": "Case File #052",
-    "caseText": "Touring motorcycle · Detail",
+    "caseText": "Touring motorcycle \u00b7 Detail",
     "serviceName": "Motorcycle Detailing",
     "serviceArea": "Murfreesboro, TN",
     "intro": "Motorcycles reward patience. Sneaky Clean handles motorcycles as their own category, with careful attention around paint, chrome, wheels, trim, and tight areas.",
@@ -191,7 +575,8 @@
         "question": "Should I send photos first?",
         "answer": "Photos are helpful and often the fastest way to get a clear motorcycle detailing quote."
       }
-    ]
+    ],
+    "primaryHref": "#sc-bookvar-37OHZSEUAONVHAKJMBQ4YH6U"
   },
   {
     "slug": "interior-detailing-murfreesboro",
@@ -200,13 +585,12 @@
     "eyebrow": "Interior Detailing",
     "headline": "Interior Detailing For Real-Life Messes",
     "lead": "Mobile interior detailing for daily drivers, family SUVs, stains, crumbs, and vehicles that need a reset without judgment.",
-    "primaryCta": "Call Now",
-    "secondaryCta": "Book Reset Detail",
-    "secondaryHref": "#sc-book-reset",
+    "primaryCta": "Book Full Reset",
+    "secondaryCta": "Call Now",
     "heroImage": "assets/images/work/case-07.webp",
     "heroAlt": "Gray hatchback after interior and exterior detail",
-    "caseLabel": "Case File #067",
-    "caseText": "Daily driver · Full Reset Detail",
+    "caseLabel": "Case File #058",
+    "caseText": "Daily driver \u00b7 Full Reset Detail",
     "serviceName": "Interior Detailing",
     "serviceArea": "Murfreesboro, TN",
     "intro": "Interior detailing is where trust matters. Sneaky Clean handles daily-driver messes, family vehicles, stains, crumbs, and pet/kid evidence with a practical, judgment-free approach.",
@@ -260,6 +644,7 @@
         "question": "Do you come to my location?",
         "answer": "Yes. Sneaky Clean is mobile and serves Murfreesboro and surrounding Middle Tennessee areas."
       }
-    ]
+    ],
+    "primaryHref": "#sc-book-reset"
   }
 ]

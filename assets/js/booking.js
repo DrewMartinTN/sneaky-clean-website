@@ -131,11 +131,14 @@ function openBooking(serviceKey) {
   el("booking-title").textContent = service.title;
   el("booking-subtitle").textContent = service.subtitle;
 
+  // Older cached pages may lack the service dropdown; degrade gracefully.
   const serviceWrap = el("service-wrap");
   const serviceSelect = el("service");
   const directlyBookable = DIRECT_BOOK_KEYS.includes(serviceKey);
-  serviceWrap.hidden = !directlyBookable;
-  if (directlyBookable) serviceSelect.value = serviceKey;
+  if (serviceWrap && serviceSelect) {
+    serviceWrap.hidden = !directlyBookable;
+    if (directlyBookable) serviceSelect.value = serviceKey;
+  }
 
   const tierWrap = el("tier-wrap");
   const tier = el("tier");
@@ -388,7 +391,7 @@ el("tier").addEventListener("change", (event) => {
   state.slot = null;
   if (el("date").value) loadSlots();
 });
-el("service").addEventListener("change", (event) => {
+el("service")?.addEventListener("change", (event) => {
   const key = event.target.value;
   if (!SERVICES[key] || key === state.serviceKey) return;
   const keepDate = el("date").value;

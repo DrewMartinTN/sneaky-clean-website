@@ -21,6 +21,9 @@
   <meta name="twitter:description" content="Premium mobile detailing throughout Middle Tennessee.">
   <meta name="twitter:image" content="https://www.sneakycleantn.com/assets/images/og-image.jpg">
   <link rel="preconnect" href="https://sneaky-clean-booking.drew-martin331.workers.dev">
+  <link rel="preload" as="image" type="image/avif"
+        imagesrcset="assets/images/work/case-04-640.avif 640w, assets/images/work/case-04-960.avif 960w, assets/images/work/case-04-1200.avif 1200w"
+        imagesizes="(max-width: 860px) 100vw, 42vw">
   <link rel="stylesheet" href="assets/css/styles.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZBE3LNX5E"></script>
   <script>
@@ -59,6 +62,8 @@
             "Smyrna, TN",
             "Nashville, TN",
             "La Vergne, TN",
+            "Franklin, TN",
+            "Brentwood, TN",
             "Eagleville, TN",
             "Christiana, TN",
             "Middle Tennessee"
@@ -139,6 +144,63 @@
           "primaryImageOfPage": {
             "@id": "https://www.sneakycleantn.com/#primaryimage"
           }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://www.sneakycleantn.com/#faq",
+          "isPartOf": {
+            "@id": "https://www.sneakycleantn.com/#webpage"
+          },
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Do you come to me?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Sneaky Clean is a mobile detailing company. We bring the setup to your home, office, or approved location."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much does mobile detailing cost?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Refresh Details start at $199. Full Reset Details start at $299. Paint correction, ceramic coating, and motorcycles are quoted after review."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What areas do you serve?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "We regularly serve Murfreesboro, Smyrna, Nashville, La Vergne, and surrounding Middle Tennessee communities."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can you maintain a ceramic coating?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. We offer maintenance details and check-ins to help coated vehicles stay cleaner and easier to wash."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What days can I book online?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Online booking with live times runs Monday, Wednesday, and Saturday. For other days, text 615-481-0464 about a rush slot."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you offer a monthly plan?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. The monthly plan is $150/month for one detail every month at your location, and you can alternate between two vehicles."
+              }
+            }
+          ]
         }
       ]
     }
@@ -147,7 +209,10 @@
 <body>
   <header class="site-header">
     <a class="brand" href="#top" aria-label="Sneaky Clean home">
-      <img src="assets/images/sneaky-clean-mascot.png" alt="Sneaky Clean detective mascot">
+      <picture>
+        <source type="image/avif" srcset="assets/images/sneaky-clean-mascot-96.avif 96w, assets/images/sneaky-clean-mascot-320.avif 320w" sizes="44px">
+        <img src="assets/images/sneaky-clean-mascot.png" alt="Sneaky Clean detective mascot" width="879" height="879" decoding="async">
+      </picture>
       <span>Sneaky Clean</span>
     </a>
     <nav class="nav" aria-label="Primary navigation">
@@ -185,9 +250,15 @@
         </div>
 
         <div class="hero__media" aria-label="Sneaky Clean completed vehicle case file">
-          <img class="hero__car" src="assets/images/work/case-04.webp" alt="Black BMW cleaned by Sneaky Clean">
+          <picture>
+            <source type="image/avif" srcset="assets/images/work/case-04-640.avif 640w, assets/images/work/case-04-960.avif 960w, assets/images/work/case-04-1200.avif 1200w" sizes="(max-width: 860px) 100vw, 42vw">
+            <img class="hero__car" src="assets/images/work/case-04.webp" alt="Black BMW cleaned by Sneaky Clean" width="1800" height="1426" fetchpriority="high" decoding="async">
+          </picture>
           <div class="detective-card">
-            <img src="assets/images/sneaky-clean-mascot.png" alt="">
+            <picture>
+              <source type="image/avif" srcset="assets/images/sneaky-clean-mascot-96.avif 96w, assets/images/sneaky-clean-mascot-320.avif 320w" sizes="64px">
+              <img src="assets/images/sneaky-clean-mascot.png" alt="" width="879" height="879" decoding="async">
+            </picture>
             <div>
               <span>Case File #067</span>
               <strong>Luxury SUV · Full Reset Detail</strong>
@@ -208,7 +279,7 @@
           <strong>5.0</strong>
           <span>★★★★★</span>
           <p>Google customer reviews</p>
-          <a href="https://www.google.com/search?sca_esv=dc724815bbf34a06&hl=en&authuser=5&sxsrf=ANbL-n5_LiS6o2_96v0DaYEajZ8hipsVNA:1780723671030&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOV7ReZ3suDQNph5tYooT4DqL2iZRWJm8-ToKUOpJBOdEOowO57JLJ2QUWsPwVC2UyXPzOOf2wkAw3Ke0oxKJNNcp4S0c8O9R6O44ig7bA7fFIQk4WA%3D%3D&q=Sneaky+Clean+LLC+Reviews&sa=X&ved=2ahUKEwiMk-vO8PGUAxUxz_ACHa1cMmcQ0bkNegQIJRAF&cshid=1780723681098612&biw=1391&bih=765&dpr=2#:~:text=Website-,Reviews,-Save" target="_blank" rel="noopener">Read Google Reviews</a>
+          <a href="https://share.google/ccDIurFU3rWaVM44L" target="_blank" rel="noopener">Read Google Reviews</a>
         </article>
         <div class="review-stack" aria-label="Google review highlights">
           <article class="review-card">
@@ -238,21 +309,30 @@
 
         <div class="case-grid">
           <figure class="case-card case-card--large">
-            <img src="assets/images/work/case-05.webp" alt="White SUV detailed by Sneaky Clean">
+            <picture>
+              <source type="image/avif" srcset="assets/images/work/case-05-640.avif 640w, assets/images/work/case-05-960.avif 960w, assets/images/work/case-05-1200.avif 1200w" sizes="(max-width: 860px) 100vw, 50vw">
+              <img src="assets/images/work/case-05.webp" alt="White SUV detailed by Sneaky Clean" width="1800" height="1073" loading="lazy" decoding="async">
+            </picture>
             <figcaption>
               <span>Case File #071 · Family SUV · Refresh Detail</span>
               <strong>Gloss restored. Ready for the week.</strong>
             </figcaption>
           </figure>
           <figure class="case-card">
-            <img src="assets/images/work/case-08.webp" alt="Silver BMW after mobile detail">
+            <picture>
+              <source type="image/avif" srcset="assets/images/work/case-08-640.avif 640w, assets/images/work/case-08-960.avif 960w, assets/images/work/case-08-1200.avif 1200w" sizes="(max-width: 860px) 100vw, 25vw">
+              <img src="assets/images/work/case-08.webp" alt="Silver BMW after mobile detail" width="1800" height="1350" loading="lazy" decoding="async">
+            </picture>
             <figcaption>
               <span>Case File #074 · BMW M3 · Full Reset Detail</span>
               <strong>Daily driver reset.</strong>
             </figcaption>
           </figure>
           <figure class="case-card">
-            <img src="assets/images/work/case-02.webp" alt="Motorcycle detailed by Sneaky Clean">
+            <picture>
+              <source type="image/avif" srcset="assets/images/work/case-02-640.avif 640w, assets/images/work/case-02-960.avif 960w, assets/images/work/case-02-1200.avif 1200w" sizes="(max-width: 860px) 100vw, 25vw">
+              <img src="assets/images/work/case-02.webp" alt="Motorcycle detailed by Sneaky Clean" width="1800" height="1350" loading="lazy" decoding="async">
+            </picture>
             <figcaption>
               <span>Case File #052 · Touring Motorcycle</span>
               <strong>Motorcycle detail.</strong>
@@ -261,10 +341,22 @@
         </div>
 
         <div class="case-strip" aria-label="More completed Sneaky Clean case files">
-          <img src="assets/images/work/case-03.webp" alt="Black BMW after detail">
-          <img src="assets/images/work/case-06.webp" alt="White BMW front after detail">
-          <img src="assets/images/work/case-07.webp" alt="Gray hatchback after detail">
-          <img src="assets/images/work/case-01.webp" alt="Red motorcycle detail closeup">
+          <picture>
+            <source type="image/avif" srcset="assets/images/work/case-03-640.avif 640w, assets/images/work/case-03-960.avif 960w, assets/images/work/case-03-1200.avif 1200w" sizes="(max-width: 860px) 50vw, 25vw">
+            <img src="assets/images/work/case-03.webp" alt="Black BMW after detail" width="1800" height="1356" loading="lazy" decoding="async">
+          </picture>
+          <picture>
+            <source type="image/avif" srcset="assets/images/work/case-06-640.avif 640w, assets/images/work/case-06-960.avif 960w, assets/images/work/case-06-1200.avif 1200w" sizes="(max-width: 860px) 50vw, 25vw">
+            <img src="assets/images/work/case-06.webp" alt="White BMW front after detail" width="1800" height="1350" loading="lazy" decoding="async">
+          </picture>
+          <picture>
+            <source type="image/avif" srcset="assets/images/work/case-07-640.avif 640w, assets/images/work/case-07-960.avif 960w, assets/images/work/case-07-1200.avif 1200w" sizes="(max-width: 860px) 50vw, 25vw">
+            <img src="assets/images/work/case-07.webp" alt="Gray hatchback after detail" width="1585" height="838" loading="lazy" decoding="async">
+          </picture>
+          <picture>
+            <source type="image/avif" srcset="assets/images/work/case-01-640.avif 640w, assets/images/work/case-01-960.avif 960w, assets/images/work/case-01-1200.avif 1200w" sizes="(max-width: 860px) 50vw, 25vw">
+            <img src="assets/images/work/case-01.webp" alt="Red motorcycle detail closeup" width="1800" height="1350" loading="lazy" decoding="async">
+          </picture>
         </div>
       </div>
     </section>
@@ -272,7 +364,10 @@
     <section class="section investigator" aria-labelledby="investigator-title">
       <div class="wrap investigator__panel">
         <div class="investigator__image">
-          <img src="assets/images/sneaky-clean-mascot.png" alt="Sneaky Clean lead investigator brand mark">
+          <picture>
+            <source type="image/avif" srcset="assets/images/sneaky-clean-mascot-96.avif 96w, assets/images/sneaky-clean-mascot-320.avif 320w" sizes="200px">
+            <img src="assets/images/sneaky-clean-mascot.png" alt="Sneaky Clean lead investigator brand mark" width="879" height="879" loading="lazy" decoding="async">
+          </picture>
         </div>
         <div>
           <p class="eyebrow">Meet the Lead Investigator</p>
@@ -422,20 +517,25 @@
             <p>Local mobile detail appointments for daily drivers, family SUVs, motorcycles, and ceramic coating maintenance.</p>
           </article>
           <article>
-            <h3>Smyrna & La Vergne</h3>
+            <h3><a href="mobile-detailing-smyrna/">Smyrna</a> & <a href="mobile-detailing-la-vergne/">La Vergne</a></h3>
             <p>Convenient mobile detailing for busy households, commuters, apartments, and office parking lots.</p>
           </article>
           <article>
-            <h3>Nashville & Surrounding Areas</h3>
+            <h3><a href="mobile-detailing-nashville/">Nashville & Surrounding Areas</a></h3>
             <p>Premium mobile detailing available by appointment when route timing and service setup make sense.</p>
           </article>
         </div>
-        <p>Looking for a specific Murfreesboro service? Explore the service guides below.</p>
-        <nav aria-label="Murfreesboro detailing service guides">
+        <p>Looking for a specific service or city? Explore the guides below.</p>
+        <nav aria-label="Sneaky Clean service and city guides">
           <a class="text-link" href="mobile-detailing-murfreesboro/">Mobile detailing in Murfreesboro</a>
           <a class="text-link" href="interior-detailing-murfreesboro/">Interior detailing in Murfreesboro</a>
           <a class="text-link" href="ceramic-coating-murfreesboro/">Ceramic coating in Murfreesboro</a>
           <a class="text-link" href="motorcycle-detailing-murfreesboro/">Motorcycle detailing in Murfreesboro</a>
+          <a class="text-link" href="mobile-detailing-smyrna/">Mobile detailing in Smyrna</a>
+          <a class="text-link" href="mobile-detailing-la-vergne/">Mobile detailing in La Vergne</a>
+          <a class="text-link" href="mobile-detailing-nashville/">Mobile detailing in Nashville</a>
+          <a class="text-link" href="mobile-detailing-franklin/">Mobile detailing in Franklin</a>
+          <a class="text-link" href="mobile-detailing-brentwood/">Mobile detailing in Brentwood</a>
         </nav>
       </div>
     </section>
@@ -462,6 +562,14 @@
           <article>
             <h3>Can you maintain a ceramic coating?</h3>
             <p>Yes. We offer maintenance details and check-ins to help coated vehicles stay cleaner and easier to wash.</p>
+          </article>
+          <article>
+            <h3>What days can I book online?</h3>
+            <p>Online booking with live times runs Monday, Wednesday, and Saturday. Need another day? Text 615-481-0464 and we'll try to fit a rush slot.</p>
+          </article>
+          <article>
+            <h3>Do you offer a monthly plan?</h3>
+            <p>Yes. The monthly plan is $150/month for one detail every month at your location, and you can alternate between two vehicles.</p>
           </article>
         </div>
       </div>
