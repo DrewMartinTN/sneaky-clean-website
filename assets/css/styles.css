@@ -32,6 +32,13 @@ body {
 img {
   display: block;
   max-width: 100%;
+  height: auto;
+}
+
+/* <picture> wrappers (AVIF sources) must not participate in layout:
+   grid/flex containers and height inheritance treat the img as the child. */
+picture {
+  display: contents;
 }
 
 a {
