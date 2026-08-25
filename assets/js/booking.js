@@ -38,10 +38,15 @@ const SERVICES = {
 
 const el = (id) => document.getElementById(id);
 
+const SMS_LINK = 'sms:+16154810464?&body=Hi%20Sneaky%20Clean!%20I%20couldn%27t%20find%20a%20time%20online%20%E2%80%94%20can%20you%20fit%20me%20in%3F';
+const DIRECT_BOOK_KEYS = ["refresh", "reset"];
+
 const state = {
+  serviceKey: null,
   service: null,
   variationId: null,
   slot: null,
+  nextOpenDate: null,
 };
 
 const modal = el("booking-modal");
@@ -116,12 +121,19 @@ function openBooking(serviceKey) {
     bodyOverflowBeforeModal = document.body.style.overflow;
   }
 
+  state.serviceKey = serviceKey;
   state.service = service;
   state.variationId = service.tiers[0].id;
   state.slot = null;
 
   el("booking-title").textContent = service.title;
   el("booking-subtitle").textContent = service.subtitle;
+
+  const serviceWrap = el("service-wrap");
+  const serviceSelect = el("service");
+  const directlyBookable = DIRECT_BOOK_KEYS.includes(serviceKey);
+  serviceWrap.hidden = !directlyBookable;
+  if (directlyBookable) serviceSelect.value = serviceKey;
 
   const tierWrap = el("tier-wrap");
   const tier = el("tier");
@@ -135,12 +147,22 @@ function openBooking(serviceKey) {
   });
 
   tierWrap.hidden = service.tiers.length <= 1;
-  el("date").value = "";
+
+  const dateInput = el("date");
+  const today = new Date();
+  dateInput.min = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  dateInput.value = "";
   el("slots").innerHTML = '<div class="empty">Choose a date to see times</div>';
   el("message").className = "message";
   el("message").textContent = "";
   el("submit").disabled = true;
   el("submit").textContent = "Request Booking";
+
+  // Start on the next day with an opening so most customers never hunt.
+  if (state.nextOpenDate && state.nextOpenDate >= dateInput.min) {
+    dateInput.value = state.nextOpenDate;
+    loadSlots();
+  }
 
   modal.classList.add("is-open");
   modal.setAttribute("aria-hidden", "false");
@@ -179,7 +201,8 @@ function formatSlot(iso) {
 }
 
 function checkReady() {
-  const ready = state.slot && el("name").value.trim() && el("email").value.trim();
+  const phoneDigits = el("phone").value.replace(/\D/g, "");
+  const ready = state.slot && el("name").value.trim() && phoneDigits.length >= 10;
   el("submit").disabled = !ready;
 }
 
@@ -209,7 +232,7 @@ async function loadSlots() {
     }
 
     if (!data.slots || !data.slots.length) {
-      el("slots").innerHTML = '<div class="empty">No times available - try another date</div>';
+      el("slots").innerHTML = `<div class="empty">That day is full. Try another date, or <a href="${SMS_LINK}">text us</a> and we'll fit you in.</div>`;
       return;
     }
 
@@ -271,7 +294,7 @@ async function submitBooking() {
     }
 
     message.className = "message success";
-    message.textContent = "Booking requested! You'll receive an email confirmation once it's accepted.";
+    message.textContent = "You're on the list! We'll text you shortly to confirm your spot.";
     submit.textContent = "Done";
     window.dispatchEvent(new CustomEvent("sneakyclean:booking-submitted"));
     bookingCloseTimer = setTimeout(() => {
@@ -280,9 +303,36 @@ async function submitBooking() {
     }, 3500);
   } catch {
     message.className = "message error";
-    message.textContent = "Something went wrong. Please try again or text us.";
+    message.innerHTML = `Something went wrong. Please try again, or <a href="${SMS_LINK}">text us at 615-481-0464</a>.`;
     submit.disabled = false;
     submit.textContent = "Request Booking";
+  }
+}
+
+function formatOpenDate(iso) {
+  return new Date(iso).toLocaleDateString([], { weekday: "long", month: "short", day: "numeric" });
+}
+
+async function initNextOpen() {
+  const chip = document.getElementById("next-open");
+  try {
+    const response = await fetch(`${WORKER_URL}/next-availability`);
+    const data = await response.json();
+    if (!data.nextSlot) return;
+
+    const slotDate = new Date(data.nextSlot);
+    state.nextOpenDate = [
+      slotDate.getFullYear(),
+      String(slotDate.getMonth() + 1).padStart(2, "0"),
+      String(slotDate.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    if (chip) {
+      chip.querySelector("strong").textContent = formatOpenDate(data.nextSlot);
+      chip.hidden = false;
+    }
+  } catch {
+    /* chip stays hidden */
   }
 }
 
@@ -328,11 +378,22 @@ el("tier").addEventListener("change", (event) => {
   state.slot = null;
   if (el("date").value) loadSlots();
 });
+el("service").addEventListener("change", (event) => {
+  const key = event.target.value;
+  if (!SERVICES[key] || key === state.serviceKey) return;
+  const keepDate = el("date").value;
+  openBooking(key);
+  if (keepDate) {
+    el("date").value = keepDate;
+    loadSlots();
+  }
+});
 el("date").addEventListener("change", loadSlots);
-["name", "email"].forEach((id) => el(id).addEventListener("input", checkReady));
+["name", "email", "phone"].forEach((id) => el(id).addEventListener("input", checkReady));
 el("submit").addEventListener("click", submitBooking);
 window.addEventListener("hashchange", checkHash);
 
 window.SneakyCleanBook = openBooking;
 window.SneakyCleanBookVariation = openByVariation;
 checkHash();
+initNextOpen();

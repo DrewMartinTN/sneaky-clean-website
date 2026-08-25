@@ -2,7 +2,7 @@
 import path from "node:path";
 import { ROOT, REPORT_DIR, daysSince, readCsv, todayStamp, writeCsv } from "./lib.mjs";
 
-const file = path.join(ROOT, "growth", "memberships.csv");
+const file = path.join(ROOT, "growth", "private", "memberships.csv");
 const members = readCsv(file).filter((member) => member.member_name);
 const rows = members.map((member) => {
   const nextDate = member.next_eligible_service_date || "";

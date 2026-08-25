@@ -155,7 +155,8 @@
       <a href="#evidence">Evidence</a>
       <a href="#packages">Packages</a>
       <a href="#membership">Membership</a>
-      <a class="nav__cta" href="tel:+16154810464">Call Now</a>
+      <a href="tel:+16154810464">615-481-0464</a>
+      <a class="nav__cta" href="#sc-book-reset">Book Online</a>
     </nav>
   </header>
 
@@ -165,10 +166,17 @@
         <div class="hero__copy">
           <h1>Mobile Detailing That Comes To You</h1>
           <p class="lead">We come to you in Murfreesboro, Smyrna, Nashville, and surrounding Middle Tennessee.</p>
+          <p class="next-open" id="next-open" hidden>
+            <span class="next-open__dot" aria-hidden="true"></span>
+            Next opening: <strong></strong>
+          </p>
           <div class="actions" aria-label="Primary actions">
-            <a class="button" href="tel:+16154810464">Call Now</a>
-            <a class="button button--dark" href="#packages">View Packages</a>
+            <a class="button" href="#sc-book-reset">Book Online — See Live Times</a>
+            <a class="button button--dark" href="tel:+16154810464">Call Now</a>
           </div>
+          <p class="text-quote">
+            Prefer to text? <a href="sms:+16154810464?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20a%20quote%20for%20my%20vehicle.%20Photos%20coming.">Send a photo to 615-481-0464</a> for a fast quote.
+          </p>
           <ul class="trust-list">
             <li>★★★★★ 5.0 Google Rating</li>
             <li>67+ Vehicles Detailed</li>
@@ -272,6 +280,12 @@
           <p>Sneaky Clean brings the setup to your home or office so you can spend less time worrying about your vehicle and more time enjoying it.</p>
         </div>
       </div>
+      <!-- TODO(drew): "The Detectives" — swap the mascot panel above for real team
+           photos once Drew + Garrett's pictures are ready. Suggested layout:
+           two portraits side by side, names + one-liners underneath
+           ("Drew — Lead Detective", "Garrett — Field Detective"), keep the
+           eyebrow copy "Meet the Detectives". Drop images in
+           assets/images/team/ and I'll wire it up. -->
     </section>
 
     <section class="section services" id="packages" aria-labelledby="packages-title">
@@ -346,11 +360,11 @@
           <p>One detail per month, scheduled at your location. Members may alternate between two vehicles.</p>
         </div>
         <ul class="membership-list">
-          <li>Easy recurring care</li>
-          <li>Cleaner vehicles year-round</li>
-          <li>Built for busy households</li>
+          <li><strong>$150/month</strong> — one detail every month</li>
+          <li>Alternate between two vehicles</li>
+          <li>Priority scheduling, we come to you</li>
         </ul>
-        <a class="button" href="#sc-bookvar-37OHZSEUAONVHAKJMBQ4YH6U">Ask About Membership</a>
+        <a class="button" href="sms:+16154810464?&amp;body=Hi!%20I%27m%20interested%20in%20the%20monthly%20plan.">Text Us About Membership</a>
       </div>
     </section>
 
@@ -451,11 +465,11 @@
         <div>
           <p class="eyebrow">Ready to close the case?</p>
           <h2 id="final-title">Get your vehicle on the schedule.</h2>
-          <p>Call now, or send photos for a quote. We come to you.</p>
+          <p>Book online in about a minute, or text a photo for a quote. We come to you.</p>
         </div>
         <div class="actions">
-          <a class="button" href="tel:+16154810464">Call Now</a>
-          <a class="button button--dark" href="#sc-bookvar-37OHZSEUAONVHAKJMBQ4YH6U">Get Quote</a>
+          <a class="button" href="#sc-book-reset">Book Online</a>
+          <a class="button button--dark" href="sms:+16154810464?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20a%20quote%20for%20my%20vehicle.%20Photos%20coming.">Text a Photo</a>
         </div>
       </div>
     </section>
@@ -481,6 +495,14 @@
       <h2 id="booking-title">Book Service</h2>
       <p class="booking-modal__sub" id="booking-subtitle"></p>
 
+      <div id="service-wrap">
+        <label for="service">Service</label>
+        <select id="service">
+          <option value="refresh">Refresh Detail — from $199</option>
+          <option value="reset">Full Reset Detail — from $299</option>
+        </select>
+      </div>
+
       <div id="tier-wrap">
         <label for="tier">Vehicle Size</label>
         <select id="tier"></select>
@@ -495,19 +517,26 @@
       <label for="name">Your Name</label>
       <input type="text" id="name" autocomplete="name">
 
-      <label for="email">Email</label>
-      <input type="email" id="email" autocomplete="email">
+      <label for="phone">Mobile Phone</label>
+      <input type="tel" id="phone" autocomplete="tel" placeholder="We confirm by text">
 
-      <label for="phone">Phone</label>
-      <input type="tel" id="phone" autocomplete="tel">
+      <label for="email">Email <span class="optional">(optional)</span></label>
+      <input type="email" id="email" autocomplete="email">
 
       <label for="notes">Vehicle + Address</label>
       <textarea id="notes" placeholder="e.g. 2021 Toyota 4Runner - 123 Main St, Murfreesboro"></textarea>
 
       <div class="message" id="message"></div>
       <button class="submit" id="submit" disabled>Request Booking</button>
+      <p class="booking-modal__note">No payment today. We confirm by text, usually within the hour.</p>
     </div>
   </div>
+
+  <nav class="mobile-bar" aria-label="Quick actions">
+    <a href="tel:+16154810464">Call</a>
+    <a href="sms:+16154810464?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20a%20quote%20for%20my%20vehicle.%20Photos%20coming.">Text</a>
+    <a class="mobile-bar__book" href="#sc-book-reset">Book Online</a>
+  </nav>
 
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/booking.js" defer></script>

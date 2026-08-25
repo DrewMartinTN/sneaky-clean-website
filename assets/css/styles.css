@@ -1715,3 +1715,120 @@ h3 {
     }
   }
 }
+
+/* --- Booking push: next-open chip, text-quote line, sticky mobile bar --- */
+
+.next-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1.1rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(24, 225, 180, 0.35);
+  border-radius: 999px;
+  background: rgba(24, 225, 180, 0.08);
+  color: var(--cream);
+  font-size: 0.95rem;
+}
+
+.next-open strong {
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.next-open__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: next-open-pulse 2s ease-in-out infinite;
+}
+
+@keyframes next-open-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(24, 225, 180, 0.45); }
+  50% { box-shadow: 0 0 0 6px rgba(24, 225, 180, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .next-open__dot { animation: none; }
+}
+
+.text-quote {
+  margin: 0.9rem 0 1.4rem;
+  font-size: 0.98rem;
+  color: var(--muted);
+}
+
+.text-quote a {
+  color: var(--teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.booking-modal label .optional {
+  color: var(--faint);
+  font-weight: 400;
+}
+
+.booking-modal__note {
+  margin: 0.7rem 0 0;
+  font-size: 0.88rem;
+  color: var(--faint);
+  text-align: center;
+}
+
+.slots .empty a {
+  color: var(--teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.membership-list strong {
+  color: var(--cream);
+}
+
+/* Sticky quick-action bar, phones only */
+.mobile-bar {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .mobile-bar {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 60;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.6fr;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom));
+    background: rgba(0, 18, 16, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--line);
+  }
+
+  .mobile-bar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--cream);
+  }
+
+  .mobile-bar__book {
+    background: var(--pink);
+    border-color: var(--pink);
+  }
+
+  body {
+    padding-bottom: 4.6rem;
+  }
+
+  body:has(.booking-modal.is-open) .mobile-bar {
+    display: none;
+  }
+}

@@ -338,11 +338,11 @@ POST /popup/manager
 
 Each successful request creates or updates a Square customer, assigns the appropriate group and writes the pop-up custom fields. A repeat submission from the same customer updates that customer's current pop-up fields; it does not create a separate historical form record.
 
-### Square Online Form Migration
+### GitHub Form Architecture
 
-Square only creates native owner notifications for submissions made through a Square Online contact form. Customer profiles written through the Customers API do not trigger Square Messages notifications.
+The GitHub Pages forms are the permanent public intake experience. Do not recreate or redirect them through Square Online. Both forms submit to the Cloudflare Worker, which creates or updates the Square customer, assigns the correct pop-up group, and stores the full intake as Square customer custom attributes.
 
-The current GitHub forms remain live until the Square Online forms are published. Build two hidden Square Online pages using the field checklist in `growth/square-online-popup-forms.md`, then replace the GitHub form actions with the published Square URLs. The permanent resident QR can continue pointing to `https://www.sneakycleantn.com/pop-up/`.
+Square customer records created through the Customers API do not generate Square Messages notifications. Owner email or SMS alerts are a separate notification concern and must not replace or shorten the GitHub forms. The permanent resident QR continues pointing to `https://www.sneakycleantn.com/pop-up/`.
 
 ## Sneaky Clean Growth System
 
@@ -369,7 +369,7 @@ Reusable business files live in:
 ```text
 growth/customer-groups.json
 growth/message-templates.md
-growth/memberships.csv
+growth/private/memberships.csv
 ```
 
 Generated customer exports and reports are ignored by git:
@@ -531,7 +531,7 @@ This only adds suggested groups. It does not remove old groups, because removals
 Track active monthly members in:
 
 ```text
-growth/memberships.csv
+growth/private/memberships.csv
 ```
 
 Membership offer:
@@ -558,6 +558,30 @@ Generate a simple membership due report:
 ```bash
 npm run square:membership
 ```
+
+### Reactivation Text Campaign
+
+Generate a prioritized texting call sheet with a ready-to-send draft per customer:
+
+```bash
+npm run square:text-campaign
+```
+
+Outputs:
+
+```text
+growth/reports/text-campaign-YYYY-MM-DD.md
+growth/reports/text-campaign-YYYY-MM-DD.csv
+```
+
+The Markdown file is the working list, ordered by expected response rate
+(membership closes, then 60-90 day, 30-60 day, 90-180 day, 180+ day, and
+never-booked leads). The CSV has a `status` column for tracking sent /
+replied / booked. The script automatically excludes monthly members,
+customers with upcoming bookings, anyone serviced in the last 30 days,
+and internal records. Update `HANDLED_NAMES` and `HOLD_NOTES` in
+`scripts/square/text-campaign.mjs` as situations change. Send the texts
+manually through Square Messages; the script never sends anything.
 
 ### Follow-Up Messages
 

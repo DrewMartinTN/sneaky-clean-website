@@ -18,11 +18,14 @@
     "square:retention": "node scripts/square/retention-report.mjs",
     "square:apply-groups": "node scripts/square/apply-suggested-groups.mjs",
     "square:membership": "node scripts/square/membership-report.mjs",
+    "square:text-campaign": "node scripts/square/text-campaign.mjs",
     "square:add-item": "node scripts/square/add-catalog-item.mjs",
     "square:setup-popup": "node scripts/square/setup-popup.mjs",
     "square:popup-report": "node scripts/square/popup-report.mjs",
     "square:create-popup-event": "node scripts/square/create-popup-event.mjs",
-    "site:popup-qr": "node scripts/site/generate-popup-qr.mjs"
+    "site:popup-qr": "node scripts/site/generate-popup-qr.mjs",
+    "site:manager-one-sheet": "/Users/drewmartin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 scripts/site/generate-manager-one-sheet.py",
+    "site:flat-rate-one-sheet": "/Users/drewmartin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 scripts/site/generate-flat-rate-one-sheet.py"
   },
   "keywords": [],
   "author": "",

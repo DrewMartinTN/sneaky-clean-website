@@ -35,6 +35,15 @@
     return "booking";
   }
 
+  document.querySelectorAll('a[href^="sms:"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      track("click_text_quote", {
+        link_text: link.textContent.trim(),
+        phone_number: "+16154810464",
+      });
+    });
+  });
+
   document.querySelectorAll('a[href^="#sc-book"]').forEach((link) => {
     link.addEventListener("click", () => {
       const action = bookingActionFor(link);
