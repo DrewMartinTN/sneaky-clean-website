@@ -1,27 +1,16 @@
-import { execFile } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { promisify } from "node:util";
+import sharp from "sharp";
 
-const run = promisify(execFile);
 const ROOT = process.cwd();
 const WORK_DIR = path.join(ROOT, "assets", "images", "work");
 const IMAGE_WIDTHS = [640, 960, 1200];
 
 async function convert(input, output, width, quality) {
-  await run("sips", [
-    "-Z",
-    String(width),
-    "-s",
-    "format",
-    "avif",
-    "-s",
-    "formatOptions",
-    String(quality),
-    input,
-    "--out",
-    output,
-  ]);
+  await sharp(input)
+    .resize({ width, withoutEnlargement: true })
+    .avif({ quality, effort: 6 })
+    .toFile(output);
   console.log(`Wrote ${path.relative(ROOT, output)}`);
 }
 
