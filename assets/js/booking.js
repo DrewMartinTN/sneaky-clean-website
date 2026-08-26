@@ -42,6 +42,7 @@ const SMS_LINK = 'sms:+16154810464?&body=Hi%20Sneaky%20Clean!%20I%20couldn%27t%2
 const DIRECT_BOOK_KEYS = ["refresh", "reset"];
 const SELF_BOOK_DAYS = [1, 3, 6]; // Mon, Wed, Sat
 const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const BUSINESS_TIME_ZONE = "America/Chicago";
 
 const state = {
   serviceKey: null,
@@ -65,6 +66,31 @@ const focusableSelector = [
 let lastFocusedElement = null;
 let bodyOverflowBeforeModal = "";
 let bookingCloseTimer = null;
+
+function businessDateKey(value = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: BUSINESS_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(value);
+  const values = Object.fromEntries(parts.map(({ type, value: partValue }) => [type, partValue]));
+  return `${values.year}-${values.month}-${values.day}`;
+}
+
+function addCalendarDays(dateKey, days) {
+  const [year, month, day] = dateKey.split("-").map(Number);
+  const result = new Date(Date.UTC(year, month - 1, day + days));
+  return [
+    result.getUTCFullYear(),
+    String(result.getUTCMonth() + 1).padStart(2, "0"),
+    String(result.getUTCDate()).padStart(2, "0"),
+  ].join("-");
+}
+
+function firstBookableDate() {
+  return addCalendarDays(businessDateKey(), 1);
+}
 
 function getFocusableElements() {
   return Array.from(modalPanel.querySelectorAll(focusableSelector)).filter((element) => {
@@ -154,8 +180,7 @@ function openBooking(serviceKey) {
   tierWrap.hidden = service.tiers.length <= 1;
 
   const dateInput = el("date");
-  const today = new Date();
-  dateInput.min = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  dateInput.min = firstBookableDate();
   dateInput.value = "";
   el("slots").innerHTML = '<div class="empty">Choose a date to see times</div>';
   el("message").className = "message";
@@ -217,6 +242,12 @@ async function loadSlots() {
 
   state.slot = null;
   checkReady();
+
+  if (date < firstBookableDate()) {
+    el("date").value = "";
+    el("slots").innerHTML = `<div class="empty">Same-day online booking isn't available. Please choose tomorrow or later, or <a href="${SMS_LINK}">text us about an urgent request</a>.</div>`;
+    return;
+  }
 
   const chosenDay = new Date(`${date}T12:00:00`).getDay();
   if (!SELF_BOOK_DAYS.includes(chosenDay)) {
@@ -339,6 +370,8 @@ async function initNextOpen() {
       String(slotDate.getMonth() + 1).padStart(2, "0"),
       String(slotDate.getDate()).padStart(2, "0"),
     ].join("-");
+
+    if (state.nextOpenDate < firstBookableDate()) return;
 
     if (chip) {
       chip.querySelector("strong").textContent = formatOpenDate(data.nextSlot);

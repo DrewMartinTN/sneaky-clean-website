@@ -95,12 +95,18 @@ function badInput(msg, origin) {
 }
 
 function businessDay(iso) {
-  return new Intl.DateTimeFormat("en-CA", {
+  const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: BUSINESS_TIME_ZONE,
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-  }).format(new Date(iso));
+  }).formatToParts(new Date(iso));
+  const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+  return `${values.year}-${values.month}-${values.day}`;
+}
+
+function advanceBookableDay(iso, now = new Date()) {
+  return businessDay(iso) > businessDay(now);
 }
 
 function selfBookableDay(iso) {
@@ -186,6 +192,8 @@ async function handleAvailability(req, env, origin) {
     return badInput("Missing or invalid endAt (must be RFC 3339)", origin);
   if (new Date(endAt) <= new Date(startAt))
     return badInput("endAt must be after startAt", origin);
+  if (businessDay(endAt) <= businessDay(new Date()))
+    return json({ slots: [] }, 200, origin);
 
   const [availabilities, bookings] = await Promise.all([
     searchAvailability(env, serviceVariationId, startAt, endAt),
@@ -194,6 +202,7 @@ async function handleAvailability(req, env, origin) {
   const windows = detailWindows(bookings);
 
   const slots = availabilities
+    .filter((a) => advanceBookableDay(a.start_at))
     .filter((a) => selfBookableDay(a.start_at))
     .filter((a) => slotAllowed(a.start_at, segmentsMinutes(a.appointment_segments) || 120, windows))
     .map((a) => a.start_at);
@@ -201,7 +210,7 @@ async function handleAvailability(req, env, origin) {
 }
 
 async function handleNextAvailability(env, origin) {
-  const cacheKey = new Request("https://sneaky-clean-booking.cache/next-availability");
+  const cacheKey = new Request("https://sneaky-clean-booking.cache/next-availability-v2");
   const cache = caches.default;
 
   try {
@@ -224,6 +233,7 @@ async function handleNextAvailability(env, origin) {
   const windows = detailWindows(bookings);
 
   const next = availabilities.find((a) =>
+    advanceBookableDay(a.start_at) &&
     selfBookableDay(a.start_at) &&
     slotAllowed(a.start_at, segmentsMinutes(a.appointment_segments) || 120, windows));
 
@@ -465,6 +475,8 @@ async function handleBook(req, env, origin) {
     return badInput("Missing or invalid startAt", origin);
   if (new Date(startAt) < new Date())
     return badInput("startAt must be in the future", origin);
+  if (!advanceBookableDay(startAt))
+    return badInput("Same-day online booking isn't available. Please choose tomorrow or later, or text 615-481-0464 about an urgent request.", origin);
   if (!c.name || typeof c.name !== "string" || c.name.trim().length < 2)
     return badInput("Please provide your full name", origin);
   if (c.name.length > MAX_NAME)
