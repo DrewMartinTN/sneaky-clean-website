@@ -466,6 +466,14 @@ function pageHtml(page) {
         <a href="../ceramic-coating-murfreesboro/">Ceramic coating</a> ·
         <a href="../motorcycle-detailing-murfreesboro/">Motorcycle detailing</a>
       </nav>
+      <nav aria-label="Sneaky Clean service areas">
+        <a href="../mobile-detailing-murfreesboro/">Murfreesboro</a> ·
+        <a href="../mobile-detailing-smyrna/">Smyrna</a> ·
+        <a href="../mobile-detailing-la-vergne/">La Vergne</a> ·
+        <a href="../mobile-detailing-nashville/">Nashville</a> ·
+        <a href="../mobile-detailing-franklin/">Franklin</a> ·
+        <a href="../mobile-detailing-brentwood/">Brentwood</a>
+      </nav>
       <a href="../host-a-pop-up/">Host a resident detailing pop-up</a>
       <a href="${PHONE_HREF}">${PHONE_DISPLAY}</a>
     </div>
