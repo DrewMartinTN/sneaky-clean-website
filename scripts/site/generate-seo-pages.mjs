@@ -348,6 +348,7 @@ function pageHtml(page) {
       <span>Sneaky Clean</span>
     </a>
     <nav class="nav" aria-label="Primary navigation">
+      <a class="nav__shop" href="../shop/">Shop</a>
       <a href="../#reviews">Reviews</a>
       <a href="../#evidence">Evidence</a>
       <a href="../#packages">Packages</a>
@@ -475,6 +476,7 @@ function pageHtml(page) {
         <a href="../mobile-detailing-brentwood/">Brentwood</a>
       </nav>
       <a href="../host-a-pop-up/">Host a resident detailing pop-up</a>
+      <a href="../shop/">Shop detailing supplies</a>
       <a href="${PHONE_HREF}">${PHONE_DISPLAY}</a>
     </div>
   </footer>
@@ -491,6 +493,7 @@ function sitemapXml() {
   const lastmod = new Date().toISOString().slice(0, 10);
   const urls = [
     { loc: `${BASE_URL}/` },
+    { loc: `${BASE_URL}/shop/` },
     { loc: `${BASE_URL}/host-a-pop-up/` },
     ...pages.map((page) => ({
       loc: `${BASE_URL}/${page.slug}/`,
@@ -519,4 +522,4 @@ for (const page of pages) {
 }
 
 await fs.writeFile(path.join(ROOT, "sitemap.xml"), sitemapXml());
-console.log(`Generated sitemap.xml with ${pages.length + 2} URLs`);
+console.log(`Generated sitemap.xml with ${pages.length + 3} URLs`);

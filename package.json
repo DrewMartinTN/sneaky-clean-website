@@ -9,6 +9,7 @@
     "dev:worker": "wrangler dev",
     "deploy:worker": "wrangler deploy",
     "site:generate": "node scripts/site/generate-seo-pages.mjs",
+    "site:check": "node scripts/site/check-shop.mjs",
     "images:prepare": "node scripts/images/prepare-images.mjs",
     "images:responsive": "node scripts/images/generate-responsive-site-images.mjs",
     "images:evidence": "node scripts/images/prepare-evidence-images.mjs",
