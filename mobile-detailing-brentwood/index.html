@@ -19,7 +19,7 @@
   <meta name="twitter:description" content="Mobile detailing in Brentwood, TN by appointment. Sneaky Clean comes to your home or office — details from $199, monthly plans for two-car garages.">
   <meta name="twitter:image" content="https://www.sneakycleantn.com/assets/images/work/case-03.webp">
   <link rel="preconnect" href="https://sneaky-clean-booking.drew-martin331.workers.dev">
-  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260908-mwf">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZBE3LNX5E"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -151,7 +151,7 @@
           "name": "Which days can I book online?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Live online booking runs Monday, Wednesday, and Saturday. For other days, text 615-481-0464 and we will check whether a rush slot fits the route."
+            "text": "Live online booking runs Monday, Wednesday, and Friday. Tuesday and Thursday are reserved for rush jobs; text 615-481-0464 and we will check whether a slot fits the route."
           }
         },
         {
@@ -319,7 +319,7 @@
           </article>
           <article>
             <h3>Which days can I book online?</h3>
-            <p>Live online booking runs Monday, Wednesday, and Saturday. For other days, text 615-481-0464 and we will check whether a rush slot fits the route.</p>
+            <p>Live online booking runs Monday, Wednesday, and Friday. Tuesday and Thursday are reserved for rush jobs; text 615-481-0464 and we will check whether a slot fits the route.</p>
           </article>
           <article>
             <h3>What does a mobile detail cost?</h3>
@@ -393,10 +393,11 @@
         <select id="tier"></select>
       </div>
 
-      <label for="date">Pick a Date <span class="optional">(tomorrow or later · Mon · Wed · Sat)</span></label>
-      <input type="date" id="date">
+      <label for="date">Pick a Date <span class="optional">(tomorrow or later · Mon · Wed · Fri)</span></label>
+      <select id="date" aria-describedby="booking-schedule"></select>
+      <p class="booking-schedule" id="booking-schedule">Tuesday &amp; Thursday are reserved for rush jobs. <a href="sms:+16154810464?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20to%20request%20a%20Tuesday%20or%20Thursday%20rush%20slot.">Text to request a rush slot</a>.</p>
 
-      <label>Available Times</label>
+      <label>Available Times <span class="optional">(Central Time)</span></label>
       <div class="slots" id="slots"><div class="empty">Choose a date to see times</div></div>
 
       <label for="name">Your Name</label>
@@ -424,6 +425,6 @@
   </nav>
 
   <script src="../assets/js/main.js" defer></script>
-  <script src="../assets/js/booking.js?v=20260826-no-same-day" defer></script>
+  <script src="../assets/js/booking.js?v=20260908-mwf" defer></script>
 </body>
 </html>

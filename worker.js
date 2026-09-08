@@ -21,9 +21,9 @@ const BUFFER_MINUTES = 60;
 const DETAIL_MIN_MINUTES = 60;
 const BOOKABLE_STATUSES = new Set(["PENDING", "ACCEPTED"]);
 const BUSINESS_TIME_ZONE = "America/Chicago";
-// Online self-booking days. Other days stay open for manual rush bookings
+// Online self-booking days. Tuesday and Thursday are reserved for rush bookings
 // placed directly in Square (they bypass this worker entirely).
-const SELF_BOOK_DAYS = new Set(["Mon", "Wed", "Sat"]);
+const SELF_BOOK_DAYS = new Set(["Mon", "Wed", "Fri"]);
 // Shortest mainline detail; used to find the next bookable opening.
 const NEXT_OPEN_VARIATION_ID = "BYS5Z5ZZU3IQ3SPMKWPSWOF4";
 const NEXT_OPEN_CACHE_SECONDS = 600;
@@ -210,7 +210,7 @@ async function handleAvailability(req, env, origin) {
 }
 
 async function handleNextAvailability(env, origin) {
-  const cacheKey = new Request("https://sneaky-clean-booking.cache/next-availability-v2");
+  const cacheKey = new Request("https://sneaky-clean-booking.cache/next-availability-v3-mwf");
   const cache = caches.default;
 
   try {
@@ -232,7 +232,7 @@ async function handleNextAvailability(env, origin) {
   ]);
   const windows = detailWindows(bookings);
 
-  const next = availabilities.find((a) =>
+  const next = availabilities.sort((a, b) => Date.parse(a.start_at) - Date.parse(b.start_at)).find((a) =>
     advanceBookableDay(a.start_at) &&
     selfBookableDay(a.start_at) &&
     slotAllowed(a.start_at, segmentsMinutes(a.appointment_segments) || 120, windows));
@@ -477,6 +477,8 @@ async function handleBook(req, env, origin) {
     return badInput("startAt must be in the future", origin);
   if (!advanceBookableDay(startAt))
     return badInput("Same-day online booking isn't available. Please choose tomorrow or later, or text 615-481-0464 about an urgent request.", origin);
+  if (!selfBookableDay(startAt))
+    return badInput("Online booking runs Monday, Wednesday, and Friday. Tuesday and Thursday are reserved for rush jobs; text 615-481-0464 to request a slot.", origin);
   if (!c.name || typeof c.name !== "string" || c.name.trim().length < 2)
     return badInput("Please provide your full name", origin);
   if (c.name.length > MAX_NAME)
@@ -493,14 +495,6 @@ async function handleBook(req, env, origin) {
   try {
     const variation = await getVariationInfo(env, serviceVariationId);
     if (!variation) return json({ error: "Service not found" }, 404, origin);
-
-    if (!selfBookableDay(startAt)) {
-      return json(
-        { error: "Online booking runs Monday, Wednesday, and Saturday. For other days, text 615-481-0464 about a rush slot." },
-        400,
-        origin,
-      );
-    }
 
     // Re-check the day cap and drive buffer at booking time: the slot list in
     // the customer's browser may be minutes old.

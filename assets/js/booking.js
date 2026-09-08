@@ -40,9 +40,9 @@ const el = (id) => document.getElementById(id);
 
 const SMS_LINK = 'sms:+16154810464?&body=Hi%20Sneaky%20Clean!%20I%20couldn%27t%20find%20a%20time%20online%20%E2%80%94%20can%20you%20fit%20me%20in%3F';
 const DIRECT_BOOK_KEYS = ["refresh", "reset"];
-const SELF_BOOK_DAYS = [1, 3, 6]; // Mon, Wed, Sat
-const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const SELF_BOOK_DAYS = [1, 3, 5]; // Mon, Wed, Fri
 const BUSINESS_TIME_ZONE = "America/Chicago";
+const IS_FILE_PREVIEW = location.protocol === "file:";
 
 const state = {
   serviceKey: null,
@@ -50,6 +50,7 @@ const state = {
   variationId: null,
   slot: null,
   nextOpenDate: null,
+  dateChosen: false,
 };
 
 const modal = el("booking-modal");
@@ -66,6 +67,7 @@ const focusableSelector = [
 let lastFocusedElement = null;
 let bodyOverflowBeforeModal = "";
 let bookingCloseTimer = null;
+let slotsRequest = 0;
 
 function businessDateKey(value = new Date()) {
   const parts = new Intl.DateTimeFormat("en-US", {
@@ -90,6 +92,57 @@ function addCalendarDays(dateKey, days) {
 
 function firstBookableDate() {
   return addCalendarDays(businessDateKey(), 1);
+}
+
+function bookableDate(date) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(date)
+    && date >= firstBookableDate()
+    && SELF_BOOK_DAYS.includes(new Date(`${date}T12:00:00Z`).getUTCDay());
+}
+
+// Resolve midnight in Tennessee, independent of the customer's time zone.
+function businessMidnight(date) {
+  const target = Date.parse(`${date}T00:00:00Z`);
+  let instant = target;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: BUSINESS_TIME_ZONE, year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23",
+    }).formatToParts(new Date(instant));
+    const values = Object.fromEntries(parts.map(({ type, value }) => [type, Number(value)]));
+    instant += target - Date.UTC(values.year, values.month - 1, values.day, values.hour, values.minute, values.second);
+  }
+  return new Date(instant).toISOString();
+}
+
+function populateDates(preferredDate) {
+  let select = el("date");
+  // Also repair a cached page containing the old unrestricted date input.
+  if (select.tagName !== "SELECT") {
+    const replacement = document.createElement("select");
+    replacement.id = "date";
+    select.replaceWith(replacement);
+    select = replacement;
+  }
+  select.innerHTML = "";
+  const first = firstBookableDate();
+  for (let day = 0; day < 56; day++) {
+    const date = addCalendarDays(first, day);
+    if (!bookableDate(date)) continue;
+    const option = document.createElement("option");
+    option.value = date;
+    option.textContent = new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
+      timeZone: "UTC", weekday: "long", month: "short", day: "numeric",
+    });
+    select.appendChild(option);
+  }
+  if (Array.from(select.options).some((option) => option.value === preferredDate)) select.value = preferredDate;
+  select.disabled = IS_FILE_PREVIEW;
+  select.onchange = () => { state.dateChosen = true; loadSlots(); };
+}
+
+function liveBookingLink() {
+  return `https://www.sneakycleantn.com/#sc-bookvar-${encodeURIComponent(state.variationId)}`;
 }
 
 function getFocusableElements() {
@@ -129,7 +182,7 @@ function handleModalKeydown(event) {
   }
 }
 
-function openBooking(serviceKey) {
+function openBooking(serviceKey, variationId, preferredDate) {
   const service = SERVICES[serviceKey];
   if (!service) return;
 
@@ -151,8 +204,9 @@ function openBooking(serviceKey) {
 
   state.serviceKey = serviceKey;
   state.service = service;
-  state.variationId = service.tiers[0].id;
+  state.variationId = service.tiers.some((tier) => tier.id === variationId) ? variationId : service.tiers[0].id;
   state.slot = null;
+  state.dateChosen = Boolean(preferredDate);
 
   el("booking-title").textContent = service.title;
   el("booking-subtitle").textContent = service.subtitle;
@@ -178,21 +232,14 @@ function openBooking(serviceKey) {
   });
 
   tierWrap.hidden = service.tiers.length <= 1;
-
-  const dateInput = el("date");
-  dateInput.min = firstBookableDate();
-  dateInput.value = "";
-  el("slots").innerHTML = '<div class="empty">Choose a date to see times</div>';
+  tier.value = state.variationId;
+  populateDates(preferredDate || state.nextOpenDate);
   el("message").className = "message";
   el("message").textContent = "";
   el("submit").disabled = true;
   el("submit").textContent = "Request Booking";
 
-  // Start on the next day with an opening so most customers never hunt.
-  if (state.nextOpenDate && state.nextOpenDate >= dateInput.min) {
-    dateInput.value = state.nextOpenDate;
-    loadSlots();
-  }
+  loadSlots();
 
   modal.classList.add("is-open");
   modal.setAttribute("aria-hidden", "false");
@@ -205,6 +252,9 @@ function openBooking(serviceKey) {
 
 function closeBooking() {
   if (!modal.classList.contains("is-open")) return;
+  slotsRequest++;
+  state.slot = null;
+  checkReady();
 
   if (bookingCloseTimer !== null) {
     clearTimeout(bookingCloseTimer);
@@ -227,32 +277,31 @@ function closeBooking() {
 }
 
 function formatSlot(iso) {
-  return new Date(iso).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  return new Date(iso).toLocaleTimeString("en-US", { timeZone: BUSINESS_TIME_ZONE, hour: "numeric", minute: "2-digit" });
 }
 
 function checkReady() {
   const phoneDigits = el("phone").value.replace(/\D/g, "");
-  const ready = state.slot && el("name").value.trim() && phoneDigits.length >= 10;
+  const ready = state.slot && bookableDate(el("date").value)
+    && businessDateKey(new Date(state.slot)) === el("date").value
+    && el("name").value.trim() && phoneDigits.length >= 10;
   el("submit").disabled = !ready;
 }
 
 async function loadSlots() {
+  const request = ++slotsRequest;
   const date = el("date").value;
-  if (!date) return;
+  const variationId = state.variationId;
 
   state.slot = null;
   checkReady();
 
-  if (date < firstBookableDate()) {
-    el("date").value = "";
-    el("slots").innerHTML = `<div class="empty">Same-day online booking isn't available. Please choose tomorrow or later, or <a href="${SMS_LINK}">text us about an urgent request</a>.</div>`;
+  if (IS_FILE_PREVIEW) {
+    el("slots").innerHTML = `<div class="empty"><a href="${liveBookingLink()}">Continue to live booking to see current openings</a>.</div>`;
     return;
   }
-
-  const chosenDay = new Date(`${date}T12:00:00`).getDay();
-  if (!SELF_BOOK_DAYS.includes(chosenDay)) {
-    const rushSms = `sms:+16154810464?&body=${encodeURIComponent(`Hi Sneaky Clean! Any chance of a rush detail on ${date}?`)}`;
-    el("slots").innerHTML = `<div class="empty">Online booking runs <strong>Mon, Wed & Sat</strong>. Need ${DAY_NAMES[chosenDay]}? <a href="${rushSms}">Text us about a rush slot</a> — we can usually make it happen.</div>`;
+  if (!bookableDate(date)) {
+    el("slots").innerHTML = `<div class="empty">Choose a future Monday, Wednesday, or Friday. Tuesday and Thursday are reserved for rush jobs: <a href="${SMS_LINK}">text us to request a slot</a>.</div>`;
     return;
   }
 
@@ -262,31 +311,33 @@ async function loadSlots() {
     const response = await fetch(`${WORKER_URL}/availability`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(15000),
       body: JSON.stringify({
-        serviceVariationId: state.variationId,
-        startAt: new Date(`${date}T00:00:00`).toISOString(),
-        endAt: new Date(`${date}T23:59:59`).toISOString(),
+        serviceVariationId: variationId,
+        startAt: businessMidnight(date),
+        endAt: new Date(Date.parse(businessMidnight(addCalendarDays(date, 1))) - 1).toISOString(),
       }),
     });
     const data = await response.json();
 
-    if (data.error) {
-      el("slots").innerHTML = '<div class="empty">Error loading times</div>';
-      return;
-    }
+    if (request !== slotsRequest) return;
+    if (!response.ok || data.error || !Array.isArray(data.slots)) throw new Error("Availability unavailable");
+    const slots = data.slots.filter((iso) => Number.isFinite(Date.parse(iso))
+      && businessDateKey(new Date(iso)) === date);
 
-    if (!data.slots || !data.slots.length) {
-      el("slots").innerHTML = `<div class="empty">That day is full. Try another date, or <a href="${SMS_LINK}">text us</a> and we'll fit you in.</div>`;
+    if (!slots.length) {
+      el("slots").innerHTML = `<div class="empty">No online openings for this service that day. Try another date, or <a href="${SMS_LINK}">text us about availability</a>.</div>`;
       return;
     }
 
     el("slots").innerHTML = "";
-    data.slots.forEach((iso) => {
+    slots.forEach((iso) => {
       const button = document.createElement("button");
       button.type = "button";
       button.textContent = formatSlot(iso);
       button.setAttribute("aria-pressed", "false");
       button.addEventListener("click", () => {
+        if (request !== slotsRequest) return;
         state.slot = iso;
         el("slots").querySelectorAll("button").forEach((slotButton) => {
           slotButton.classList.remove("selected");
@@ -299,13 +350,17 @@ async function loadSlots() {
       el("slots").appendChild(button);
     });
   } catch {
-    el("slots").innerHTML = '<div class="empty">Error loading times</div>';
+    if (request !== slotsRequest) return;
+    el("slots").innerHTML = `<div class="empty">We couldn't load live times. Try another date, or <a href="${SMS_LINK}">text 615-481-0464 for an opening</a>.</div>`;
   }
 }
 
 async function submitBooking() {
   const submit = el("submit");
   const message = el("message");
+  if (submit.disabled || IS_FILE_PREVIEW) return;
+  checkReady();
+  if (submit.disabled) return;
 
   submit.disabled = true;
   submit.textContent = "Requesting...";
@@ -354,31 +409,38 @@ async function submitBooking() {
 }
 
 function formatOpenDate(iso) {
-  return new Date(iso).toLocaleDateString([], { weekday: "long", month: "short", day: "numeric" });
+  return new Date(iso).toLocaleDateString("en-US", { timeZone: BUSINESS_TIME_ZONE, weekday: "long", month: "short", day: "numeric" });
 }
 
 async function initNextOpen() {
   const chip = document.getElementById("next-open");
+  const fallback = () => {
+    if (!chip) return;
+    const link = document.createElement("a");
+    link.href = IS_FILE_PREVIEW ? "https://www.sneakycleantn.com/#sc-book-reset" : SMS_LINK;
+    link.textContent = IS_FILE_PREVIEW ? "See live openings & book online" : "Text us for the next opening";
+    chip.replaceChildren(link);
+    chip.hidden = false;
+  };
+  if (IS_FILE_PREVIEW) { fallback(); return; }
   try {
-    const response = await fetch(`${WORKER_URL}/next-availability`);
+    const response = await fetch(`${WORKER_URL}/next-availability`, { signal: AbortSignal.timeout(15000) });
     const data = await response.json();
-    if (!data.nextSlot) return;
-
-    const slotDate = new Date(data.nextSlot);
-    state.nextOpenDate = [
-      slotDate.getFullYear(),
-      String(slotDate.getMonth() + 1).padStart(2, "0"),
-      String(slotDate.getDate()).padStart(2, "0"),
-    ].join("-");
-
-    if (state.nextOpenDate < firstBookableDate()) return;
+    if (!response.ok || !data.nextSlot || !Number.isFinite(Date.parse(data.nextSlot))) { fallback(); return; }
+    const date = businessDateKey(new Date(data.nextSlot));
+    if (!bookableDate(date)) { fallback(); return; }
+    state.nextOpenDate = date;
 
     if (chip) {
       chip.querySelector("strong").textContent = formatOpenDate(data.nextSlot);
       chip.hidden = false;
     }
+    if (modal.classList.contains("is-open") && !state.dateChosen && !state.slot && el("date").value !== date) {
+      populateDates(date);
+      loadSlots();
+    }
   } catch {
-    /* chip stays hidden */
+    fallback();
   }
 }
 
@@ -386,9 +448,7 @@ function openByVariation(variationId) {
   for (const [key, service] of Object.entries(SERVICES)) {
     const tier = service.tiers.find((item) => item.id === variationId);
     if (tier) {
-      openBooking(key);
-      el("tier").value = variationId;
-      state.variationId = variationId;
+      openBooking(key, variationId);
       return true;
     }
   }
@@ -428,13 +488,8 @@ el("service")?.addEventListener("change", (event) => {
   const key = event.target.value;
   if (!SERVICES[key] || key === state.serviceKey) return;
   const keepDate = el("date").value;
-  openBooking(key);
-  if (keepDate) {
-    el("date").value = keepDate;
-    loadSlots();
-  }
+  openBooking(key, undefined, keepDate);
 });
-el("date").addEventListener("change", loadSlots);
 ["name", "email", "phone"].forEach((id) => el(id).addEventListener("input", checkReady));
 el("submit").addEventListener("click", submitBooking);
 window.addEventListener("hashchange", checkHash);

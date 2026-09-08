@@ -1850,6 +1850,16 @@ h3 {
   font-size: 0.95rem;
 }
 
+.next-open[hidden] {
+  display: none;
+}
+
+.booking-schedule {
+  margin: 0.4rem 0 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
 .next-open strong {
   color: var(--teal);
   font-weight: 700;

@@ -121,10 +121,11 @@ function bookingModal() {
         <select id="tier"></select>
       </div>
 
-      <label for="date">Pick a Date <span class="optional">(tomorrow or later · Mon · Wed · Sat)</span></label>
-      <input type="date" id="date">
+      <label for="date">Pick a Date <span class="optional">(tomorrow or later · Mon · Wed · Fri)</span></label>
+      <select id="date" aria-describedby="booking-schedule"></select>
+      <p class="booking-schedule" id="booking-schedule">Tuesday &amp; Thursday are reserved for rush jobs. <a href="sms:+16154810464?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20to%20request%20a%20Tuesday%20or%20Thursday%20rush%20slot.">Text to request a rush slot</a>.</p>
 
-      <label>Available Times</label>
+      <label>Available Times <span class="optional">(Central Time)</span></label>
       <div class="slots" id="slots"><div class="empty">Choose a date to see times</div></div>
 
       <label for="name">Your Name</label>
@@ -331,7 +332,7 @@ function pageHtml(page) {
   <meta name="twitter:description" content="${escapeHtml(page.description)}">
   <meta name="twitter:image" content="${ogImage}">
   <link rel="preconnect" href="https://sneaky-clean-booking.drew-martin331.workers.dev">
-  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260908-mwf">
   <script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -481,7 +482,7 @@ function pageHtml(page) {
 ${bookingModal()}
 
   <script src="../assets/js/main.js" defer></script>
-  <script src="../assets/js/booking.js?v=20260826-no-same-day" defer></script>
+  <script src="../assets/js/booking.js?v=20260908-mwf" defer></script>
 </body>
 </html>
 `;

@@ -19,7 +19,7 @@
   <meta name="twitter:description" content="Mobile detailing in La Vergne, TN. Sneaky Clean comes to your apartment, driveway, or workplace. Refresh from $199, Full Reset from $299. Book online.">
   <meta name="twitter:image" content="https://www.sneakycleantn.com/assets/images/work/case-06.webp">
   <link rel="preconnect" href="https://sneaky-clean-booking.drew-martin331.workers.dev">
-  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/styles.css?v=20260908-mwf">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZBE3LNX5E"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -143,7 +143,7 @@
           "name": "What days can I book online in La Vergne?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Monday, Wednesday, and Saturday are the days with live times on the online calendar. If none of those fit, text 615-481-0464 and we will try to arrange a rush slot."
+            "text": "Monday, Wednesday, and Friday are the days with live times on the online calendar. Tuesday and Thursday are reserved for rush jobs; text 615-481-0464 to request a slot."
           }
         },
         {
@@ -206,7 +206,7 @@
           <a class="breadcrumb" href="../">Sneaky Clean / Mobile Detailing / La Vergne, TN</a>
           <p class="eyebrow">La Vergne Mobile Detailing</p>
           <h1>Mobile Detailing In La Vergne That Comes To Your Parking Spot</h1>
-          <p class="lead">We bring the detail to your apartment community, driveway, or workplace in La Vergne — no garage required, Saturdays included.</p>
+          <p class="lead">We bring the detail to your apartment community, driveway, or workplace in La Vergne — no garage required.</p>
           <p class="next-open" id="next-open" hidden>
             <span class="next-open__dot" aria-hidden="true"></span>
             Next opening: <strong></strong>
@@ -247,7 +247,7 @@
         </div>
         <ul class="seo-proof-list">
           <li>Comes to apartments, homes, and workplaces</li>
-              <li>Saturday openings bookable online</li>
+              <li>Monday, Wednesday, and Friday openings bookable online</li>
               <li>Refresh from $199 · Full Reset from $299</li>
               <li>5.0 Google rating</li>
         </ul>
@@ -266,7 +266,7 @@
           </article>
           <article class="seo-info-card">
             <h2>When can you actually come?</h2>
-            <p>Online booking shows live openings on Mondays, Wednesdays, and Saturdays — and Saturday earns its keep in a commuter town. Need another day? Text 615-481-0464 and we will try to line up a rush slot. For recurring care, choose Undercover at $99/month, Special Agent at $149/month, or Black Ops at $199/month. Memberships start with a one-time $199 initial deep clean, and additional-vehicle options are available.</p>
+            <p>Online booking shows live openings on Mondays, Wednesdays, and Fridays. Tuesday and Thursday are reserved for rush jobs; text 615-481-0464 to request a slot. For recurring care, choose Undercover at $99/month, Special Agent at $149/month, or Black Ops at $199/month. Memberships start with a one-time $199 initial deep clean, and additional-vehicle options are available.</p>
           </article>
       </div>
     </section>
@@ -315,7 +315,7 @@
         <div class="faq-grid">
           <article>
             <h3>What days can I book online in La Vergne?</h3>
-            <p>Monday, Wednesday, and Saturday are the days with live times on the online calendar. If none of those fit, text 615-481-0464 and we will try to arrange a rush slot.</p>
+            <p>Monday, Wednesday, and Friday are the days with live times on the online calendar. Tuesday and Thursday are reserved for rush jobs; text 615-481-0464 to request a slot.</p>
           </article>
           <article>
             <h3>How much does mobile detailing cost in La Vergne?</h3>
@@ -393,10 +393,11 @@
         <select id="tier"></select>
       </div>
 
-      <label for="date">Pick a Date <span class="optional">(tomorrow or later · Mon · Wed · Sat)</span></label>
-      <input type="date" id="date">
+      <label for="date">Pick a Date <span class="optional">(tomorrow or later · Mon · Wed · Fri)</span></label>
+      <select id="date" aria-describedby="booking-schedule"></select>
+      <p class="booking-schedule" id="booking-schedule">Tuesday &amp; Thursday are reserved for rush jobs. <a href="sms:+16154810464?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20to%20request%20a%20Tuesday%20or%20Thursday%20rush%20slot.">Text to request a rush slot</a>.</p>
 
-      <label>Available Times</label>
+      <label>Available Times <span class="optional">(Central Time)</span></label>
       <div class="slots" id="slots"><div class="empty">Choose a date to see times</div></div>
 
       <label for="name">Your Name</label>
@@ -424,6 +425,6 @@
   </nav>
 
   <script src="../assets/js/main.js" defer></script>
-  <script src="../assets/js/booking.js?v=20260826-no-same-day" defer></script>
+  <script src="../assets/js/booking.js?v=20260908-mwf" defer></script>
 </body>
 </html>
