@@ -476,9 +476,9 @@ async function handleBook(req, env, origin) {
   if (new Date(startAt) < new Date())
     return badInput("startAt must be in the future", origin);
   if (!advanceBookableDay(startAt))
-    return badInput("Same-day online booking isn't available. Please choose tomorrow or later, or text 615-481-0464 about an urgent request.", origin);
+    return badInput("Same-day online booking isn't available. Please choose tomorrow or later, or text (717) 870-9439 about an urgent request.", origin);
   if (!selfBookableDay(startAt))
-    return badInput("Online booking runs Monday, Wednesday, and Friday. Tuesday and Thursday are reserved for rush jobs; text 615-481-0464 to request a slot.", origin);
+    return badInput("Online booking runs Monday, Wednesday, and Friday. Tuesday and Thursday are reserved for rush jobs; text (717) 870-9439 to request a slot.", origin);
   if (!c.name || typeof c.name !== "string" || c.name.trim().length < 2)
     return badInput("Please provide your full name", origin);
   if (c.name.length > MAX_NAME)

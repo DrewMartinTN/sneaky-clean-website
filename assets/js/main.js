@@ -39,7 +39,7 @@
     link.addEventListener("click", () => {
       track("click_text_quote", {
         link_text: link.textContent.trim(),
-        phone_number: "+16154810464",
+        phone_number: "+17178709439",
       });
     });
   });

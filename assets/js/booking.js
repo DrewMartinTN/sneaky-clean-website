@@ -38,7 +38,7 @@ const SERVICES = {
 
 const el = (id) => document.getElementById(id);
 
-const SMS_LINK = 'sms:+16154810464?&body=Hi%20Sneaky%20Clean!%20I%20couldn%27t%20find%20a%20time%20online%20%E2%80%94%20can%20you%20fit%20me%20in%3F';
+const SMS_LINK = 'sms:+17178709439?&body=Hi%20Sneaky%20Clean!%20I%20couldn%27t%20find%20a%20time%20online%20%E2%80%94%20can%20you%20fit%20me%20in%3F';
 const DIRECT_BOOK_KEYS = ["refresh", "reset"];
 const SELF_BOOK_DAYS = [1, 3, 5]; // Mon, Wed, Fri
 const BUSINESS_TIME_ZONE = "America/Chicago";
@@ -351,7 +351,7 @@ async function loadSlots() {
     });
   } catch {
     if (request !== slotsRequest) return;
-    el("slots").innerHTML = `<div class="empty">We couldn't load live times. Try another date, or <a href="${SMS_LINK}">text 615-481-0464 for an opening</a>.</div>`;
+    el("slots").innerHTML = `<div class="empty">We couldn't load live times. Try another date, or <a href="${SMS_LINK}">text (717) 870-9439 for an opening</a>.</div>`;
   }
 }
 
@@ -402,7 +402,7 @@ async function submitBooking() {
     }, 3500);
   } catch {
     message.className = "message error";
-    message.innerHTML = `Something went wrong. Please try again, or <a href="${SMS_LINK}">text us at 615-481-0464</a>.`;
+    message.innerHTML = `Something went wrong. Please try again, or <a href="${SMS_LINK}">text us at (717) 870-9439</a>.`;
     submit.disabled = false;
     submit.textContent = "Request Booking";
   }

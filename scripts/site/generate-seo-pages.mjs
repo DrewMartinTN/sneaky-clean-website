@@ -4,7 +4,7 @@ import path from "node:path";
 const ROOT = process.cwd();
 const BASE_URL = "https://www.sneakycleantn.com";
 const PHONE_DISPLAY = "(717) 870-9439";
-const SMS_DISPLAY = "615-481-0464";
+const SMS_DISPLAY = "(717) 870-9439";
 const PHONE_HREF = "tel:+17178709439";
 const GA4_ID = "G-8ZBE3LNX5E";
 const GOOGLE_BUSINESS_URL = "https://share.google/ccDIurFU3rWaVM44L";
@@ -99,7 +99,7 @@ function hrefForPage(href) {
   return href;
 }
 
-const SMS_QUOTE_HREF = "sms:+16154810464?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20a%20quote%20for%20my%20vehicle.%20Photos%20coming.";
+const SMS_QUOTE_HREF = "sms:+17178709439?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20a%20quote%20for%20my%20vehicle.%20Photos%20coming.";
 
 function bookingModal() {
   return `
@@ -124,7 +124,7 @@ function bookingModal() {
 
       <label for="date">Pick a Date <span class="optional">(tomorrow or later · Mon · Wed · Fri)</span></label>
       <select id="date" aria-describedby="booking-schedule"></select>
-      <p class="booking-schedule" id="booking-schedule">Tuesday &amp; Thursday are reserved for rush jobs. <a href="sms:+16154810464?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20to%20request%20a%20Tuesday%20or%20Thursday%20rush%20slot.">Text to request a rush slot</a>.</p>
+      <p class="booking-schedule" id="booking-schedule">Tuesday &amp; Thursday are reserved for rush jobs. <a href="sms:+17178709439?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20to%20request%20a%20Tuesday%20or%20Thursday%20rush%20slot.">Text to request a rush slot</a>.</p>
 
       <label>Available Times <span class="optional">(Central Time)</span></label>
       <div class="slots" id="slots"><div class="empty">Choose a date to see times</div></div>
