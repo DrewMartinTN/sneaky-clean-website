@@ -19,7 +19,7 @@
     link.addEventListener("click", () => {
       track("click_call_now", {
         link_text: link.textContent.trim(),
-        phone_number: "+16154810464",
+        phone_number: link.getAttribute("href").slice(4),
       });
       trackAdsConversion(GOOGLE_ADS_CALL_LABEL);
     });

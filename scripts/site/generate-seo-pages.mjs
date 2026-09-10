@@ -3,8 +3,9 @@ import path from "node:path";
 
 const ROOT = process.cwd();
 const BASE_URL = "https://www.sneakycleantn.com";
-const PHONE_DISPLAY = "615-481-0464";
-const PHONE_HREF = "tel:+16154810464";
+const PHONE_DISPLAY = "(717) 870-9439";
+const SMS_DISPLAY = "615-481-0464";
+const PHONE_HREF = "tel:+17178709439";
 const GA4_ID = "G-8ZBE3LNX5E";
 const GOOGLE_BUSINESS_URL = "https://share.google/ccDIurFU3rWaVM44L";
 
@@ -164,7 +165,7 @@ function localBusinessSchema(page) {
         url: `${BASE_URL}/`,
         image: `${BASE_URL}/assets/images/og-image.jpg`,
         logo: `${BASE_URL}/assets/images/sneaky-clean-mascot.png`,
-        telephone: "+16154810464",
+        telephone: "+17178709439",
         priceRange: "$$",
         description:
           "Premium mobile auto detailing that comes to you in Murfreesboro, Smyrna, Nashville, and surrounding Middle Tennessee.",
@@ -376,7 +377,7 @@ function pageHtml(page) {
             <a class="button button--dark" href="${PHONE_HREF}">Call Now</a>
           </div>
           <p class="text-quote">
-            Prefer to text? <a href="${SMS_QUOTE_HREF}">Send a photo to ${PHONE_DISPLAY}</a> for a fast quote.
+            Prefer to text? <a href="${SMS_QUOTE_HREF}">Send a photo to ${SMS_DISPLAY}</a> for a fast quote.
           </p>
           <ul class="trust-list">
             <li>★★★★★ 5.0 Google Rating</li>
