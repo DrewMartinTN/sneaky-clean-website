@@ -101,7 +101,13 @@ function hrefForPage(href) {
 
 const SMS_QUOTE_HREF = "sms:+17178709439?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20a%20quote%20for%20my%20vehicle.%20Photos%20coming.";
 
-function bookingModal() {
+function bookingModal(page) {
+  if (page.quoteRequired) return `
+  <nav class="mobile-bar" aria-label="Quick actions">
+    <a href="${PHONE_HREF}">Call</a>
+    <a href="${escapeHtml(page.primaryHref)}">Text Photos</a>
+    <a class="mobile-bar__book" href="${escapeHtml(page.primaryHref)}">Get a Quote</a>
+  </nav>`;
   return `
   <div class="booking-modal" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-title">
     <div class="booking-modal__panel">
@@ -356,7 +362,7 @@ function pageHtml(page) {
       <a href="../#packages">Packages</a>
       <a href="../#membership">Membership</a>
       <a href="${PHONE_HREF}">${PHONE_DISPLAY}</a>
-      <a class="nav__cta" href="#sc-book-reset">Book Online</a>
+      <a class="nav__cta" href="${page.quoteRequired ? escapeHtml(page.primaryHref) : "#sc-book-reset"}">${page.quoteRequired ? "Get a Quote" : "Book Online"}</a>
     </nav>
   </header>
 
@@ -368,10 +374,10 @@ function pageHtml(page) {
           <p class="eyebrow">${escapeHtml(page.eyebrow)}</p>
           <h1>${escapeHtml(page.headline)}</h1>
           <p class="lead">${escapeHtml(page.lead)}</p>
-          <p class="next-open" id="next-open" hidden>
+${page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidden>
             <span class="next-open__dot" aria-hidden="true"></span>
             Next opening: <strong></strong>
-          </p>
+          </p>`}
           <div class="actions" aria-label="Primary actions">
             <a class="button" href="${escapeHtml(hrefForPage(page.primaryHref || "#sc-book-reset"))}">${escapeHtml(page.primaryCta)}</a>
             <a class="button button--dark" href="${PHONE_HREF}">Call Now</a>
@@ -449,12 +455,12 @@ function pageHtml(page) {
       <div class="wrap final-cta__panel">
         <div>
           <p class="eyebrow">Open Cases</p>
-          <h2 id="final-title">Ready to get on the schedule?</h2>
-          <p>Book online in about a minute, or text a photo for a quote. Sneaky Clean comes to you.</p>
+          <h2 id="final-title">${page.quoteRequired ? "Ready for your interior quote?" : "Ready to get on the schedule?"}</h2>
+          <p>${page.quoteRequired ? "Text interior photos and your vehicle details. We will review the condition and confirm pricing before scheduling." : "Book online in about a minute, or text a photo for a quote. Sneaky Clean comes to you."}</p>
         </div>
         <div class="actions">
           <a class="button" href="${escapeHtml(hrefForPage(page.primaryHref || "#sc-book-reset"))}">${escapeHtml(page.primaryCta)}</a>
-          <a class="button button--dark" href="${SMS_QUOTE_HREF}">Text a Photo</a>
+          <a class="button button--dark" href="${page.quoteRequired ? PHONE_HREF : SMS_QUOTE_HREF}">${page.quoteRequired ? "Call Now" : "Text a Photo"}</a>
         </div>
       </div>
     </section>
@@ -482,10 +488,10 @@ function pageHtml(page) {
       <a href="${PHONE_HREF}">${PHONE_DISPLAY}</a>
     </div>
   </footer>
-${bookingModal()}
+${bookingModal(page)}
 
   <script src="../assets/js/main.js" defer></script>
-  <script src="../assets/js/booking.js?v=20260908-mwf" defer></script>
+${page.quoteRequired ? "" : '  <script src="../assets/js/booking.js?v=20260908-mwf" defer></script>'}
 </body>
 </html>
 `;

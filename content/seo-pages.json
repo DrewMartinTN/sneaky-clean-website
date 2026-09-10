@@ -581,11 +581,11 @@
   {
     "slug": "interior-detailing-murfreesboro",
     "title": "Interior Detailing Murfreesboro TN | Sneaky Clean",
-    "description": "Interior detailing and full reset details in Murfreesboro, TN. Mobile service for daily drivers, family SUVs, stains, crumbs, and real-life messes.",
+    "description": "Mobile interior detailing in Murfreesboro, TN. Pricing varies by interior condition and the work required. Send photos for a custom quote.",
     "eyebrow": "Interior Detailing",
     "headline": "Interior Detailing For Real-Life Messes",
-    "lead": "Mobile interior detailing for daily drivers, family SUVs, stains, crumbs, and vehicles that need a reset without judgment.",
-    "primaryCta": "Book Full Reset",
+    "lead": "Mobile interior detailing for daily drivers and family vehicles. Pricing varies by the condition of your interior and the work it needs.",
+    "primaryCta": "Request Interior Quote",
     "secondaryCta": "Call Now",
     "heroImage": "assets/images/work/case-07.webp",
     "heroAlt": "Gray hatchback after interior and exterior detail",
@@ -593,21 +593,21 @@
     "caseText": "Daily driver \u00b7 Full Reset Detail",
     "serviceName": "Interior Detailing",
     "serviceArea": "Murfreesboro, TN",
-    "intro": "Interior detailing is where trust matters. Sneaky Clean handles daily-driver messes, family vehicles, stains, crumbs, and pet/kid evidence with a practical, judgment-free approach.",
+    "intro": "Every interior needs a different level of work. Interior Detail is a variable-price service based on the condition of your seats, carpets, surfaces and the cleaning required. Send interior photos so we can review the work and confirm your quote before scheduling.",
     "proof": [
-      "Full Reset Details from $299",
-      "Great for family vehicles and daily drivers",
-      "Photo review available for heavy messes",
+      "Price varies by interior condition",
+      "Interior-only service",
+      "Send photos for a custom quote",
       "Mobile service at your location"
     ],
     "sections": [
       {
-        "heading": "Who is a Full Reset Detail for?",
-        "body": "Customers do not need to apologize for a vehicle that looks lived in. That is exactly why interior detailing exists."
+        "heading": "What affects the price?",
+        "body": "The amount of cleaning required, staining, pet hair, debris and the condition of seats and carpets all affect the quote. We review your interior to price the work it needs."
       },
       {
-        "heading": "What does an interior reset change?",
-        "body": "The goal is simple: make the cabin cleaner, more comfortable, and easier to keep up with."
+        "heading": "How do I get an interior quote?",
+        "body": "Text photos of the seats, floors, mats and any problem areas, along with your vehicle year, make and model. We will discuss the work, price and timing with you before scheduling."
       }
     ],
     "gallery": [
@@ -629,22 +629,27 @@
     ],
     "faqs": [
       {
+        "question": "How much does Interior Detail cost?",
+        "answer": "Interior Detail has variable pricing. The price depends on the interior condition and the work required, so we provide a custom quote after reviewing your vehicle or photos."
+      },
+      {
         "question": "Can you handle family vehicle messes?",
-        "answer": "Yes. The Full Reset Detail is built for daily drivers and family vehicles that need deeper interior attention."
+        "answer": "Yes. Tell us about the mess and send photos of the areas that need attention so we can quote the work your interior needs."
       },
       {
         "question": "Do you need photos before interior detailing?",
-        "answer": "For heavy messes, stains, pet hair, or unusual conditions, photos help us recommend the right package or quote."
+        "answer": "Please send interior photos, especially of stains, pet hair, debris and problem areas, along with your vehicle year, make and model. We use these details to prepare your quote."
       },
       {
-        "question": "How long does a Full Reset Detail take?",
-        "answer": "A Full Reset Detail takes about 4 to 5 hours, depending on vehicle size."
+        "question": "How long does an interior detail take?",
+        "answer": "Timing depends on the condition of the interior and the cleaning required. We will discuss the expected time when preparing your quote."
       },
       {
         "question": "Do you come to my location?",
         "answer": "Yes. Sneaky Clean is mobile and serves Murfreesboro and surrounding Middle Tennessee areas."
       }
     ],
-    "primaryHref": "#sc-book-reset"
+    "primaryHref": "sms:+17178709439?&body=Hi%20Sneaky%20Clean%21%20I%27d%20like%20an%20interior-only%20detail%20quote.%20My%20vehicle%20is%20___.%20Interior%20photos%20and%20condition%20details%20to%20follow.",
+    "quoteRequired": true
   }
 ]
