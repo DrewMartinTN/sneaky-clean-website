@@ -233,6 +233,29 @@ GOOGLE_ADS_BOOKING_LABEL
 
 Then uncomment/add the matching `gtag('config', 'AW-...')` line in `index.html`.
 
+## Fleet / Commercial Inquiries
+
+The `/fleet-commercial/` page collects name, email, phone, location/address and up to
+10,000 characters of scope-of-work / vehicle details. Its navigation tab remains visible
+on mobile. Links are also included in service-page navigation and the sitemap generator.
+
+Submissions go directly to **sneakycleantn@gmail.com** through FormSubmit, using the
+activated public form ID `0887b6b01adb60894d676cd69fe2b7af`. The email subject is
+`New Fleet/Commercial Inquiry — Sneaky Clean`, and Reply-To is the customer's email.
+No Square booking or customer record is created by this form.
+
+`assets/js/fleet.js` submits without leaving the page, checks the provider's `success`
+value (including HTTP 200 failures), preserves answers on failure, and prevents duplicate
+clicks while sending. Without JavaScript, the native form submits through FormSubmit's
+confirmation flow and returns to `/fleet-commercial/thank-you.html`. A hidden honeypot
+is included; FormSubmit handles its own spam filtering.
+
+The recipient completed FormSubmit's one-time email activation on September 10, 2026.
+If the recipient or form ID changes, activate the replacement before publishing it.
+See [FormSubmit documentation](https://formsubmit.co/documentation).
+
+Run the focused form checks with `node --test tests/fleet.test.mjs`.
+
 ## Worker
 
 The Cloudflare Worker in `worker.js` handles Square availability and booking requests.

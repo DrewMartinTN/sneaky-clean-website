@@ -1,0 +1,127 @@
+.fleet-main {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr);
+  align-items: start;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  padding-block: clamp(2rem, 5vw, 4rem);
+}
+
+.fleet-intro h1 {
+  max-width: 10ch;
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  line-height: 1.03;
+}
+
+.fleet-intro .lead {
+  font-size: 1.2rem;
+}
+
+.fleet-contact {
+  display: grid;
+  gap: 0.6rem;
+  margin-block: 1.75rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--teal);
+}
+
+.fleet-contact p {
+  margin: 0;
+}
+
+.fleet-contact a {
+  width: fit-content;
+  color: var(--teal);
+  overflow-wrap: anywhere;
+}
+
+.fleet-contact a:hover {
+  text-decoration: underline;
+}
+
+.fleet-intro__image {
+  width: 100%;
+  height: 15rem;
+  object-fit: cover;
+  object-position: center 70%;
+  border: 1px solid var(--line);
+}
+
+.fleet-inquiry {
+  min-width: 0;
+}
+
+.fleet-page .nav a.nav__home {
+  display: inline-flex;
+}
+
+.fleet-page .popup-form {
+  border-top: 3px solid var(--teal);
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.fleet-page .popup-form__head h2 {
+  font-size: clamp(2rem, 3.2vw, 2.7rem);
+  line-height: 1.08;
+}
+
+.fleet-page .popup-form__head {
+  margin-bottom: 1.25rem;
+}
+
+.fleet-page .popup-field {
+  margin-bottom: 0.25rem;
+}
+
+.fleet-page .popup-field > span,
+.fleet-page .popup-field small,
+.fleet-form-note {
+  font-size: 0.875rem;
+}
+
+.fleet-page .popup-field small {
+  color: var(--muted);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.fleet-page .popup-field textarea {
+  min-height: 15rem;
+  line-height: 1.5;
+}
+
+.fleet-page .popup-form__status {
+  margin-top: 1rem;
+}
+
+.fleet-form-note {
+  margin: 0.85rem 0 0;
+  text-align: center;
+}
+
+.fleet-page [hidden] {
+  display: none !important;
+}
+
+.fleet-page .site-footer a {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 860px) {
+  .fleet-main {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .fleet-intro h1 {
+    max-width: 18ch;
+  }
+
+  .fleet-intro__image {
+    height: clamp(10rem, 30vw, 17rem);
+    margin-top: 1.5rem;
+  }
+
+  .fleet-contact {
+    margin-bottom: 0;
+  }
+}

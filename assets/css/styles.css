@@ -119,6 +119,7 @@ h3 {
 
 .nav {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
   gap: 0.35rem;
@@ -141,6 +142,16 @@ h3 {
   border: 1px solid rgba(219, 7, 88, 0.45);
   background: rgba(219, 7, 88, 0.14);
   color: #fff !important;
+}
+
+.nav__fleet {
+  white-space: nowrap;
+  color: var(--teal) !important;
+}
+
+.nav__fleet[aria-current="page"] {
+  border: 1px solid rgba(24, 225, 180, 0.3);
+  background: rgba(24, 225, 180, 0.08);
 }
 
 .hero {
@@ -1659,7 +1670,7 @@ h3 {
     display: none;
   }
 
-  .nav a:not(.nav__cta) {
+  .nav a:not(.nav__cta):not(.nav__fleet) {
     display: none;
   }
 
