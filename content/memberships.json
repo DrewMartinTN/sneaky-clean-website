@@ -1,0 +1,45 @@
+{
+  "currency": "USD",
+  "initialCleanPerVehicleCents": 19900,
+  "initialCleanDescription": "A separate initial interior and exterior deep clean is required for each vehicle before monthly membership service begins.",
+  "plans": [
+    {
+      "key": "undercover",
+      "name": "Undercover Agent",
+      "shortName": "Undercover",
+      "prices": { "1": 9900, "2": 17900 },
+      "discountPercent": 15,
+      "benefits": [
+        "Once a month: exterior wash, interior vacuum, interior wipe-down, and windows",
+        "15% off additional full details and upgrades"
+      ],
+      "description": "Maintenance care for vehicles that are already kept very clean. Allow about one hour per vehicle for each monthly cleaning."
+    },
+    {
+      "key": "special-agent",
+      "name": "Special Agent",
+      "shortName": "Special Agent",
+      "prices": { "1": 14900, "2": 26900 },
+      "discountPercent": 20,
+      "benefits": [
+        "Monthly Undercover cleaning: exterior wash, interior vacuum, interior wipe-down, and windows",
+        "One quarterly Refresh Detail, interior and exterior",
+        "20% off additional full details and upgrades"
+      ],
+      "description": "Monthly maintenance plus a quarterly Refresh Detail."
+    },
+    {
+      "key": "black-ops",
+      "name": "Black Ops",
+      "shortName": "Black Ops",
+      "prices": { "1": 19900, "2": 35900 },
+      "discountPercent": 30,
+      "benefits": [
+        "Your choice: Undercover cleaning every two weeks or one monthly deep clean",
+        "Includes the Special Agent quarterly Refresh Detail, interior and exterior",
+        "30% off additional full details and upgrades"
+      ],
+      "description": "Includes Special Agent benefits. Choose your regular care schedule: Undercover cleaning every two weeks or one monthly deep clean."
+    }
+  ]
+}

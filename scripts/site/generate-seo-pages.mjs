@@ -340,6 +340,7 @@ function pageHtml(page) {
   <meta name="twitter:image" content="${ogImage}">
   <link rel="preconnect" href="https://sneaky-clean-booking.drew-martin331.workers.dev">
   <link rel="stylesheet" href="../assets/css/styles.css?v=20260908-mwf">
+  <link rel="stylesheet" href="../assets/css/memberships.css?v=20260916">
   <script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -491,7 +492,7 @@ ${page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidde
 ${bookingModal(page)}
 
   <script src="../assets/js/main.js" defer></script>
-${page.quoteRequired ? "" : '  <script src="../assets/js/booking.js?v=20260908-mwf" defer></script>'}
+${page.quoteRequired ? "" : '  <script src="../assets/js/membership-data.js?v=20260916" defer></script>\n  <script src="../assets/js/booking.js?v=20260916-memberships" defer></script>'}
 </body>
 </html>
 `;

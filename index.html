@@ -25,6 +25,7 @@
         imagesrcset="assets/images/work/case-04-640.avif 640w, assets/images/work/case-04-960.avif 960w, assets/images/work/case-04-1200.avif 1200w"
         imagesizes="(max-width: 860px) 100vw, 42vw">
   <link rel="stylesheet" href="assets/css/styles.css?v=20260908-mwf">
+  <link rel="stylesheet" href="assets/css/memberships.css?v=20260916">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZBE3LNX5E"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -197,7 +198,7 @@
               "name": "What monthly memberships do you offer?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Undercover is $99/month for monthly maintenance cleaning. Special Agent is $149/month and adds one quarterly full interior and exterior detail. Black Ops is $199/month and includes the Special Agent package with a choice of cleaning every two weeks or one monthly deep clean. Every membership starts with a one-time $199 initial interior and exterior deep clean. Additional-vehicle options are available. Text or call (717) 870-9439 to get started."
+                "text": "Undercover Agent: $99/month for 1 vehicle or $179/month for 2. Once a month: exterior wash, interior vacuum, interior wipe-down, and windows; 15% off additional full details and upgrades. Special Agent: $149/month for 1 vehicle or $269/month for 2. Monthly Undercover cleaning: exterior wash, interior vacuum, interior wipe-down, and windows; One quarterly Refresh Detail, interior and exterior; 20% off additional full details and upgrades. Black Ops: $199/month for 1 vehicle or $359/month for 2. Your choice: Undercover cleaning every two weeks or one monthly deep clean; Includes the Special Agent quarterly Refresh Detail, interior and exterior; 30% off additional full details and upgrades. Each vehicle requires a separate $199 initial deep clean ($398 for two). Book each initial clean online; recurring billing is set up separately in Square after the initial clean."
               }
             }
           ]
@@ -467,57 +468,69 @@
       <div class="wrap membership__panel membership__panel--tiers">
         <div class="membership__intro">
           <div class="membership__copy">
-            <p class="eyebrow">Same high standards. All the time.</p>
+            <p class="eyebrow">Choose your clearance level</p>
             <h2 id="membership-title">Monthly car-care memberships.</h2>
-            <p>We do the dirty work so you don’t have to. Start with a deep clean, then keep your vehicle looking its best with consistent professional care at your home, office, or approved business location.</p>
+            <p>Consistent professional care at your home, office, or approved business location. Choose your membership, add one or two vehicles, and start with an interior and exterior deep clean.</p>
             <ul class="membership-perks">
-              <li>Priority scheduling</li>
-              <li>Member-only pricing on upgrades</li>
-              <li>Multi-vehicle options available</li>
+              <li>One- and two-vehicle monthly plans</li>
+              <li>Benefits for each enrolled vehicle</li>
+              <li>15–30% off additional details and upgrades</li>
             </ul>
           </div>
           <aside class="membership-start" aria-labelledby="membership-start-title">
-            <p class="eyebrow">Every membership starts with a reset</p>
+            <p class="eyebrow">Every vehicle starts with a reset</p>
             <h3 id="membership-start-title">Initial deep clean</h3>
-            <p class="membership-start__price">$199</p>
-            <p class="membership-start__note">One-time initial payment, before your monthly membership.</p>
-            <p>A complete interior + exterior detail to bring your vehicle to membership standard. A fresh start, inside and out.</p>
-            <a class="button" href="sms:+17178709439?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20to%20book%20the%20initial%20deep%20clean%20and%20start%20a%20monthly%20membership.">Book Your Initial Deep Clean</a>
+            <p class="membership-start__price">$199 <span>per vehicle</span></p>
+            <p class="membership-start__note">Separate one-time charge before monthly care. Two vehicles: $398 total.</p>
+            <p>A complete interior and exterior deep clean to bring each vehicle to membership standard. Schedule a separate appointment for each vehicle.</p>
+            <a class="button" href="#sc-book-membership">Book an Initial Clean</a>
           </aside>
         </div>
         <div class="membership-tiers" aria-label="Monthly membership pricing">
           <article class="membership-tier membership-tier--undercover" aria-labelledby="undercover-title">
-            <p class="membership-tier__label">Clean habits. Stay undercover.</p>
-            <h3 id="undercover-title">Undercover</h3>
-            <p class="membership-tier__price"><strong>$99</strong><span>/month</span></p>
+            <p class="membership-tier__label">For already well-kept vehicles</p>
+            <h3 id="undercover-title">Undercover Agent</h3>
+            <div class="membership-prices" aria-label="Undercover Agent monthly pricing">
+              <p><span>1 vehicle</span><strong>$99<small>/mo</small></strong></p>
+              <p><span>2 vehicles</span><strong>$179<small>/mo</small></strong></p>
+            </div>
             <ul class="membership-tier__features">
-              <li>Monthly maintenance cleaning</li>
-              <li>Keep your car looking and feeling great</li>
+              <li>Once a month: exterior wash, interior vacuum, interior wipe-down, and windows</li>
+              <li>15% off additional full details and upgrades</li>
+              <li>About one hour per vehicle for monthly maintenance</li>
             </ul>
-            <a class="button button--dark" href="sms:+17178709439?&amp;body=Hi%20Sneaky%20Clean!%20I%27m%20interested%20in%20the%20Undercover%20membership%20and%20initial%20deep%20clean.">Ask About Undercover</a>
+            <a class="button button--dark" href="#sc-membership-undercover">Choose Undercover</a>
           </article>
           <article class="membership-tier membership-tier--special-agent" aria-labelledby="special-agent-title">
             <p class="membership-tier__label membership-tier__label--popular">Most popular</p>
             <h3 id="special-agent-title">Special Agent</h3>
-            <p class="membership-tier__price"><strong>$149</strong><span>/month</span></p>
+            <div class="membership-prices" aria-label="Special Agent monthly pricing">
+              <p><span>1 vehicle</span><strong>$149<small>/mo</small></strong></p>
+              <p><span>2 vehicles</span><strong>$269<small>/mo</small></strong></p>
+            </div>
             <ul class="membership-tier__features">
-              <li>Everything in Undercover, including monthly maintenance cleaning</li>
-              <li>1 quarterly full detail: interior + exterior</li>
+              <li>Monthly Undercover cleaning: exterior wash, interior vacuum, interior wipe-down, and windows</li>
+              <li>One quarterly Refresh Detail, interior and exterior</li>
+              <li>20% off additional full details and upgrades</li>
             </ul>
-            <a class="button button--dark" href="sms:+17178709439?&amp;body=Hi%20Sneaky%20Clean!%20I%27m%20interested%20in%20the%20Special%20Agent%20membership%20and%20initial%20deep%20clean.">Ask About Special Agent</a>
+            <a class="button button--dark" href="#sc-membership-special-agent">Choose Special Agent</a>
           </article>
           <article class="membership-tier membership-tier--black-ops" aria-labelledby="black-ops-title">
             <p class="membership-tier__label membership-tier__label--value">Best value</p>
             <h3 id="black-ops-title">Black Ops</h3>
-            <p class="membership-tier__price"><strong>$199</strong><span>/month</span></p>
+            <div class="membership-prices" aria-label="Black Ops monthly pricing">
+              <p><span>1 vehicle</span><strong>$199<small>/mo</small></strong></p>
+              <p><span>2 vehicles</span><strong>$359<small>/mo</small></strong></p>
+            </div>
             <ul class="membership-tier__features">
-              <li>Special Agent package, including monthly maintenance cleaning + a quarterly detail</li>
-              <li>Your choice: cleaning every two weeks or 1 monthly deep clean</li>
+              <li>Your choice: Undercover cleaning every two weeks or one monthly deep clean</li>
+              <li>Includes the Special Agent quarterly Refresh Detail, interior and exterior</li>
+              <li>30% off additional full details and upgrades</li>
             </ul>
-            <a class="button button--dark" href="sms:+17178709439?&amp;body=Hi%20Sneaky%20Clean!%20I%27m%20interested%20in%20the%20Black%20Ops%20membership%20and%20initial%20deep%20clean.">Ask About Black Ops</a>
+            <a class="button button--dark" href="#sc-membership-black-ops">Choose Black Ops</a>
           </article>
         </div>
-        <p class="membership__footer">Multi-vehicle households and additional-vehicle options available. Text <a href="sms:+17178709439">(717) 870-9439</a> or call <a href="tel:+17178709439">(717) 870-9439</a> to find your fit.</p>
+        <p class="membership__footer">Choose a plan to book your initial clean. No payment is taken with the appointment request; monthly billing is set up separately in Square after the initial clean.</p>
       </div>
     </section>
 
@@ -608,7 +621,7 @@
           </article>
           <article>
             <h3>What monthly memberships do you offer?</h3>
-            <p><a href="#membership">Undercover</a> is $99/month for monthly maintenance cleaning. Special Agent is $149/month and adds one quarterly full interior + exterior detail. Black Ops is $199/month and includes the Special Agent package with a choice of cleaning every two weeks or one monthly deep clean. Every membership starts with a one-time $199 initial interior + exterior deep clean. Additional-vehicle options are available. Text <a href="sms:+17178709439">(717) 870-9439</a> or call <a href="tel:+17178709439">(717) 870-9439</a> to get started.</p>
+            <p>Undercover Agent: $99/month for 1 vehicle or $179/month for 2. Once a month: exterior wash, interior vacuum, interior wipe-down, and windows; 15% off additional full details and upgrades. Special Agent: $149/month for 1 vehicle or $269/month for 2. Monthly Undercover cleaning: exterior wash, interior vacuum, interior wipe-down, and windows; One quarterly Refresh Detail, interior and exterior; 20% off additional full details and upgrades. Black Ops: $199/month for 1 vehicle or $359/month for 2. Your choice: Undercover cleaning every two weeks or one monthly deep clean; Includes the Special Agent quarterly Refresh Detail, interior and exterior; 30% off additional full details and upgrades. Each vehicle requires a separate $199 initial deep clean ($398 for two). Book each initial clean online; recurring billing is set up separately in Square after the initial clean.</p>
           </article>
         </div>
       </div>
@@ -703,6 +716,7 @@
   </nav>
 
   <script src="assets/js/main.js" defer></script>
-  <script src="assets/js/booking.js?v=20260908-mwf" defer></script>
+  <script src="assets/js/membership-data.js?v=20260916" defer></script>
+  <script src="assets/js/booking.js?v=20260916-memberships" defer></script>
 </body>
 </html>

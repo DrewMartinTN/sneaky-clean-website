@@ -1,0 +1,14 @@
+/* Membership prices and the initial-clean booking selection. */
+.membership-prices { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin-bottom: 1rem; }
+.membership-prices p { margin: 0; display: grid; gap: .4rem; }
+.membership-prices p + p { border-left: 1px solid var(--line); padding-left: .7rem; }
+.membership-prices span { color: var(--muted); font-size: .85rem; }
+.membership-prices strong { font-size: clamp(1.65rem, 2.6vw, 2.5rem); line-height: 1.2; color: var(--cream); letter-spacing: -.04em; white-space: nowrap; }
+.membership-prices small { font-size: .8rem; font-weight: 400; letter-spacing: 0; margin-left: .15rem; }
+.membership-start__price span { font-size: 1rem; letter-spacing: 0; display: inline-block; }
+.booking-membership { margin: 1rem 0; padding: 1rem; border: 1px solid var(--line); border-radius: .75rem; min-width: 0; }
+.booking-membership[hidden], .booking-membership [hidden] { display: none; }
+.booking-membership legend { font-weight: 700; padding: 0 .35rem; }
+.booking-membership__benefits { color: var(--muted); font-size: .9rem; line-height: 1.5; margin: 1rem 0 .7rem; }
+.booking-membership__summary { color: var(--cream); background: rgba(24,225,180,.08); padding: .8rem; border-radius: .5rem; line-height: 1.5; font-size: .95rem; margin: 0; }
+.membership-next-vehicle { display: block; margin: 1rem 0 0; padding: .8rem; border: 1px solid currentColor; border-radius: .5rem; background: transparent; color: inherit; font: inherit; cursor: pointer; }

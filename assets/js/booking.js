@@ -37,9 +37,20 @@ const SERVICES = {
 };
 
 const el = (id) => document.getElementById(id);
+const MEMBERSHIPS = globalThis.SneakyCleanMemberships;
+if (MEMBERSHIPS) {
+  SERVICES.membership = {
+    title: "Start Your Membership",
+    subtitle: "Choose your membership and book the initial deep clean for one vehicle.",
+    tiers: MEMBERSHIPS.square.initialClean.variations.map((v) => ({
+      id: v.id,
+      label: `${v.name} — $${v.priceCents / 100} initial clean (${v.durationMinutes / 60}h)`,
+    })),
+  };
+}
 
 const SMS_LINK = 'sms:+17178709439?&body=Hi%20Sneaky%20Clean!%20I%20couldn%27t%20find%20a%20time%20online%20%E2%80%94%20can%20you%20fit%20me%20in%3F';
-const DIRECT_BOOK_KEYS = ["refresh", "reset"];
+const DIRECT_BOOK_KEYS = ["refresh", "reset", "membership"];
 const SELF_BOOK_DAYS = [1, 3, 5]; // Mon, Wed, Fri
 const BUSINESS_TIME_ZONE = "America/Chicago";
 const IS_FILE_PREVIEW = location.protocol === "file:";
@@ -51,6 +62,12 @@ const state = {
   slot: null,
   nextOpenDate: null,
   dateChosen: false,
+  membershipPlan: "undercover",
+  membershipVehicles: "1",
+  membershipVehicle: "1",
+  membershipSchedule: "every-two-weeks",
+  membershipBookedVehicles: [],
+  submitting: false,
 };
 
 const modal = el("booking-modal");
@@ -183,10 +200,12 @@ function handleModalKeydown(event) {
 }
 
 function openBooking(serviceKey, variationId, preferredDate) {
+  if (state.submitting) return;
   const service = SERVICES[serviceKey];
   if (!service) return;
 
   const wasOpen = modal.classList.contains("is-open");
+  if (!wasOpen && serviceKey === "membership") state.membershipBookedVehicles = [];
   if (bookingCloseTimer !== null) {
     clearTimeout(bookingCloseTimer);
     bookingCloseTimer = null;
@@ -210,6 +229,7 @@ function openBooking(serviceKey, variationId, preferredDate) {
 
   el("booking-title").textContent = service.title;
   el("booking-subtitle").textContent = service.subtitle;
+  updateMembershipFields();
 
   // Older cached pages may lack the service dropdown; degrade gracefully.
   const serviceWrap = el("service-wrap");
@@ -237,7 +257,7 @@ function openBooking(serviceKey, variationId, preferredDate) {
   el("message").className = "message";
   el("message").textContent = "";
   el("submit").disabled = true;
-  el("submit").textContent = "Request Booking";
+  el("submit").textContent = bookingButtonLabel();
 
   loadSlots();
 
@@ -251,6 +271,7 @@ function openBooking(serviceKey, variationId, preferredDate) {
 }
 
 function closeBooking() {
+  if (state.submitting) return;
   if (!modal.classList.contains("is-open")) return;
   slotsRequest++;
   state.slot = null;
@@ -265,7 +286,7 @@ function closeBooking() {
   modal.setAttribute("aria-hidden", "true");
   document.body.style.overflow = bodyOverflowBeforeModal;
 
-  if (/^#sc-book(var)?-/.test(location.hash)) {
+  if (/^#sc-(book(var)?-|membership-)/.test(location.hash)) {
     history.replaceState(null, "", location.pathname + location.search);
   }
 
@@ -284,8 +305,93 @@ function checkReady() {
   const phoneDigits = el("phone").value.replace(/\D/g, "");
   const ready = state.slot && bookableDate(el("date").value)
     && businessDateKey(new Date(state.slot)) === el("date").value
-    && el("name").value.trim() && phoneDigits.length >= 10;
-  el("submit").disabled = !ready;
+    && el("name").value.trim() && phoneDigits.length >= 10
+    && (state.serviceKey !== "membership" || el("notes").value.trim().length >= 5);
+  el("submit").disabled = !ready || state.submitting;
+}
+
+function bookingButtonLabel() {
+  return state.serviceKey === "membership" ? "Request Initial Clean" : "Request Booking";
+}
+
+function membershipSelection() {
+  const plan = MEMBERSHIPS?.plans.find((p) => p.key === state.membershipPlan);
+  if (!plan || !["1", "2"].includes(state.membershipVehicles)) return null;
+  return { plan, count: Number(state.membershipVehicles), price: plan.prices[state.membershipVehicles] / 100 };
+}
+
+function updateMembershipFields() {
+  const fields = el("membership-fields");
+  if (!fields || !MEMBERSHIPS) return;
+  const isMembership = state.serviceKey === "membership";
+  fields.hidden = !isMembership;
+  const bookingNote = modalPanel.querySelector(".booking-modal__note");
+  if (bookingNote) bookingNote.textContent = isMembership
+    ? "No payment today. We confirm your initial clean by text. Monthly billing is set up separately in Square after the initial clean."
+    : "No payment today. We confirm by text, usually within the hour.";
+  if (!isMembership) return;
+  const { plan, count, price } = membershipSelection();
+  el("membership-plan").value = plan.key;
+  el("membership-vehicles").value = String(count);
+  el("membership-vehicle-wrap").hidden = count !== 2;
+  if (count === 1) state.membershipVehicle = "1";
+  el("membership-vehicle").value = state.membershipVehicle;
+  el("membership-schedule-wrap").hidden = plan.key !== "black-ops";
+  el("membership-schedule").value = state.membershipSchedule;
+  el("membership-benefits").textContent = plan.benefits.join(". ") + ".";
+  el("membership-summary").textContent = `${plan.name}: $${price}/month for ${count} ${count === 1 ? "vehicle" : "vehicles"}. Separate initial clean: $199 per vehicle${count === 2 ? " ($398 total; book one appointment per vehicle)" : ""}. This appointment is $199 for vehicle ${state.membershipVehicle}.`;
+}
+
+function bookingNotes() {
+  const notes = el("notes").value.trim();
+  if (state.serviceKey !== "membership") return notes;
+  const { plan, count, price } = membershipSelection();
+  const schedule = state.membershipSchedule === "monthly-deep-clean" ? "One monthly deep clean" : "Undercover cleaning every two weeks";
+  return [
+    `MEMBERSHIP INITIAL CLEAN — ${plan.name}`,
+    `Selected membership: ${count} vehicle(s), $${price}/month.`,
+    `This appointment: vehicle ${state.membershipVehicle} of ${count}; $199 initial clean. Total initial cleans: $${199 * count}.`,
+    ...(plan.key === "black-ops" ? [`Black Ops care choice: ${schedule}.`] : []),
+    `Benefits: ${plan.benefits.join("; ")}.`,
+    "Membership enrollment and recurring billing are pending; this appointment request does not activate a subscription.",
+    notes,
+  ].join("\n");
+}
+
+function initMembershipBooking() {
+  if (!MEMBERSHIPS || el("membership-fields")) return;
+  const fields = document.createElement("fieldset");
+  fields.id = "membership-fields";
+  fields.className = "booking-membership";
+  fields.hidden = true;
+  fields.innerHTML = `
+    <legend>Membership selection</legend>
+    <label for="membership-plan">Membership</label>
+    <select id="membership-plan"></select>
+    <label for="membership-vehicles">Vehicles in your membership</label>
+    <select id="membership-vehicles"><option value="1">1 vehicle</option><option value="2">2 vehicles</option></select>
+    <div id="membership-vehicle-wrap" hidden><label for="membership-vehicle">Vehicle for this initial-clean appointment</label>
+      <select id="membership-vehicle"><option value="1">Vehicle 1</option><option value="2">Vehicle 2</option></select></div>
+    <div id="membership-schedule-wrap" hidden><label for="membership-schedule">Black Ops care schedule</label>
+      <select id="membership-schedule"><option value="every-two-weeks">Undercover cleaning every two weeks</option><option value="monthly-deep-clean">One monthly deep clean</option></select></div>
+    <p id="membership-benefits" class="booking-membership__benefits"></p>
+    <p id="membership-summary" class="booking-membership__summary" aria-live="polite"></p>`;
+  modalPanel.insertBefore(fields, el("tier-wrap"));
+  MEMBERSHIPS.plans.forEach(plan => {
+    const option = document.createElement("option"); option.value = plan.key; option.textContent = plan.name;
+    el("membership-plan").appendChild(option);
+  });
+  for (const [id, key] of [["membership-plan", "membershipPlan"], ["membership-vehicles", "membershipVehicles"], ["membership-vehicle", "membershipVehicle"], ["membership-schedule", "membershipSchedule"]]) {
+    el(id).addEventListener("change", event => {
+      state[key] = event.target.value;
+      if (key === "membershipPlan" || key === "membershipVehicles") state.membershipBookedVehicles = [];
+      updateMembershipFields();
+    });
+  }
+  if (el("service")) {
+    const option = document.createElement("option"); option.value = "membership";
+    option.textContent = "Start a Membership — $199 initial clean per vehicle"; el("service").appendChild(option);
+  }
 }
 
 async function loadSlots() {
@@ -361,7 +467,16 @@ async function submitBooking() {
   if (submit.disabled || IS_FILE_PREVIEW) return;
   checkReady();
   if (submit.disabled) return;
+  const notes = bookingNotes();
+  if (notes.length > 2000) {
+    message.className = "message error";
+    message.textContent = "Please shorten your vehicle and address notes, then try again.";
+    return;
+  }
 
+  const membership = state.serviceKey === "membership";
+  state.submitting = true;
+  el("membership-fields")?.setAttribute("disabled", "");
   submit.disabled = true;
   submit.textContent = "Requesting...";
   message.className = "message";
@@ -379,23 +494,42 @@ async function submitBooking() {
           email: el("email").value.trim(),
           phone: el("phone").value.trim(),
         },
-        notes: el("notes").value.trim(),
+        notes,
       }),
     });
 
     const data = await response.json();
-    if (data.error) {
+    if (!response.ok || data.error || !data.bookingId) {
       message.className = "message error";
-      message.textContent = data.error;
+      message.textContent = data.error || "We couldn't confirm that request. Please try again.";
       submit.disabled = false;
-      submit.textContent = "Request Booking";
+      submit.textContent = bookingButtonLabel();
       return;
     }
 
     message.className = "message success";
-    message.textContent = "You're on the list! We'll text you shortly to confirm your spot.";
+    message.textContent = membership
+      ? "Initial clean requested. We'll text to confirm your appointment and arrange monthly membership enrollment separately."
+      : "You're on the list! We'll text you shortly to confirm your spot.";
+    state.slot = null;
     submit.textContent = "Done";
     window.dispatchEvent(new CustomEvent("sneakyclean:booking-submitted"));
+    if (membership) {
+      state.membershipBookedVehicles.push(state.membershipVehicle);
+      const otherVehicle = ["1", "2"].find(vehicle => !state.membershipBookedVehicles.includes(vehicle));
+      if (state.membershipVehicles === "2" && otherVehicle) {
+        const next = document.createElement("button");
+        next.type = "button"; next.className = "membership-next-vehicle";
+        next.textContent = `Book initial clean for vehicle ${otherVehicle}`;
+        next.addEventListener("click", () => {
+          state.membershipVehicle = otherVehicle;
+          el("notes").value = "";
+          openBooking("membership");
+        });
+        message.appendChild(next);
+      }
+      return;
+    }
     bookingCloseTimer = setTimeout(() => {
       bookingCloseTimer = null;
       closeBooking();
@@ -404,7 +538,11 @@ async function submitBooking() {
     message.className = "message error";
     message.innerHTML = `Something went wrong. Please try again, or <a href="${SMS_LINK}">text us at (717) 870-9439</a>.`;
     submit.disabled = false;
-    submit.textContent = "Request Booking";
+    submit.textContent = bookingButtonLabel();
+  } finally {
+    state.submitting = false;
+    el("membership-fields")?.removeAttribute("disabled");
+    checkReady();
   }
 }
 
@@ -457,6 +595,15 @@ function openByVariation(variationId) {
 
 function checkHash() {
   const hash = location.hash || "";
+  const membershipMatch = hash.match(/^#sc-membership-(undercover|special-agent|black-ops)(?:-([12]))?$/);
+  if (membershipMatch && MEMBERSHIPS) {
+    state.membershipPlan = membershipMatch[1];
+    state.membershipVehicles = membershipMatch[2] || "1";
+    state.membershipVehicle = "1";
+    state.membershipBookedVehicles = [];
+    openBooking("membership");
+    return;
+  }
   const bookMatch = hash.match(/^#sc-book-(.+)$/);
   if (bookMatch && SERVICES[bookMatch[1]]) {
     openBooking(bookMatch[1]);
@@ -468,6 +615,7 @@ function checkHash() {
 }
 
 modal.setAttribute("aria-hidden", "true");
+initMembershipBooking();
 modal.setAttribute("aria-describedby", "booking-subtitle");
 modalPanel.setAttribute("tabindex", "-1");
 el("message").setAttribute("aria-live", "polite");
@@ -490,7 +638,7 @@ el("service")?.addEventListener("change", (event) => {
   const keepDate = el("date").value;
   openBooking(key, undefined, keepDate);
 });
-["name", "email", "phone"].forEach((id) => el(id).addEventListener("input", checkReady));
+["name", "email", "phone", "notes"].forEach((id) => el(id).addEventListener("input", checkReady));
 el("submit").addEventListener("click", submitBooking);
 window.addEventListener("hashchange", checkHash);
 

@@ -68,26 +68,101 @@ class Element {
   appendChild(child) { this.children.push(child); if (this.tagName === 'SELECT' && this.children.length === 1) this.value = child.value; }
   replaceChildren(...children) { this.children = children; }
   setAttribute() {}
+  removeAttribute() {}
   addEventListener(name, fn) { this.handlers[name] = fn; }
   querySelector() { return this.part ||= new Element(); }
   querySelectorAll() { return this.children; }
   contains() { return false; }
   focus() {}
 }
-function frontend(fetch, protocol = 'https:') {
+function frontend(fetch, protocol = 'https:', memberships = false) {
   const elements = new Map();
   const get = id => { if (!elements.has(id)) elements.set(id, new Element(['date', 'tier', 'service'].includes(id) ? 'SELECT' : 'DIV')); return elements.get(id); };
   const body = new Element();
   const context = vm.createContext({ Date: FixedDate, Intl, AbortSignal, setTimeout, clearTimeout, fetch, HTMLElement: Element,
+    window: { dispatchEvent() {} }, CustomEvent: class { constructor(name) { this.type = name; } },
     location: { protocol, hash: '', pathname: '/', search: '' }, history: { replaceState() {} },
     document: { getElementById: get, createElement: tag => new Element(tag.toUpperCase()), body, activeElement: body },
   });
+  if (memberships) {
+    vm.runInContext(fs.readFileSync(new URL('../assets/js/membership-data.js', import.meta.url), 'utf8')
+      .replace('window.SneakyCleanMemberships', 'globalThis.SneakyCleanMemberships'), context);
+  }
   // Split at the initialization block (not the identical statement inside closeBooking).
   const full = fs.readFileSync(new URL('../assets/js/booking.js', import.meta.url), 'utf8');
-  vm.runInContext(full.slice(0, full.lastIndexOf('\nmodal.setAttribute("aria-hidden", "true");')) + '\nglobalThis.api = { openBooking, loadSlots, initNextOpen, businessMidnight, populateDates, checkReady, state, openByVariation };', context);
+  vm.runInContext(full.slice(0, full.lastIndexOf('\nmodal.setAttribute("aria-hidden", "true");')) + '\nglobalThis.api = { openBooking, loadSlots, initNextOpen, businessMidnight, populateDates, checkReady, state, openByVariation, bookingNotes, updateMembershipFields, submitBooking };', context);
   return { ...context.api, get };
 }
 const flush = () => new Promise(resolve => setImmediate(resolve));
+
+test('all six membership choices keep monthly pricing separate from per-vehicle initial appointments', async () => {
+  const app = frontend(async () => reply({ slots: [] }), 'https:', true);
+  for (const [key, prices] of [['undercover', [99, 179]], ['special-agent', [149, 269]], ['black-ops', [199, 359]]]) {
+    for (const count of [1, 2]) {
+      app.state.membershipPlan = key;
+      app.state.membershipVehicles = String(count);
+      app.openBooking('membership');
+      await flush();
+      assert.ok(app.get('membership-summary').textContent.includes(`$${prices[count - 1]}/month`));
+      assert.match(app.get('membership-summary').textContent, /This appointment is \$199 for vehicle 1/);
+      assert.equal(app.get('membership-vehicle-wrap').hidden, count === 1);
+      assert.equal(app.get('membership-schedule-wrap').hidden, key !== 'black-ops');
+      assert.ok(app.get('tier').options.every(option => option.textContent.includes('$199 initial clean')));
+    }
+  }
+});
+
+test('membership request captures Black Ops choice and vehicle identity without enrolling or charging', async () => {
+  const writes = [];
+  let complete;
+  const app = frontend(async (url, options) => {
+    if (url.endsWith('/availability')) return reply({ slots: ['2026-09-09T17:00:00Z'] });
+    assert.ok(url.endsWith('/book'), 'Only an appointment request may be written');
+    writes.push(JSON.parse(options.body));
+    return new Promise(resolve => { complete = resolve; });
+  }, 'https:', true);
+  app.state.membershipPlan = 'black-ops';
+  app.state.membershipVehicles = '2';
+  app.state.membershipVehicle = '2';
+  app.state.membershipSchedule = 'monthly-deep-clean';
+  app.openBooking('membership');
+  await flush();
+  app.get('name').value = 'Example Customer';
+  app.get('phone').value = '6155550100';
+  app.get('slots').children[0].handlers.click();
+  assert.equal(app.get('submit').disabled, true, 'Vehicle and address are required for an initial clean');
+  app.get('notes').value = 'Vehicle 2: 2021 SUV at 123 Example St';
+  app.checkReady();
+  const first = app.submitBooking();
+  await app.submitBooking();
+  assert.equal(writes.length, 1, 'Duplicate taps must not create another request');
+  assert.match(writes[0].notes, /2 vehicle\(s\), \$359\/month/);
+  assert.match(writes[0].notes, /vehicle 2 of 2; \$199 initial clean. Total initial cleans: \$398/);
+  assert.match(writes[0].notes, /One monthly deep clean/);
+  assert.match(writes[0].notes, /does not activate a subscription/);
+  assert.match(writes[0].notes, /2021 SUV/);
+  complete(reply({ bookingId: 'mock-membership-initial', status: 'PENDING' }));
+  await first;
+  assert.match(app.get('message').textContent, /enrollment separately/);
+  assert.equal(app.get('submit').disabled, true);
+  assert.equal(app.get('message').children[0].textContent, 'Book initial clean for vehicle 1');
+  app.get('message').children[0].handlers.click();
+  assert.equal(app.state.membershipVehicle, '1');
+  assert.equal(app.get('notes').value, '');
+});
+
+test('HTTP failures and missing booking IDs never show a membership success', async () => {
+  for (const response of [new Response('{}', { status: 500 }), reply({})]) {
+    const app = frontend(async url => url.endsWith('/availability') ? reply({ slots: ['2026-09-09T17:00:00Z'] }) : response, 'https:', true);
+    app.openBooking('membership'); await flush();
+    app.get('name').value = 'Example Customer'; app.get('phone').value = '6155550100'; app.get('notes').value = 'SUV at 123 Example St';
+    app.get('slots').children[0].handlers.click();
+    await app.submitBooking();
+    assert.equal(app.get('message').className, 'message error');
+    assert.equal(app.get('notes').value, 'SUV at 123 Example St');
+    assert.equal(app.get('submit').disabled, false);
+  }
+});
 
 test('date selector offers future M/W/F dates only and loads immediately', async () => {
   const calls = [];

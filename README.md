@@ -549,6 +549,24 @@ npm run square:apply-groups -- --apply
 
 This only adds suggested groups. It does not remove old groups, because removals should be reviewed manually.
 
+### Membership Plans and Initial-Clean Booking
+
+The approved membership terms live in `content/memberships.json`:
+
+| Membership | 1 vehicle / month | 2 vehicles / month | Additional details and upgrades |
+| --- | --- | --- | --- |
+| Undercover Agent | $99 | $179 | 15% off |
+| Special Agent | $149 | $269 | 20% off |
+| Black Ops | $199 | $359 | 30% off |
+
+Undercover includes monthly exterior wash, interior vacuum, wipe-down, and windows (about one hour per vehicle for already well-kept vehicles). Special Agent includes monthly Undercover care plus one quarterly Refresh Detail. Black Ops retains the quarterly Refresh and offers Undercover cleaning every two weeks or one monthly deep clean. Benefits apply to each enrolled vehicle. Each vehicle starts with a **separate $199 initial deep clean** ($398 for two), scheduled as its own appointment.
+
+Audit the Square catalog without writes using `npm run square:setup-memberships`. Apply the approved configuration using `npm run square:setup-memberships -- --apply`. The setup creates/reuses three membership catalog items, three subscription plans with two monthly price variations each, three manually applied member discounts, and a bookable initial-clean service. It does not enroll customers, charge anyone, or alter the older Monthly Detail plan. The initial service inherits existing Reset appointment durations and staff assignments. Generated public catalog IDs are written to `assets/js/membership-data.js`; the setup report goes to ignored `growth/exports/membership-square-setup.json`.
+
+Run `npm run site:generate` after changing approved terms. Membership buttons open the booking modal. The chosen tier, vehicle count, monthly price, Black Ops schedule, and which vehicle is being booked are recorded in the initial-clean appointment notes. Two-vehicle households book a separate initial appointment per vehicle.
+
+**Booking an initial clean does not activate recurring billing.** After the initial clean, enroll the customer in the matching one- or two-vehicle plan in Square with their payment authorization. Apply the member discount to eligible additional detail/upgrade line items; it is not an automatic discount on membership dues or the initial clean. Existing members' subscription charges are not migrated by this setup.
+
 ### Membership Tracking
 
 Track active monthly members in:
@@ -560,7 +578,7 @@ growth/private/memberships.csv
 Membership offer:
 
 ```text
-One detail per month. Customer can alternate between two vehicles.
+Use the customer's enrolled tier and vehicle count above. Included visits apply to each enrolled vehicle; the old alternating-vehicle offer is superseded for these new memberships.
 ```
 
 Columns:
