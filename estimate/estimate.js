@@ -149,6 +149,8 @@ async function openDeposit(v,startAt){
     if(!consent.checked)throw Error('Please agree to the cancellation policy before paying.');
     if(bookSelections.get(v.index)!==startAt)throw Error('Your selected time changed. Continue with the new time.');
     pay.disabled=true;
+    const frozen=[...document.querySelectorAll('[data-booking] input[type=date],[data-booking] .slot,[data-booking] button[id^=book-],[data-booking] input[id^=deposit-consent-]')].map(element=>({element,disabled:element.disabled}));
+    frozen.forEach(({element})=>element.disabled=true);
     try{
       const key='estimate-deposit-'+token+'-'+v.index;let requestId=localStorage.getItem(key);
       if(requestId){const checked=await api('deposit/status');if((checked.deposits??[]).some(d=>d.id===requestId)){state=checked;localStorage.removeItem(key);bookSelections.clear();renderState();return;}}
@@ -159,7 +161,7 @@ async function openDeposit(v,startAt){
       catch(error){const checked=await api('deposit/status');if(!(checked.deposits??[]).some(d=>d.id===requestId))throw error;state=checked;}
       const saved=(state.deposits??[]).find(d=>d.id===requestId);if(saved&&['paid','failed','refunded','cancelled'].includes(saved.state))localStorage.removeItem(key);
       bookSelections.clear();message(saved?.state==='paid'?'Your deposit is paid and your appointment is reserved.':saved?.error||'Check payment status before trying again.');renderState();
-    }finally{if(pay.isConnected)pay.disabled=!consent.checked;}
+    }finally{frozen.forEach(({element,disabled})=>{if(element.isConnected)element.disabled=disabled;});if(pay.isConnected)pay.disabled=!consent.checked;}
   });
 }
 function bindBookings(){
