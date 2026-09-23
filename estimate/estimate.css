@@ -5,3 +5,5 @@
 footer details{max-width:440px;line-height:1.7}footer summary{cursor:pointer;color:var(--teal)}.status-card h2{margin-top:18px}
 
 .save-private-link{display:block;margin-top:20px}
+
+.deposit-panel{margin-top:24px;padding-top:24px;border-top:1px solid #dedbd4}.deposit-totals{padding:14px 18px;background:#f5f3ee;border-radius:12px;margin:16px 0}.deposit-totals p{display:flex;justify-content:space-between;gap:16px;margin:8px 0}.deposit-panel .consent{margin:20px 0}.deposit-panel h3{margin:18px 0 10px}.deposit-panel [id^=card-]{margin-top:24px}
