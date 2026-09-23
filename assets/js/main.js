@@ -54,6 +54,15 @@
     });
   });
 
+  document.querySelectorAll('a[data-quote-form]').forEach((link) => {
+    link.addEventListener("click", () => {
+      track("click_quote_cta", {
+        link_text: link.textContent.trim(),
+        quote_path: "/estimate/",
+      });
+    });
+  });
+
   window.addEventListener("sneakyclean:booking-submitted", () => {
     track("booking_request_submitted");
     trackAdsConversion(GOOGLE_ADS_BOOKING_LABEL);
