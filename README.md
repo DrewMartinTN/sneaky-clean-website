@@ -2,6 +2,8 @@
 
 Static GitHub Pages website for Sneaky Clean, a premium mobile detailing company in Murfreesboro, Tennessee.
 
+The site also includes a local-only shop foundation for **Sneaky Clean Supply Co.** at `/shop/`.
+
 ## Project Structure
 
 ```text
@@ -12,11 +14,15 @@ assets/
   js/
     main.js
     booking.js
+    shop.js
   images/
     sneaky-clean-mascot.png
     og-image.jpg
     work/
 CNAME
+shop/
+  index.html
+  catalog.json
 worker.js
 wrangler.jsonc
 ```
@@ -36,6 +42,50 @@ http://localhost:8787
 ```
 
 You can also open `index.html` directly in a browser, but the local server is closer to GitHub Pages behavior.
+
+## Sneaky Clean Supply Co. Shop
+
+The shop is a static catalog on GitHub Pages. Square hosts checkout, so payment-card details and the
+Square access token never enter the public repository.
+
+Current status:
+
+- `/shop/` is ready locally;
+- no products are marked live;
+- no checkout links exist yet; and
+- nothing should be published or sold until supplier approval, channel rights, and unit economics
+  are confirmed.
+
+For the first small assortment:
+
+1. Add the approved physical item to Square's Item Library and configure inventory, tax, and shipping.
+2. Create a Square Payment Link for that item with shipping enabled.
+3. Add the public retail product details and Square-hosted checkout URL to `shop/catalog.json`.
+4. Set the product's `status` to `live` only after the item and link have been tested.
+5. Run `npm run site:check`, then review `/shop/` locally before publishing.
+
+Dealer cost, supplier terms, resale-certificate data, and API credentials must never go in
+`shop/catalog.json`. Only public retail information belongs in the browser-facing catalog.
+
+The initial product format is:
+
+```json
+{
+  "slug": "example-product",
+  "status": "draft",
+  "name": "Example Product",
+  "brand": "Approved Brand",
+  "description": "Public customer-facing description.",
+  "priceCents": 2499,
+  "image": "/assets/images/shop/example-product.webp",
+  "imageAlt": "Example Product packaging",
+  "checkoutUrl": "https://square.link/u/REPLACE_AFTER_TESTING"
+}
+```
+
+Square documents Payment Links as hosted checkout pages that can be shared or used as buy buttons:
+[Square Checkout API](https://developer.squareup.com/docs/checkout-api) and
+[Square Payment Links](https://squareup.com/help/us/en/article/6692-get-started-with-square-checkout-links).
 
 ## Deploy With GitHub Pages
 

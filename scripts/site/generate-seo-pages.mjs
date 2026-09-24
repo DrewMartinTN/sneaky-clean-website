@@ -358,6 +358,7 @@ function pageHtml(page) {
     </a>
     <nav class="nav" aria-label="Primary navigation">
       <a class="nav__fleet" href="../fleet-commercial/">Fleet/Commercial</a>
+      <a class="nav__shop" href="../shop/">Shop</a>
       <a href="../#reviews">Reviews</a>
       <a href="../#evidence">Evidence</a>
       <a href="../#packages">Packages</a>
@@ -486,6 +487,7 @@ ${page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidde
       </nav>
       <a href="../host-a-pop-up/">Host a resident detailing pop-up</a>
       <a href="../fleet-commercial/">Fleet/Commercial detailing</a>
+      <a href="../shop/">Shop detailing supplies</a>
       <a href="${PHONE_HREF}">${PHONE_DISPLAY}</a>
     </div>
   </footer>
@@ -502,6 +504,7 @@ function sitemapXml() {
   const lastmod = new Date().toISOString().slice(0, 10);
   const urls = [
     { loc: `${BASE_URL}/` },
+    { loc: `${BASE_URL}/shop/` },
     { loc: `${BASE_URL}/host-a-pop-up/` },
     { loc: `${BASE_URL}/fleet-commercial/` },
     ...pages.map((page) => ({
