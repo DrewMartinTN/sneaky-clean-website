@@ -7,6 +7,7 @@ const PHONE_DISPLAY = "(717) 870-9439";
 const SMS_DISPLAY = "(717) 870-9439";
 const PHONE_HREF = "tel:+17178709439";
 const GA4_ID = "G-8ZBE3LNX5E";
+const GOOGLE_ADS_ID = "AW-17685937498";
 const GOOGLE_BUSINESS_URL = "https://share.google/ccDIurFU3rWaVM44L";
 
 const IMAGE_DIMENSIONS = {
@@ -347,6 +348,7 @@ function pageHtml(page) {
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', '${GA4_ID}');
+    gtag('config', '${GOOGLE_ADS_ID}');
   </script>
   <script type="application/ld+json">${jsonForHtml(localBusinessSchema(page))}</script>
 </head>

@@ -1,7 +1,7 @@
 (function () {
-  const GOOGLE_ADS_CONVERSION_ID = "";
-  const GOOGLE_ADS_CALL_LABEL = "";
-  const GOOGLE_ADS_BOOKING_LABEL = "";
+  const GOOGLE_ADS_CONVERSION_ID = "AW-17685937498";
+  const GOOGLE_ADS_CALL_LABEL = "jQ_fCKq9voUdENr6p_FB"; // Website - Call click
+  const GOOGLE_ADS_BOOKING_LABEL = "jaaTCKS9voUdENr6p_FB"; // Website - Booking request
 
   function track(eventName, params) {
     if (typeof window.gtag !== "function") return;

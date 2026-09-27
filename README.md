@@ -267,21 +267,22 @@ Google Analytics is configured in `index.html` with:
 G-8ZBE3LNX5E
 ```
 
-Google Ads conversion placeholders live in:
+Google Ads is configured next to it with:
 
 ```text
-assets/js/main.js
+AW-17685937498
 ```
 
-When you have the real `AW-...` conversion ID and labels, update:
+Every page that loads `assets/js/main.js` has both `gtag('config', ...)` lines, and so does
+the page template in `scripts/site/generate-seo-pages.mjs`. `assets/js/main.js` sends two
+Google Ads conversions:
 
-```js
-GOOGLE_ADS_CONVERSION_ID
-GOOGLE_ADS_CALL_LABEL
-GOOGLE_ADS_BOOKING_LABEL
-```
+- `Website - Call click` when a `tel:` link is clicked.
+- `Website - Booking request` when the booking widget confirms a request
+  (`sneakyclean:booking-submitted`).
 
-Then uncomment/add the matching `gtag('config', 'AW-...')` line in `index.html`.
+The estimate page sends its own conversions from `estimate/estimate.js`.
+`tests/tracking.test.mjs` checks the IDs, labels and page tags.
 
 ## Fleet / Commercial Inquiries
 
