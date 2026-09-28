@@ -144,6 +144,12 @@ h3 {
   color: #fff !important;
 }
 
+.nav__shop {
+  border: 1px solid rgba(24, 225, 180, 0.3);
+  background: rgba(24, 225, 180, 0.08);
+  color: var(--teal) !important;
+}
+
 .nav__fleet {
   white-space: nowrap;
   color: var(--teal) !important;
@@ -152,12 +158,6 @@ h3 {
 .nav__fleet[aria-current="page"] {
   border: 1px solid rgba(24, 225, 180, 0.3);
   background: rgba(24, 225, 180, 0.08);
-}
-
-.nav__shop {
-  border: 1px solid rgba(24, 225, 180, 0.3);
-  background: rgba(24, 225, 180, 0.08);
-  color: var(--teal) !important;
 }
 
 .hero {
@@ -868,6 +868,14 @@ h3 {
   width: 100%;
   height: 100%;
   min-height: 430px;
+  object-fit: cover;
+}
+
+.seo-hero__media > picture > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -1676,7 +1684,7 @@ h3 {
     display: none;
   }
 
-  .nav a:not(.nav__cta):not(.nav__fleet):not(.nav__shop) {
+  .nav a:not(.nav__cta):not(.nav__shop):not(.nav__fleet) {
     display: none;
   }
 

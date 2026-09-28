@@ -580,54 +580,63 @@
   },
   {
     "slug": "interior-detailing-murfreesboro",
-    "title": "Interior Detailing Murfreesboro TN | Sneaky Clean",
-    "description": "Mobile interior detailing in Murfreesboro, TN. Pricing varies by interior condition and the work required. Send photos for a custom quote.",
-    "eyebrow": "Interior Detailing",
-    "headline": "Interior Detailing For Real-Life Messes",
-    "lead": "Mobile interior detailing for daily drivers and family vehicles. Pricing varies by the condition of your interior and the work it needs.",
-    "primaryCta": "Request Interior Quote",
+    "title": "Interior Car Cleaning & Detailing in Murfreesboro | Sneaky Clean",
+    "description": "Crumbs, dirty carpets or pet hair? Sneaky Clean brings interior car cleaning to your home or office in Murfreesboro. See real results and get an interior-only quote.",
+    "eyebrow": "Mobile Interior Detailing · Murfreesboro, TN",
+    "headline": "Feel Good Getting In Again.",
+    "lead": "Crumbs between the seats. Dirt in the mats. The mess that keeps getting put off. We bring interior car cleaning to your home or office, with a quote for the work your vehicle actually needs.",
+    "primaryCta": "Text for My Interior Quote",
     "secondaryCta": "Call Now",
-    "heroImage": "assets/images/work/case-07.webp",
-    "heroAlt": "Gray hatchback after interior and exterior detail",
-    "caseLabel": "Case File #058",
-    "caseText": "Daily driver \u00b7 Full Reset Detail",
+    "heroImage": "assets/images/evidence/silverado-driver-after.webp",
+    "heroAlt": "Clean driver footwell, floor mat and dashboard in a customer's Chevrolet Silverado after Sneaky Clean interior detailing",
+    "caseLabel": "Real Customer Vehicle",
+    "caseText": "Chevrolet Silverado · Interior results",
     "serviceName": "Interior Detailing",
     "serviceArea": "Murfreesboro, TN",
-    "intro": "Every interior needs a different level of work. Interior Detail is a variable-price service based on the condition of your seats, carpets, surfaces and the cleaning required. Send interior photos so we can review the work and confirm your quote before scheduling.",
+    "intro": "Interior-only detailing is available for cars, trucks and SUVs. Tell us what bothers you most: dusty surfaces, packed-in crumbs, dirty carpets, pet hair or stained upholstery. We review your vehicle and photos, explain the recommended work, and confirm the price before scheduling. You approve any additional work.",
+    "evidenceIntro": "Before and after the same customer's Silverado. Seats, mats, footwells and the surfaces you see every day.",
     "proof": [
-      "Price varies by interior condition",
+      "Your price confirmed before scheduling",
       "Interior-only service",
       "Send photos for a custom quote",
       "Mobile service at your location"
     ],
     "sections": [
       {
-        "heading": "What affects the price?",
-        "body": "The amount of cleaning required, staining, pet hair, debris and the condition of seats and carpets all affect the quote. We review your interior to price the work it needs."
+        "heading": "A clean built around your interior",
+        "body": "We assess the seats, carpets, mats, dashboard, console and door panels. Vehicle size, condition and the work required determine your quote. Pet hair removal, upholstery extraction and odor treatment are discussed separately when needed, so you know what is included."
       },
       {
         "heading": "How do I get an interior quote?",
-        "body": "Text photos of the seats, floors, mats and any problem areas, along with your vehicle year, make and model. We will discuss the work, price and timing with you before scheduling."
+        "body": "Tap Text for My Interior Quote. Add your vehicle year, make, model, city and a few photos of the seats, floors and problem areas. We review the condition and confirm the price and timing with you. Prefer a conversation? Call (717) 870-9439."
       }
     ],
     "gallery": [
       {
-        "src": "assets/images/work/case-07.webp",
-        "alt": "Gray hatchback after Sneaky Clean detail",
-        "caption": "Daily driver reset"
+        "src": "assets/images/evidence/silverado-driver-before.webp",
+        "alt": "Silverado driver floor mat and footwell with dirt and debris before interior cleaning",
+        "caption": "Before · Driver side"
       },
       {
-        "src": "assets/images/work/case-05.webp",
-        "alt": "White SUV after family vehicle detail",
-        "caption": "Family SUV refresh"
+        "src": "assets/images/evidence/silverado-driver-after.webp",
+        "alt": "The same Silverado driver floor mat and footwell after interior cleaning",
+        "caption": "After · Driver side"
       },
       {
-        "src": "assets/images/work/case-03.webp",
-        "alt": "Black BMW after detail",
-        "caption": "Cleaned and ready"
+        "src": "assets/images/evidence/silverado-passenger-after.webp",
+        "alt": "Silverado passenger seat, dashboard and footwell after Sneaky Clean interior detailing",
+        "caption": "After · Passenger side"
       }
     ],
     "faqs": [
+      {
+        "question": "Can I book just an interior clean?",
+        "answer": "Yes. Interior-only detailing is quoted separately after we review your vehicle and its condition. You do not need to purchase an exterior detail. Our Refresh and Full Reset online packages include both interior and exterior work."
+      },
+      {
+        "question": "Will every stain or odor come out?",
+        "answer": "Results depend on the material, the source and how long it has been there. Send clear photos and describe any odors so we can explain realistic expectations and recommend the right work before you decide."
+      },
       {
         "question": "How much does Interior Detail cost?",
         "answer": "Interior Detail has variable pricing. The price depends on the interior condition and the work required, so we provide a custom quote after reviewing your vehicle or photos."
