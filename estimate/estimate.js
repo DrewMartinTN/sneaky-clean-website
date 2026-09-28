@@ -171,6 +171,7 @@ const CANCELLED=['CANCELLED_BY_CUSTOMER','CANCELLED_BY_SELLER','DECLINED','NO_SH
 function confirmedBooking(index){const saved=(state.bookings??[]).find(b=>b.vehicle===index),deposit=activeDeposit(index);return !!saved?.booking&&!CANCELLED.includes(saved.booking.status)&&(!deposit||deposit.state==='paid');}
 // Funnel events fire once per estimate on this browser, so reloads and return visits never count twice.
 function measure(){
+  if(state.externalBooking)return;
   const q=state.quote;if(!state.id||!q||!['quoted','accepted','booked'].includes(state.state))return;
   const value=q.totalCents/100,currency='USD';
   once('sc-tag-quoted-'+state.id,false,()=>{track('estimate_quoted',{value,currency});adsConversion('quote',{value,currency});});
@@ -181,6 +182,16 @@ function renderState(){
   for(const card of depositCards.values())card.destroy().catch(()=>{});depositCards.clear();
   if(!state?.input){renderForm();return;}
   document.body.classList.add('quote-view');
+  if(state.externalBooking){
+    const b=state.externalBooking,scheduled=b.status==='scheduled',handled=b.status==='owner_confirmed',cancelled=b.status==='cancelled';
+    const title=document.getElementById('estimate-title'),intro=document.getElementById('form-intro'),eyebrow=document.getElementById('form-eyebrow');
+    if(title)title.textContent=scheduled?'Your appointment is scheduled.':handled?'Your request is already handled.':'Your appointment update.';
+    if(intro)intro.textContent='Your booking is being handled directly with Sneaky Clean.';
+    if(eyebrow)eyebrow.textContent=scheduled?'WE’LL SEE YOU SOON':'YOUR APPOINTMENT';
+    progress(3);
+    app.innerHTML=`<section class="card status-card"><span class="pill">${scheduled?'Scheduled with the team':handled?'Handled by the team':cancelled?'Appointment no longer active':b.status==='pending'?'Appointment awaiting confirmation':'Scheduling check'}</span><h2>${scheduled?'You’re on our schedule.':handled?'You’ve already connected with us.':'Let’s confirm your next step.'}</h2>${b.startAt?`<p>${esc(when(b.startAt))} Central</p>`:''}<p>${scheduled?'There’s no need to book again through this estimate. Refer to the appointment confirmation from our team for your services, price and payment arrangements.':handled?'Our team has marked this request as handled. There’s no need to book again through this estimate. Contact us if you need another appointment or have questions about your service.':cancelled?'Please contact us about rescheduling or any payment questions.':'We found an appointment or scheduling update that needs a team check. Please contact us before making another booking.'}</p><p class="hint">Need to change anything? Call or text us and we’ll help.</p><a class="primary" href="sms:+17178709439">Text Sneaky Clean</a><a class="small-link" href="tel:+17178709439">Call (717) 870-9439</a></section><button class="secondary" id="refresh-status">Refresh appointment status</button>`;
+    document.getElementById('refresh-status').onclick=refresh;addPrivateLinkButton();return;
+  }
   const eyebrow=document.getElementById('form-eyebrow');if(eyebrow)eyebrow.textContent=state.state==='booked'?'WE’LL SEE YOU SOON':'YOUR NEXT STEP';
   const title=document.getElementById('estimate-title'),intro=document.getElementById('form-intro');if(title)title.textContent=state.state==='booked'?'Your appointment. All set.':'Your personal estimate.';if(intro)intro.textContent='Review your services and price, then choose an appointment that works for you.';
   try{measure();}catch{} // Measurement must never block the quote or booking screens.
