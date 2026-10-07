@@ -49,18 +49,25 @@ function makeOptions(selected=''){
   return '<option value="">Choose make</option>'+(popular.length?`<optgroup label="Popular makes">${popular.map(option).join('')}</optgroup><optgroup label="All makes">${makes.map(option).join('')}</optgroup>`:makes.map(option).join(''));
 }
 function field(label,name,type='text',extra=''){return `<div><label for="${name}">${label}</label><input id="${name}" name="${name}" type="${type}" required ${extra}></div>`;}
+function addonChoices(i){
+  return `<div class="addons"><h3>2. Choose your add-ons</h3><p class="hint">Optional. Add only the extra work you want. Each service is listed separately on your quote.</p><div class="addon-grid">${Object.entries(config.extras).map(([key,tiers])=>{
+    const detail=config.extraDetails?.[key]??{label:{hair:'Pet hair removal',extraction:'Carpet / seat extraction',odor:'Odor treatment'}[key]??key,tiers:{}};
+    const prices=Object.values(tiers).map(id=>config.services.find(s=>s.id===id)?.priceCents).filter(price=>Number.isSafeInteger(price)&&price>0),priceTag=prices.length?`${Object.keys(tiers).length>1?'from ':''}${money(Math.min(...prices))}`:'Team quote';
+    return `<div class="addon-option"><div class="addon-heading"><label for="${key}-${i}">${esc(detail.label)}</label><span class="addon-price">${priceTag}</span></div>${detail.description?`<p class="hint">${esc(detail.description)}</p>`:''}<select name="${key}-${i}" id="${key}-${i}" data-addon="${i}"><option value="none">No thanks</option>${options(Object.entries(tiers).map(([tier,id])=>{const service=config.services.find(s=>s.id===id),price=service?.priceCents,label=detail.tiers?.[tier]??tier[0].toUpperCase()+tier.slice(1);return [tier,`${label} — ${Number.isSafeInteger(price)&&price>0?money(price):'team quote required'}`];}))}</select></div>`;
+  }).join('')}</div><div class="selection-price" id="selection-price-${i}" role="status" aria-live="polite">Choose your vehicle to see your base price and selected add-ons.</div></div>`;
+}
 function vehicleCard(i){
   const years=Array.from({length:new Date().getFullYear()+2-1900+1},(_,n)=>new Date().getFullYear()+2-n),promo=promoActive();
   return `<section class="card vehicle" data-vehicle="${i}"><div class="card-heading"><div><span class="section-num">Vehicle ${i+1}</span><h2>What are we cleaning?</h2></div>${i?'<button type="button" class="quiet" id="remove-vehicle">Remove vehicle</button>':''}</div>
   <div class="vehicle-basics"><div class="grid three"><div><label for="year-${i}">Year</label><select id="year-${i}" name="year-${i}" required><option value="">Choose year</option>${options(years.map(y=>[y,y]))}</select></div><div><label for="make-${i}">Make</label><select id="make-${i}" name="make-${i}">${makeOptions()}</select><input class="hidden" id="manual-make-${i}" name="manual-make-${i}" aria-label="Vehicle make" maxlength="80" placeholder="e.g. Toyota"></div><div><label for="model-${i}">Model</label><select id="model-${i}" name="model-${i}"><option value="">Choose year & make</option></select><input class="hidden" id="manual-model-${i}" name="manual-model-${i}" aria-label="Vehicle model" maxlength="100" placeholder="e.g. RAV4"></div></div>
   <button type="button" class="small-link manual-toggle" data-index="${i}">Can’t find it? Enter make and model</button>
-  <div class="grid service-grid"><div class="full"><label for="service-${i}">Which clean sounds right?</label><select id="service-${i}" name="service-${i}">${options([['auto','Help me choose'],['refresh','Refresh Detail'],['reset','Reset Detail']],'auto')}</select></div></div>
+  <div class="grid service-grid"><div class="full"><label for="service-${i}">1. Choose your base detail</label><select id="service-${i}" name="service-${i}">${options([['auto','Help me choose'],['refresh','Refresh Detail'],['reset','Reset Detail']],'auto')}</select></div></div>
   </div><div class="vehicle-summary" id="vehicle-summary-${i}" hidden></div><button type="button" class="edit-vehicle" data-edit-vehicle="${i}" hidden>Edit vehicle or service</button>
   <div class="service-note" id="price-note-${i}">Refresh is for vehicles already in good shape. Reset is for a more thorough clean. Photos help us recommend the right level.</div>
   <a class="small-link compare-services" href="#packages" data-scroll="packages">What’s included in Refresh vs. Full Reset?</a>
-  <details class="vehicle-options" hidden><summary>Customize your detail <span>Optional extras, concerns & photos</span></summary><label class="check"><input type="checkbox" name="rear-${i}" id="rear-${i}" checked> This vehicle has rear seats</label>
-  <h3>Additional services</h3><p class="hint">Choose any extra work you want included. Each selection appears separately on your quote.</p><div class="grid three">${Object.entries(config.extras).map(([key,tiers])=>`<div><label for="${key}-${i}">${{hair:'Pet hair removal',extraction:'Carpet / seat extraction',odor:'Odor treatment'}[key]}</label><select name="${key}-${i}" id="${key}-${i}"><option value="none">None</option>${options(Object.entries(tiers).map(([tier,id])=>[tier,`${tier[0].toUpperCase()+tier.slice(1)} — ${money(config.services.find(s=>s.id===id)?.priceCents??0)}`]))}</select></div>`).join('')}</div>
+  ${addonChoices(i)}
   ${promo?`<div class="promo-pick"><label for="promo-${i}">${esc(PROMO.label)} <span>(optional)</span></label><select id="promo-${i}" name="promo-${i}">${options(promoOptions.map(c=>[c,c]),PROMO.later)}</select></div>`:''}
+  <details class="vehicle-options" hidden><summary>Concerns & photos <span>(optional)</span></summary><label class="check"><input type="checkbox" name="rear-${i}" id="rear-${i}" checked> This vehicle has rear seats</label>
   <div class="grid"><div><label for="odor-source-${i}">Any odors we should know about?</label><select name="odor-source-${i}" id="odor-source-${i}">${options([['none','No noticeable odor'],['smoke','Smoke'],['pet','Pet odor'],['spill','Food / drink / spill'],['other','Other or unsure']],'none')}</select></div><div><label for="vehicle-notes-${i}">Anything else about this vehicle? <span>(optional)</span></label><textarea name="vehicle-notes-${i}" id="vehicle-notes-${i}" maxlength="${2000-(promo?PROMO_ROOM:0)}" placeholder="Stains, concerns, delicate surfaces…"></textarea></div></div>
   <details class="condition-options"><summary>Add condition photos <span>(optional)</span></summary><h3>Help us see what you see</h3><p class="hint">${config.automaticPhotoReview?'Add clear photos in daylight for an automatic assessment.':'Add clear photos in daylight so our team can check the condition before service.'} Show the whole area, including the floor under the mats. You can submit without photos for a team review.</p>
   <div class="photos">${Object.entries(angleLabels).map(([angle,label])=>`<label class="photo" id="photo-${i}-${angle}" ${angle.startsWith('rear')?'data-rear="'+i+'"':''}><span class="icon" aria-hidden="true">＋</span><span>${label}${angle==='problem'?' (optional)':''}</span><input type="file" accept="image/*" data-photo="${i}:${angle}" aria-label="Add ${label.toLowerCase()} photo for vehicle ${i+1}"></label>`).join('')}</div></details></details></section>`;
@@ -101,6 +108,9 @@ function bindVehicle(i){
   document.querySelector(`[data-edit-vehicle="${i}"]`).onclick=()=>setFormStage(0,true);
   for(const type of ['year','make'])document.getElementById(`${type}-${i}`).onchange=()=>loadModels(i);
   document.getElementById(`service-${i}`).onchange=()=>showVehiclePrice(i);
+  document.querySelectorAll(`[data-addon="${i}"]`).forEach(el=>el.onchange=()=>{syncPromo(i);showVehiclePrice(i);});
+  const promo=document.getElementById(`promo-${i}`);if(promo)promo.onchange=()=>{syncPromo(i);showVehiclePrice(i);};
+  showVehiclePrice(i);
   document.getElementById(`model-${i}`).onchange=()=>lookupVehicleSize(i);
   for(const key of ['make','model'])document.getElementById(`manual-${key}-${i}`).onchange=()=>lookupVehicleSize(i);
   document.querySelector(`.manual-toggle[data-index="${i}"]`).onclick=()=>manual(i);
@@ -114,9 +124,25 @@ function vehicleIdentity(i){
 function showVehiclePrice(i){
   const note=document.getElementById(`price-note-${i}`);if(!note)return;
   const size=vehicleSizes.get(i)?.size,service=document.getElementById(`service-${i}`).value;
+  showSelectionPrice(i,size,service);
   if(![0,1,2].includes(size)){note.textContent='We’ll match pricing to your vehicle and confirm the exact quote after reviewing your request.';return;}
   const price=key=>{const cents=config.services.find(s=>s.id===config.packages[key][size])?.priceCents;return Number.isInteger(cents)?money(cents):'team review';};
   note.innerHTML=service==='auto'?`<strong>Refresh ${price('refresh')} · Reset ${price('reset')}</strong>Base prices for your vehicle. We’ll help you choose the right clean.<span class="price-disclaimer">Before extras and tax. Any recommended changes require your approval.</span>`:`<strong>${service==='refresh'?'Refresh':'Reset'} for your vehicle: ${price(service)}</strong><span class="price-disclaimer">Base price before extras and tax. Any recommended changes require your approval.</span>`;
+}
+function syncPromo(i){
+  const promo=document.getElementById(`promo-${i}`),leather=document.getElementById(`leather-${i}`);
+  if(promo?.value==='Leather treatment'&&leather?.value==='regular'){leather.value='none';message('Leather treatment is included free with your Autumn Refresh choice. The paid leather add-on was removed.');}
+}
+function showSelectionPrice(i,size,service){
+  const panel=document.getElementById(`selection-price-${i}`);if(!panel)return;
+  let extra=0;const requests=[];
+  for(const [key,tiers] of Object.entries(config.extras)){const pick=document.getElementById(`${key}-${i}`).value;if(pick==='none')continue;const item=config.services.find(s=>s.id===tiers[pick]);if(Number.isSafeInteger(item?.priceCents)&&item.priceCents>0)extra+=item.priceCents;else requests.push(config.extraDetails?.[key]?.label??key);}
+  if(requests.length){panel.innerHTML=`<strong>Team quote required</strong><span>${esc(requests.join(', '))} needs a confirmed price. We’ll send a full quote before you accept or book.</span>`;return;}
+  const base=key=>config.services.find(s=>s.id===config.packages[key][size])?.priceCents;
+  if(![0,1,2].includes(size)){panel.innerHTML=`<strong>Selected add-ons: ${money(extra)}</strong><span>Choose your vehicle to see the base price. Tax is calculated on your quote.</span>`;return;}
+  const keys=service==='auto'?['refresh','reset']:[service];
+  if(keys.some(key=>!Number.isSafeInteger(base(key))||base(key)<=0)){panel.textContent='The team will confirm your base price and add-ons.';return;}
+  panel.innerHTML=`<div><span>Base detail</span><strong>${keys.map(key=>(service==='auto'?(key==='refresh'?'Refresh ':'Reset '):'')+money(base(key))).join(' · ')}</strong></div><div><span>Selected add-ons</span><strong>${money(extra)}</strong></div><div class="selection-subtotal"><span>Subtotal before tax</span><strong>${keys.map(key=>(service==='auto'?(key==='refresh'?'Refresh ':'Reset '):'')+money(base(key)+extra)).join(' · ')}</strong></div><p class="hint">${document.getElementById(`promo-${i}`)?.value==='Leather treatment'?'Your Autumn Refresh leather treatment is free. ':''}${service==='auto'?'We’ll help you choose Refresh or Reset. ':''}Tax and your final total appear on your itemized quote.</p>`;
 }
 async function lookupVehicleSize(i){
   const request=crypto.randomUUID();sizeRequests.set(i,request);vehicleSizes.delete(i);showVehiclePrice(i);
@@ -148,7 +174,7 @@ function inputData(){
     if(!make||!model||(!useManual&&!get(`make-${i}`)))throw Error('Choose the make and model for each vehicle, or enter them manually.');
     // The free add-on travels to the team as a tag on the notes the API already accepts; price and schema are unchanged.
     const pick=get(`promo-${i}`);if(pick)picks.push(count>1?`${get(`year-${i}`)} ${make} ${model} — ${pick}`:pick);
-    return {year:Number(get(`year-${i}`)),make,model,service:get(`service-${i}`),rearSeats:form.has(`rear-${i}`),extras:{hair:get(`hair-${i}`),extraction:get(`extraction-${i}`),odor:get(`odor-${i}`)},odorSource:get(`odor-source-${i}`),notes:tagNotes(pick,get(`vehicle-notes-${i}`),2000,`the notes for vehicle ${i+1}`)};
+    return {year:Number(get(`year-${i}`)),make,model,service:get(`service-${i}`),rearSeats:form.has(`rear-${i}`),extras:Object.fromEntries(Object.keys(config.extras).filter(key=>['hair','extraction','odor'].includes(key)||get(`${key}-${i}`)!=='none').map(key=>[key,get(`${key}-${i}`)])),odorSource:get(`odor-source-${i}`),notes:tagNotes(pick,get(`vehicle-notes-${i}`),2000,`the notes for vehicle ${i+1}`)};
   });
   return {name:get('name'),phone:get('phone'),email:get('email'),zip:get('zip'),contactMethod:get('contactMethod'),notes:tagNotes(picks.join('; '),get('notes'),3000,'your other notes'),vehicles,consent:document.getElementById('consent').checked,website:get('website')};
 }
@@ -158,7 +184,7 @@ function restoreDraft(){
   // While the offer runs, its tags are rebuilt from the choices on submit, so only the customer's own text is restored.
   const promo=!!document.getElementById('promo-0');
   for(const key of ['name','phone','email','zip','contactMethod','notes'])document.getElementById(key).value=key==='notes'&&promo?untagNotes(draft.notes).text:(draft[key]??(key==='zip'?draft.address?.match(/\b\d{5}(?:-\d{4})?\b/)?.[0]:'')??'');
-  draft.vehicles.forEach((v,i)=>{manual(i);const select=document.getElementById(`promo-${i}`),{pick,text}=untagNotes(v.notes),tagged=!!select&&promoOptions.includes(pick);for(const [key,value]of Object.entries({year:v.year,'manual-make':v.make,'manual-model':v.model,service:v.service,hair:v.extras.hair,extraction:v.extras.extraction,odor:v.extras.odor,'odor-source':v.odorSource,'vehicle-notes':tagged?text:v.notes}))document.getElementById(`${key}-${i}`).value=value;if(tagged)select.value=pick;document.getElementById(`rear-${i}`).checked=v.rearSeats;document.getElementById(`rear-${i}`).dispatchEvent(new Event('change'));lookupVehicleSize(i);});
+  draft.vehicles.forEach((v,i)=>{manual(i);const select=document.getElementById(`promo-${i}`),{pick,text}=untagNotes(v.notes),tagged=!!select&&promoOptions.includes(pick);for(const [key,value]of Object.entries({year:v.year,'manual-make':v.make,'manual-model':v.model,service:v.service,hair:v.extras.hair,extraction:v.extras.extraction,odor:v.extras.odor,'odor-source':v.odorSource,'vehicle-notes':tagged?text:v.notes}))document.getElementById(`${key}-${i}`).value=value;for(const key of Object.keys(config.extras))document.getElementById(`${key}-${i}`).value=v.extras[key]??'none';if(tagged)select.value=pick;syncPromo(i);document.getElementById(`rear-${i}`).checked=v.rearSeats;document.getElementById(`rear-${i}`).dispatchEvent(new Event('change'));lookupVehicleSize(i);});
   formStage=/^\d{5}(?:-\d{4})?$/.test(document.getElementById('zip').value)?1:0;
   for(const p of state?.photos??[]){const label=document.getElementById(`photo-${p.vehicle}-${p.angle}`);if(label){label.classList.add('saved');label.querySelector('.icon').textContent='✓';label.querySelector('input').disabled=true;label.querySelector('span:last-of-type').textContent=angleLabels[p.angle]+' · uploaded';}}
 }
@@ -274,7 +300,7 @@ function bindBookings(){
 async function perform(fn){if(busy)return;busy=true;message('');try{await fn();}catch(error){message(error.message,true);}finally{busy=false;}}
 async function refresh(){await perform(async()=>{let next=await api(config.deposit?.enabled?'deposit/status':'status');if(next.state==='processing')next=await api('quote');if(JSON.stringify(next)!==JSON.stringify(state)){state=next;renderState();}});}
 async function init(){
-  try{const r=await fetch(ESTIMATE_API+'/estimates/api/config');config=await r.json();if(!r.ok)throw Error(config.error||'Service pricing is temporarily unavailable. Please call or text us.');document.querySelectorAll('[data-package-price]').forEach(el=>{const prices=config.packages[el.dataset.packagePrice].map(id=>config.services.find(s=>s.id===id)?.priceCents).filter(Number.isInteger);if(prices.length)el.textContent='from '+money(Math.min(...prices)).replace('.00','');});if(token){state=await api(config.deposit?.enabled?'deposit/status':'status');renderState();if(state.state==='processing'){state=await api('quote');renderState();}}else renderForm();
+  try{const r=await fetch(ESTIMATE_API+'/estimates/api/config?addons=1');config=await r.json();if(!r.ok)throw Error(config.error||'Service pricing is temporarily unavailable. Please call or text us.');document.querySelectorAll('[data-package-price]').forEach(el=>{const prices=config.packages[el.dataset.packagePrice].map(id=>config.services.find(s=>s.id===id)?.priceCents).filter(Number.isInteger);if(prices.length)el.textContent='from '+money(Math.min(...prices)).replace('.00','');});if(token){state=await api(config.deposit?.enabled?'deposit/status':'status');renderState();if(state.state==='processing'){state=await api('quote');renderState();}}else renderForm();
     try{const r=await fetch(ESTIMATE_API+'/estimates/api/vehicles?kind=makes');const d=await r.json();if(r.ok){makes=d.options;document.querySelectorAll('[id^="make-"]').forEach(s=>{s.innerHTML=makeOptions(s.value);});}}catch{}
   }catch(error){message(error.message,true);app.innerHTML='<section class="card"><h2>Let’s get you a quote.</h2><p>Call or text <a href="tel:+17178709439">(717) 870-9439</a>, or <a href="'+esc(location.pathname)+'">start a new estimate</a>.</p></section>';}
 }

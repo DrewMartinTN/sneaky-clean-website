@@ -5,18 +5,18 @@ const SERVICES = {
     title: "Refresh Detail",
     subtitle: "Maintenance clean for already-cared-for vehicles",
     tiers: [
-      { id: "BYS5Z5ZZU3IQ3SPMKWPSWOF4", label: "Coupe/Sedan - $199 (2h)" },
-      { id: "2M4CO7VFX5KWGGJNWLTFN23O", label: "Small SUV / Small Truck - $229 (2h)" },
-      { id: "GF7DA4MDHU4QX52PHBP3ZR7K", label: "Large SUV / 3-Row / Full-Size Truck - $259 (2.5h)" },
+      { id: "BYS5Z5ZZU3IQ3SPMKWPSWOF4", label: "Coupe/Sedan - $249 (2h)" },
+      { id: "2M4CO7VFX5KWGGJNWLTFN23O", label: "Small SUV / Small Truck - $279 (2h)" },
+      { id: "GF7DA4MDHU4QX52PHBP3ZR7K", label: "Large SUV / 3-Row / Full-Size Truck - $309 (2.5h)" },
     ],
   },
   reset: {
     title: "Full Reset Detail",
     subtitle: "Full reset for daily drivers and family vehicles",
     tiers: [
-      { id: "AU7PB35CEVMIJ2CUVNVPNPIF", label: "Coupe/Sedan - $299 (4h)" },
-      { id: "ZWDOB5W4BMA64NTEDPXJAWZI", label: "Small SUV / Small Truck - $349 (4.5h)" },
-      { id: "IGLRLIZGH4PVEBWNGCZOAS6M", label: "Large SUV / 3-Row / Full-Size Truck - $399 (5h)" },
+      { id: "AU7PB35CEVMIJ2CUVNVPNPIF", label: "Coupe/Sedan - $399 (4h)" },
+      { id: "ZWDOB5W4BMA64NTEDPXJAWZI", label: "Small SUV / Small Truck - $449 (4.5h)" },
+      { id: "IGLRLIZGH4PVEBWNGCZOAS6M", label: "Large SUV / 3-Row / Full-Size Truck - $499 (5h)" },
     ],
   },
   "rescue-quote": {
