@@ -11,6 +11,16 @@ const replaceURL=History.prototype.replaceState;
 const app=document.getElementById('app'),notice=document.getElementById('notice');
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=cents=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(cents/100);
+const serviceTotal=id=>{const cents=config.services.find(s=>s.id===id)?.totalCents;return Number.isSafeInteger(cents)&&cents>0?cents:null;};
+// Square rounds each shared tax's combined taxable amount to the nearest even cent.
+function selectionTotal(ids){
+  const services=ids.map(id=>config.services.find(s=>s.id===id));if(services.some(s=>!s||!Number.isSafeInteger(s.priceCents)||s.priceCents<=0))return null;
+  const taxes=config.taxes??[],amounts=new Map();let total=0;
+  for(const s of services){const applied=taxes.filter(t=>s.taxIds?.includes(t.id)),inclusive=applied.filter(t=>t.type==='INCLUSIVE').reduce((n,t)=>n+Number(t.percentage)/100,0);total+=s.priceCents;for(const t of applied.filter(t=>t.type==='ADDITIVE'))amounts.set(t.id,(amounts.get(t.id)??0)+s.priceCents/(1+inclusive)*Number(t.percentage)/100);}
+  for(const amount of amounts.values()){const whole=Math.floor(amount),fraction=amount-whole;total+=Math.abs(fraction-.5)<1e-8?whole+whole%2:Math.round(amount);}
+  return Number.isSafeInteger(total)?total:null;
+}
+const priceRange=values=>{const low=Math.min(...values),high=Math.max(...values);return low===high?money(low):`${money(low)}–${money(high)}`;};
 const when=iso=>new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',dateStyle:'full',timeStyle:'short'}).format(new Date(iso));
 const angleLabels={'front-seats':'Front seats','rear-seats':'Rear seats','front-floor':'Front floor & mats','rear-floor':'Rear floor & mats',cargo:'Trunk / cargo area',exterior:'Full exterior',problem:'Problem close-up'};
 let token=/^[a-f0-9]{64}$/.test(location.hash.slice(1))?location.hash.slice(1):null,config,makes=[],count=1,state,busy=false,formStage=0;
@@ -50,11 +60,11 @@ function makeOptions(selected=''){
 }
 function field(label,name,type='text',extra=''){return `<div><label for="${name}">${label}</label><input id="${name}" name="${name}" type="${type}" required ${extra}></div>`;}
 function addonChoices(i){
-  return `<div class="addons"><h3>2. Choose your add-ons</h3><p class="hint">Optional. Add only the extra work you want. Each service is listed separately on your quote.</p><div class="addon-grid">${Object.entries(config.extras).map(([key,tiers])=>{
+  return `<div class="addons"><h3>2. Choose your add-ons</h3><p class="hint">Optional. Add only the extra work you want. Prices include tax. Your total updates as you choose.</p><div class="addon-grid">${Object.entries(config.extras).map(([key,tiers])=>{
     const detail=config.extraDetails?.[key]??{label:{hair:'Pet hair removal',extraction:'Carpet / seat extraction',odor:'Odor treatment'}[key]??key,tiers:{}};
-    const prices=Object.values(tiers).map(id=>config.services.find(s=>s.id===id)?.priceCents).filter(price=>Number.isSafeInteger(price)&&price>0),priceTag=prices.length?`${Object.keys(tiers).length>1?'from ':''}${money(Math.min(...prices))}`:'Team quote';
-    return `<div class="addon-option"><div class="addon-heading"><label for="${key}-${i}">${esc(detail.label)}</label><span class="addon-price">${priceTag}</span></div>${detail.description?`<p class="hint">${esc(detail.description)}</p>`:''}<select name="${key}-${i}" id="${key}-${i}" data-addon="${i}"><option value="none">No thanks</option>${options(Object.entries(tiers).map(([tier,id])=>{const service=config.services.find(s=>s.id===id),price=service?.priceCents,label=detail.tiers?.[tier]??tier[0].toUpperCase()+tier.slice(1);return [tier,`${label} — ${Number.isSafeInteger(price)&&price>0?money(price):'team quote required'}`];}))}</select></div>`;
-  }).join('')}</div><div class="selection-price" id="selection-price-${i}" role="status" aria-live="polite">Choose your vehicle to see your base price and selected add-ons.</div></div>`;
+    const prices=Object.values(tiers).map(id=>serviceTotal(id)).filter(price=>Number.isSafeInteger(price)&&price>0),priceTag=prices.length?`${Object.keys(tiers).length>1?'from ':''}${money(Math.min(...prices))}`:'Team quote';
+    return `<div class="addon-option"><div class="addon-heading"><label for="${key}-${i}">${esc(detail.label)}</label><span class="addon-price">${priceTag}</span></div>${detail.description?`<p class="hint">${esc(detail.description)}</p>`:''}<select name="${key}-${i}" id="${key}-${i}" data-addon="${i}"><option value="none">No thanks</option>${options(Object.entries(tiers).map(([tier,id])=>{const service=config.services.find(s=>s.id===id),price=service?.totalCents,label=detail.tiers?.[tier]??tier[0].toUpperCase()+tier.slice(1);return [tier,`${label} — ${Number.isSafeInteger(price)&&price>0?money(price):'team quote required'}`];}))}</select></div>`;
+  }).join('')}</div></div>`;
 }
 function vehicleCard(i){
   const years=Array.from({length:new Date().getFullYear()+2-1900+1},(_,n)=>new Date().getFullYear()+2-n),promo=promoActive();
@@ -63,8 +73,9 @@ function vehicleCard(i){
   <button type="button" class="small-link manual-toggle" data-index="${i}">Can’t find it? Enter make and model</button>
   <div class="grid service-grid"><div class="full"><label for="service-${i}">1. Choose your base detail</label><select id="service-${i}" name="service-${i}">${options([['auto','Help me choose'],['refresh','Refresh Detail'],['reset','Reset Detail']],'auto')}</select></div></div>
   </div><div class="vehicle-summary" id="vehicle-summary-${i}" hidden></div><button type="button" class="edit-vehicle" data-edit-vehicle="${i}" hidden>Edit vehicle or service</button>
-  <div class="service-note" id="price-note-${i}">Refresh is for vehicles already in good shape. Reset is for a more thorough clean. Photos help us recommend the right level.</div>
+  <div class="service-note" id="price-note-${i}">Refresh is for vehicles already in good shape. Reset is for a more thorough clean.</div>
   <a class="small-link compare-services" href="#packages" data-scroll="packages">What’s included in Refresh vs. Full Reset?</a>
+  <div class="selection-price" id="selection-price-${i}" role="status" aria-live="polite"></div>
   ${addonChoices(i)}
   ${promo?`<div class="promo-pick"><label for="promo-${i}">${esc(PROMO.label)} <span>(optional)</span></label><select id="promo-${i}" name="promo-${i}">${options(promoOptions.map(c=>[c,c]),PROMO.later)}</select></div>`:''}
   <details class="vehicle-options" hidden><summary>Concerns & photos <span>(optional)</span></summary><label class="check"><input type="checkbox" name="rear-${i}" id="rear-${i}" checked> This vehicle has rear seats</label>
@@ -123,11 +134,11 @@ function vehicleIdentity(i){
 }
 function showVehiclePrice(i){
   const note=document.getElementById(`price-note-${i}`);if(!note)return;
-  const size=vehicleSizes.get(i)?.size,service=document.getElementById(`service-${i}`).value;
+  const size=vehicleSizes.get(i)?.size,service=document.getElementById(`service-${i}`).value,matched=[0,1,2].includes(size);
+  const select=document.getElementById(`service-${i}`);
+  for(const key of ['refresh','reset']){const values=(matched?[config.packages[key][size]]:config.packages[key]).map(serviceTotal).filter(Number.isSafeInteger),option=Array.from(select.options).find(o=>o.value===key);if(option&&values.length)option.textContent=`${key==='refresh'?'Refresh':'Reset'} — ${matched?'':'from '}${money(Math.min(...values))} incl. tax`;}
   showSelectionPrice(i,size,service);
-  if(![0,1,2].includes(size)){note.textContent='We’ll match pricing to your vehicle and confirm the exact quote after reviewing your request.';return;}
-  const price=key=>{const cents=config.services.find(s=>s.id===config.packages[key][size])?.priceCents;return Number.isInteger(cents)?money(cents):'team review';};
-  note.innerHTML=service==='auto'?`<strong>Refresh ${price('refresh')} · Reset ${price('reset')}</strong>Base prices for your vehicle. We’ll help you choose the right clean.<span class="price-disclaimer">Before extras and tax. Any recommended changes require your approval.</span>`:`<strong>${service==='refresh'?'Refresh':'Reset'} for your vehicle: ${price(service)}</strong><span class="price-disclaimer">Base price before extras and tax. Any recommended changes require your approval.</span>`;
+  note.textContent=service==='auto'?'Refresh is for vehicles already in good shape. Reset is for a more thorough clean. We’ll help you choose.':service==='refresh'?'Refresh: a maintenance clean for vehicles already in good shape.':'Reset: a more thorough interior and exterior clean.';
 }
 function syncPromo(i){
   const promo=document.getElementById(`promo-${i}`),leather=document.getElementById(`leather-${i}`);
@@ -135,14 +146,13 @@ function syncPromo(i){
 }
 function showSelectionPrice(i,size,service){
   const panel=document.getElementById(`selection-price-${i}`);if(!panel)return;
-  let extra=0;const requests=[];
-  for(const [key,tiers] of Object.entries(config.extras)){const pick=document.getElementById(`${key}-${i}`).value;if(pick==='none')continue;const item=config.services.find(s=>s.id===tiers[pick]);if(Number.isSafeInteger(item?.priceCents)&&item.priceCents>0)extra+=item.priceCents;else requests.push(config.extraDetails?.[key]?.label??key);}
-  if(requests.length){panel.innerHTML=`<strong>Team quote required</strong><span>${esc(requests.join(', '))} needs a confirmed price. We’ll send a full quote before you accept or book.</span>`;return;}
-  const base=key=>config.services.find(s=>s.id===config.packages[key][size])?.priceCents;
-  if(![0,1,2].includes(size)){panel.innerHTML=`<strong>Selected add-ons: ${money(extra)}</strong><span>Choose your vehicle to see the base price. Tax is calculated on your quote.</span>`;return;}
-  const keys=service==='auto'?['refresh','reset']:[service];
-  if(keys.some(key=>!Number.isSafeInteger(base(key))||base(key)<=0)){panel.textContent='The team will confirm your base price and add-ons.';return;}
-  panel.innerHTML=`<div><span>Base detail</span><strong>${keys.map(key=>(service==='auto'?(key==='refresh'?'Refresh ':'Reset '):'')+money(base(key))).join(' · ')}</strong></div><div><span>Selected add-ons</span><strong>${money(extra)}</strong></div><div class="selection-subtotal"><span>Subtotal before tax</span><strong>${keys.map(key=>(service==='auto'?(key==='refresh'?'Refresh ':'Reset '):'')+money(base(key)+extra)).join(' · ')}</strong></div><p class="hint">${document.getElementById(`promo-${i}`)?.value==='Leather treatment'?'Your Autumn Refresh leather treatment is free. ':''}${service==='auto'?'We’ll help you choose Refresh or Reset. ':''}Tax and your final total appear on your itemized quote.</p>`;
+  const extraIDs=[],requests=[];
+  for(const [key,tiers] of Object.entries(config.extras)){const pick=document.getElementById(`${key}-${i}`).value;if(pick==='none')continue;const cents=serviceTotal(tiers[pick]);if(cents!==null)extraIDs.push(tiers[pick]);else requests.push(config.extraDetails?.[key]?.label??key);}
+  const matched=[0,1,2].includes(size),keys=service==='auto'?['refresh','reset']:[service],baseIDs=keys.map(key=>matched?[config.packages[key][size]]:config.packages[key]),bases=baseIDs.map(ids=>ids.map(serviceTotal)),totals=baseIDs.map(ids=>ids.map(id=>selectionTotal([id,...extraIDs]))),extra=selectionTotal(extraIDs);
+  if(bases.some(values=>values.some(cents=>cents===null))||totals.some(values=>values.some(cents=>cents===null))){panel.textContent='The team will confirm your total including tax.';return;}
+  const v=vehicleIdentity(i),hasVehicle=v.year&&v.make&&v.model;
+  panel.classList.toggle('needs-quote',requests.length>0);panel.classList.toggle('is-range',!matched);
+  panel.innerHTML=`<span class="price-caption">${requests.length?'Priced services':matched?'Your total':'Price range'} · tax included</span>${keys.map((key,n)=>`<div class="selection-subtotal"><span>${key==='refresh'?'Refresh':'Reset'}</span><strong>${priceRange(totals[n])}</strong></div>`).join('')}<p class="selection-breakdown">${matched&&keys.length===1?`Base detail ${money(bases[0][0])} · Add-ons ${money(totals[0][0]-bases[0][0])}`:`Selected add-ons ${money(extra)}`}</p>${requests.length?`<p class="price-review"><strong>Team quote required:</strong> ${esc(requests.join(', '))} is not included above. We’ll confirm your full total before you accept or book.</p>`:!matched?`<p class="price-review">${hasVehicle?'We’ll confirm your vehicle’s size and exact total.':'Choose your vehicle to narrow down your price.'}</p>`:''}${document.getElementById(`promo-${i}`)?.value==='Leather treatment'?'<p class="price-review">Your Autumn Refresh leather treatment is free.</p>':''}`;
 }
 async function lookupVehicleSize(i){
   const request=crypto.randomUUID();sizeRequests.set(i,request);vehicleSizes.delete(i);showVehiclePrice(i);
@@ -300,7 +310,7 @@ function bindBookings(){
 async function perform(fn){if(busy)return;busy=true;message('');try{await fn();}catch(error){message(error.message,true);}finally{busy=false;}}
 async function refresh(){await perform(async()=>{let next=await api(config.deposit?.enabled?'deposit/status':'status');if(next.state==='processing')next=await api('quote');if(JSON.stringify(next)!==JSON.stringify(state)){state=next;renderState();}});}
 async function init(){
-  try{const r=await fetch(ESTIMATE_API+'/estimates/api/config?addons=1');config=await r.json();if(!r.ok)throw Error(config.error||'Service pricing is temporarily unavailable. Please call or text us.');document.querySelectorAll('[data-package-price]').forEach(el=>{const prices=config.packages[el.dataset.packagePrice].map(id=>config.services.find(s=>s.id===id)?.priceCents).filter(Number.isInteger);if(prices.length)el.textContent='from '+money(Math.min(...prices)).replace('.00','');});if(token){state=await api(config.deposit?.enabled?'deposit/status':'status');renderState();if(state.state==='processing'){state=await api('quote');renderState();}}else renderForm();
+  try{const r=await fetch(ESTIMATE_API+'/estimates/api/config?addons=1&prices=tax');config=await r.json();if(!r.ok)throw Error(config.error||'Service pricing is temporarily unavailable. Please call or text us.');document.querySelectorAll('[data-package-price]').forEach(el=>{const prices=config.packages[el.dataset.packagePrice].map(id=>serviceTotal(id)).filter(Number.isInteger);if(prices.length)el.textContent='from '+money(Math.min(...prices))+' incl. tax';});if(token){state=await api(config.deposit?.enabled?'deposit/status':'status');renderState();if(state.state==='processing'){state=await api('quote');renderState();}}else renderForm();
     try{const r=await fetch(ESTIMATE_API+'/estimates/api/vehicles?kind=makes');const d=await r.json();if(r.ok){makes=d.options;document.querySelectorAll('[id^="make-"]').forEach(s=>{s.innerHTML=makeOptions(s.value);});}}catch{}
   }catch(error){message(error.message,true);app.innerHTML='<section class="card"><h2>Let’s get you a quote.</h2><p>Call or text <a href="tel:+17178709439">(717) 870-9439</a>, or <a href="'+esc(location.pathname)+'">start a new estimate</a>.</p></section>';}
 }
