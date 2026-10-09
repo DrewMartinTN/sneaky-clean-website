@@ -38,3 +38,5 @@ html{scroll-padding-top:24px}body{overflow-wrap:break-word}.skip-link{position:a
 @media(max-width:600px){.selection-price.is-range .selection-subtotal{flex-wrap:wrap;gap:2px 8px}.selection-price.is-range .selection-subtotal strong{font-size:18px;letter-spacing:-.3px}}
 
 .site-header .main-site{white-space:nowrap}@media(max-width:760px){.site-header{flex-wrap:wrap;gap:12px}.site-header nav{width:100%;justify-content:space-between}.site-header .main-site{padding:8px 0}}
+
+.package-interior{grid-column:1 / -1}.package-interior .package-top{max-width:100%}

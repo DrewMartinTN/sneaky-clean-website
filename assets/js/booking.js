@@ -1,6 +1,11 @@
 const WORKER_URL = "https://sneaky-clean-booking.drew-martin331.workers.dev";
 
 const SERVICES = {
+  interior: {
+    title: "Interior Only Detail",
+    subtitle: "Interior cleaning only. Heavy pet hair, extraction and odor treatment are additional services. See the estimate page to select add-ons.",
+    tiers: [{"id": "TIMTDZFI354VXBKRRSUQFACX", "label": "Coupe/Sedan \u2014 $164.62 incl. tax (2h)"}, {"id": "FMTDVCFXRGAQ3E6BYC46R27D", "label": "Small SUV / Small Truck \u2014 $197.55 incl. tax (2.5h)"}, {"id": "44HQHNKNFKRW2LKI7Z32BD4U", "label": "Large SUV / 3-Row / Full-Size Truck \u2014 $230.48 incl. tax (3h)"}],
+  },
   refresh: {
     title: "Refresh Detail",
     subtitle: "Maintenance clean for already-cared-for vehicles",
@@ -50,7 +55,7 @@ if (MEMBERSHIPS) {
 }
 
 const SMS_LINK = 'sms:+17178709439?&body=Hi%20Sneaky%20Clean!%20I%20couldn%27t%20find%20a%20time%20online%20%E2%80%94%20can%20you%20fit%20me%20in%3F';
-const DIRECT_BOOK_KEYS = ["refresh", "reset", "membership"];
+const DIRECT_BOOK_KEYS = ["interior", "refresh", "reset", "membership"];
 const SELF_BOOK_DAYS = [1, 3, 5]; // Mon, Wed, Fri
 const BUSINESS_TIME_ZONE = "America/Chicago";
 const IS_FILE_PREVIEW = location.protocol === "file:";
@@ -234,6 +239,7 @@ function openBooking(serviceKey, variationId, preferredDate) {
   // Older cached pages may lack the service dropdown; degrade gracefully.
   const serviceWrap = el("service-wrap");
   const serviceSelect = el("service");
+  if(serviceSelect && !Array.from(serviceSelect.options).some(o=>o.value==="interior")){const option=document.createElement("option");option.value="interior";option.textContent="Interior Only Detail";serviceSelect.appendChild(option);}
   const directlyBookable = DIRECT_BOOK_KEYS.includes(serviceKey);
   if (serviceWrap && serviceSelect) {
     serviceWrap.hidden = !directlyBookable;
