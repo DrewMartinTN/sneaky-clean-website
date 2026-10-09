@@ -584,7 +584,7 @@
     "description": "Crumbs, dirty carpets or pet hair? Sneaky Clean brings interior car cleaning to your home or office in Murfreesboro. See real results and get an interior-only quote.",
     "eyebrow": "Mobile Interior Detailing · Murfreesboro, TN",
     "headline": "Feel Good Getting In Again.",
-    "lead": "Crumbs between the seats. Dirt in the mats. The mess that keeps getting put off. We bring interior car cleaning to your home or office. Choose your vehicle, see your price including tax, and add only the extra work you need.",
+    "lead": "Crumbs between the seats. Dirt in the mats. The mess that keeps getting put off. We bring interior car cleaning to your home or office. Choose your vehicle, see your vehicle’s price, and add only the extra work you need.",
     "primaryCta": "Price My Interior Detail",
     "secondaryCta": "Call Now",
     "heroImage": "assets/images/evidence/silverado-driver-after.webp",
@@ -593,10 +593,10 @@
     "caseText": "Chevrolet Silverado · Interior results",
     "serviceName": "Interior Detailing",
     "serviceArea": "Murfreesboro, TN",
-    "intro": "Interior Only starts at $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks, before tax. Your estimate shows the total including tax before you book. Heavy pet hair, extraction, odor treatment and excessive trash removal are separate add-ons. Any additional work needs your approval.",
+    "intro": "Interior Only starts at $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks, before tax. Your itemized quote shows tax separately before you book. Heavy pet hair, extraction, odor treatment and excessive trash removal are separate add-ons. Any additional work needs your approval.",
     "evidenceIntro": "Before and after the same customer's Silverado. Seats, mats, footwells and the surfaces you see every day.",
     "proof": [
-      "See your price including tax",
+      "See your vehicle’s price",
       "Interior-only service",
       "Choose add-ons online",
       "Mobile service at your location"
@@ -608,7 +608,7 @@
       },
       {
         "heading": "How do I get an interior quote?",
-        "body": "Tap Price My Interior Detail. Choose your vehicle and the Interior Only service, then add any extra work you want. The total includes tax and updates as you select add-ons. Photos are optional. Review your itemized quote and choose an available appointment. Prefer a conversation? Call (717) 870-9439."
+        "body": "Tap Price My Interior Detail. Choose your vehicle and the Interior Only service, then add any extra work you want. Your price updates as you select add-ons. Tax is shown separately in your itemized quote. Photos are optional. Review your itemized quote and choose an available appointment. Prefer a conversation? Call (717) 870-9439."
       }
     ],
     "gallery": [
@@ -639,7 +639,7 @@
       },
       {
         "question": "How much does Interior Detail cost?",
-        "answer": "Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Your online estimate includes tax. Pet hair removal, extraction, odor treatment and excessive trash removal are additional services."
+        "answer": "Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Your itemized quote shows tax separately. Pet hair removal, extraction, odor treatment and excessive trash removal are additional services."
       },
       {
         "question": "Can you handle family vehicle messes?",

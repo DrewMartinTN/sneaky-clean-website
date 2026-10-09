@@ -391,7 +391,7 @@ ${page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidde
             <a class="button button--dark" href="${PHONE_HREF}">Call Now</a>
           </div>
           <p class="text-quote">
-            ${page.quoteRequired ? `${page.estimateHref ? "See your total including tax, choose add-ons, and book online. Photos are optional." : "Text your vehicle year, make, model and a few interior photos. We confirm the price before you book."}` : `Prefer to text? <a href="${SMS_QUOTE_HREF}">Send a photo to ${SMS_DISPLAY}</a> for a fast quote.`}
+            ${page.quoteRequired ? `${page.estimateHref ? "See your vehicle’s price, choose add-ons, and book online. Photos are optional." : "Text your vehicle year, make, model and a few interior photos. We confirm the price before you book."}` : `Prefer to text? <a href="${SMS_QUOTE_HREF}">Send a photo to ${SMS_DISPLAY}</a> for a fast quote.`}
           </p>
           <ul class="trust-list">
             <li>★★★★★ 5.0 Google Rating</li>
@@ -464,7 +464,7 @@ ${page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidde
         <div>
           <p class="eyebrow">Open Cases</p>
           <h2 id="final-title">${page.quoteRequired ? "Ready for your interior quote?" : "Ready to get on the schedule?"}</h2>
-          <p>${page.quoteRequired ? (page.estimateHref ? "See your price including tax and choose only the add-ons you want. Review your quote before booking." : "Text interior photos and your vehicle details. We will review the condition and confirm pricing before scheduling.") : "Book online in about a minute, or text a photo for a quote. Sneaky Clean comes to you."}</p>
+          <p>${page.quoteRequired ? (page.estimateHref ? "See your vehicle’s price and choose only the add-ons you want. Review your quote before booking." : "Text interior photos and your vehicle details. We will review the condition and confirm pricing before scheduling.") : "Book online in about a minute, or text a photo for a quote. Sneaky Clean comes to you."}</p>
         </div>
         <div class="actions">
           <a class="button" href="${escapeHtml(hrefForPage(page.primaryHref || "#sc-book-reset"))}">${escapeHtml(page.primaryCta)}</a>
@@ -500,7 +500,7 @@ ${page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidde
 ${bookingModal(page)}
 
   <script src="../assets/js/main.js" defer></script>
-${page.quoteRequired ? "" : '  <script src="../assets/js/membership-data.js?v=20260916" defer></script>\n  <script src="../assets/js/booking.js?v=20261009-interior" defer></script>'}
+${page.quoteRequired ? "" : '  <script src="../assets/js/membership-data.js?v=20260916" defer></script>\n  <script src="../assets/js/booking.js?v=20261009-base-prices" defer></script>'}
 </body>
 </html>
 `;
