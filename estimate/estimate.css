@@ -40,3 +40,6 @@ html{scroll-padding-top:24px}body{overflow-wrap:break-word}.skip-link{position:a
 .site-header .main-site{white-space:nowrap}@media(max-width:760px){.site-header{flex-wrap:wrap;gap:12px}.site-header nav{width:100%;justify-content:space-between}.site-header .main-site{padding:8px 0}}
 
 .package-interior{grid-column:1 / -1}.package-interior .package-top{max-width:100%}
+
+/* Optional customization keeps the direct booking path short. */
+.customize-detail{margin-top:18px;border:1px solid var(--line);border-radius:12px;background:#fafbf8}.customize-detail>summary{padding:16px;cursor:pointer;font-size:14px;font-weight:750;color:var(--ink)}.customize-detail>summary span{font-size:11px;font-weight:400;color:var(--muted);margin-left:12px}.customize-detail .addons{margin:0;padding:0 16px 16px;border:0}.customize-detail .addon-option{background:white}.customize-detail .addons>.hint{margin-top:0}@media(max-width:600px){.customize-detail>summary span{display:block;margin:5px 0 0 17px}.customize-detail .addons{padding:0 12px 12px}}
