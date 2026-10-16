@@ -30,6 +30,12 @@ for (const route of routes) {
   } else {
     html = html.replace(/(<footer class="site-footer">[\s\S]*?<div class="wrap site-footer__inner">)/, `$1\n      ${profileLinks(route ? "../" : "")}`);
   }
+  const hours = `<p class="business-hours">Business hours: ${business.hoursDisplay}</p>`;
+  if (html.includes('class="business-hours"')) {
+    html = html.replace(/<p class="business-hours">[\s\S]*?<\/p>/, hours);
+  } else {
+    html = html.replace(/(<footer class="site-footer">[\s\S]*?<div class="wrap site-footer__inner">)/, `$1\n      ${hours}`);
+  }
   await fs.writeFile(filename, html);
   console.log(`Synced business identity: ${route || "/"}`);
 }

@@ -75,5 +75,27 @@
       "description": "Mobile fleet and commercial detailing quoted for the vehicles, location and scope of work."
     }
   ],
-  "legalName": "Sneaky Clean LLC"
+  "legalName": "Sneaky Clean LLC",
+  "hoursDisplay": "Monday–Saturday, 9 a.m.–5 p.m. Central. Sunday closed.",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "09:00",
+      "closes": "17:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Sunday",
+      "opens": "00:00",
+      "closes": "00:00"
+    }
+  ]
 }

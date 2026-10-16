@@ -16,6 +16,7 @@ export function businessSchema() {
     priceRange: "$$",
     description: business.description,
     foundingDate: business.foundingYear,
+    openingHoursSpecification: business.openingHoursSpecification,
     address: { "@type": "PostalAddress", addressLocality: "Murfreesboro", addressRegion: "TN", addressCountry: "US" },
     areaServed: business.areaServed,
     sameAs: business.profiles.map((profile) => profile.url),
