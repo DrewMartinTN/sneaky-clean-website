@@ -7,17 +7,73 @@
   "owner": "Drew M.",
   "description": "Mobile auto detailing based in Murfreesboro, Tennessee. Sneaky Clean comes to homes, workplaces, and approved locations for interior detailing, exterior detailing, paint correction, ceramic coating, motorcycle care, and fleet services.",
   "profiles": [
-    { "name": "Google Business Profile", "url": "https://share.google/ccDIurFU3rWaVM44L" },
-    { "name": "Yelp", "url": "https://www.yelp.com/biz/sneaky-clean-murfreesboro" }
+    {
+      "name": "Google Business Profile",
+      "url": "https://share.google/ccDIurFU3rWaVM44L"
+    },
+    {
+      "name": "Yelp",
+      "url": "https://www.yelp.com/biz/sneaky-clean-murfreesboro"
+    },
+    {
+      "name": "Facebook",
+      "url": "https://www.facebook.com/profile.php?id=61581676062753"
+    },
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/sneakycleantn/"
+    }
   ],
-  "areaServed": ["Murfreesboro, TN", "Smyrna, TN", "Nashville, TN", "La Vergne, TN", "Franklin, TN", "Brentwood, TN", "Eagleville, TN", "Christiana, TN", "Middle Tennessee"],
+  "areaServed": [
+    "Murfreesboro, TN",
+    "Smyrna, TN",
+    "Nashville, TN",
+    "La Vergne, TN",
+    "Franklin, TN",
+    "Brentwood, TN",
+    "Eagleville, TN",
+    "Christiana, TN",
+    "Middle Tennessee"
+  ],
   "services": [
-    { "name": "Refresh Detail", "startingPrice": 249, "url": "mobile-detailing-murfreesboro/", "description": "Interior and exterior care for maintained vehicles. From $249; vehicle size and condition affect the final price." },
-    { "name": "Full Reset Detail", "startingPrice": 399, "url": "mobile-detailing-murfreesboro/", "description": "A deeper interior and exterior detail for daily drivers and family vehicles. From $399; vehicle size and condition affect the final price." },
-    { "name": "Interior Only", "startingPrice": 150, "url": "interior-detailing-murfreesboro/", "description": "Interior-only detailing from $150 for sedans, $180 for small SUVs and small trucks, or $210 for large SUVs, 3-row vehicles and full-size trucks, before tax. Pet hair, extraction, odor treatment and excessive trash removal are separate add-ons." },
-    { "name": "Paint Correction", "url": "ceramic-coating-murfreesboro/", "description": "Paint correction quoted after reviewing the vehicle and its condition." },
-    { "name": "Ceramic Coating", "url": "ceramic-coating-murfreesboro/", "description": "Ceramic coating quoted after reviewing the vehicle, preparation and protection required." },
-    { "name": "Motorcycle Detailing", "url": "motorcycle-detailing-murfreesboro/", "description": "Motorcycle detailing quoted after reviewing the bike and the work required." },
-    { "name": "Fleet Detailing", "url": "fleet-commercial/", "description": "Mobile fleet and commercial detailing quoted for the vehicles, location and scope of work." }
-  ]
+    {
+      "name": "Refresh Detail",
+      "startingPrice": 249,
+      "url": "mobile-detailing-murfreesboro/",
+      "description": "Interior and exterior care for maintained vehicles. From $249; vehicle size and condition affect the final price."
+    },
+    {
+      "name": "Full Reset Detail",
+      "startingPrice": 399,
+      "url": "mobile-detailing-murfreesboro/",
+      "description": "A deeper interior and exterior detail for daily drivers and family vehicles. From $399; vehicle size and condition affect the final price."
+    },
+    {
+      "name": "Interior Only",
+      "startingPrice": 150,
+      "url": "interior-detailing-murfreesboro/",
+      "description": "Interior-only detailing from $150 for sedans, $180 for small SUVs and small trucks, or $210 for large SUVs, 3-row vehicles and full-size trucks, before tax. Pet hair, extraction, odor treatment and excessive trash removal are separate add-ons."
+    },
+    {
+      "name": "Paint Correction",
+      "url": "ceramic-coating-murfreesboro/",
+      "description": "Paint correction quoted after reviewing the vehicle and its condition."
+    },
+    {
+      "name": "Ceramic Coating",
+      "url": "ceramic-coating-murfreesboro/",
+      "description": "Ceramic coating quoted after reviewing the vehicle, preparation and protection required."
+    },
+    {
+      "name": "Motorcycle Detailing",
+      "url": "motorcycle-detailing-murfreesboro/",
+      "description": "Motorcycle detailing quoted after reviewing the bike and the work required."
+    },
+    {
+      "name": "Fleet Detailing",
+      "url": "fleet-commercial/",
+      "description": "Mobile fleet and commercial detailing quoted for the vehicles, location and scope of work."
+    }
+  ],
+  "legalName": "Sneaky Clean LLC"
 }

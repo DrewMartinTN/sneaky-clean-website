@@ -33,6 +33,7 @@ test("business identity, profile links and starting prices agree across the site
     assert.equal(business.telephone, "+17178709439", file);
     assert.equal(business.foundingDate, "2025", file);
     assert.deepEqual(business.sameAs, profile.profiles.map((p) => p.url), file);
+    for (const profileLink of profile.profiles) assert.ok(html.includes(`href="${profileLink.url}"`), `${file}: visible ${profileLink.name} link`);
     for (const [name, price] of [["Refresh Detail", "249"], ["Full Reset Detail", "399"], ["Interior Only", "150"]]) {
       const offer = business.hasOfferCatalog.itemListElement.find((offer) => offer.name === name);
       assert.equal(offer.priceSpecification.minPrice, price, `${file}: ${name} starts at the right price`);

@@ -25,7 +25,9 @@ for (const route of routes) {
     html = html.replace("</head>", `  <script type="application/ld+json">${JSON.stringify(schema, null, 2).replaceAll("<", "\\u003c")}</script>\n</head>`);
   }
   // Add only verified profiles; a shared footer keeps future regenerations consistent.
-  if (!html.includes('aria-label="About Sneaky Clean"')) {
+  if (html.includes('aria-label="About Sneaky Clean"')) {
+    html = html.replace(/<nav aria-label="About Sneaky Clean">[\s\S]*?<\/nav>/, profileLinks(route ? "../" : ""));
+  } else {
     html = html.replace(/(<footer class="site-footer">[\s\S]*?<div class="wrap site-footer__inner">)/, `$1\n      ${profileLinks(route ? "../" : "")}`);
   }
   await fs.writeFile(filename, html);

@@ -8,6 +8,7 @@ export function businessSchema() {
     "@type": ["LocalBusiness", "AutomotiveBusiness"],
     "@id": `${business.url}#localbusiness`,
     name: business.name,
+    legalName: business.legalName,
     url: business.url,
     image: `${business.url}assets/images/og-image.jpg`,
     logo: `${business.url}assets/images/sneaky-clean-mascot.png`,
@@ -46,5 +47,6 @@ export function businessSchema() {
 }
 
 export function profileLinks(prefix = "") {
-  return `<nav aria-label="About Sneaky Clean"><a href="${prefix}about/">About Sneaky Clean</a> · <a href="${prefix}case-studies/">Detailing case studies</a> · <a href="${business.profiles[0].url}" target="_blank" rel="noopener">Google Business Profile</a> · <a href="${business.profiles[1].url}" target="_blank" rel="noopener">Yelp</a></nav>`;
+  const links = business.profiles.map((profile) => `<a href="${profile.url.replaceAll("&", "&amp;")}" target="_blank" rel="noopener">${profile.name}</a>`).join(" · ");
+  return `<nav aria-label="About Sneaky Clean"><a href="${prefix}about/">About Sneaky Clean</a> · <a href="${prefix}case-studies/">Detailing case studies</a> · ${links}</nav>`;
 }
