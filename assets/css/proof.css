@@ -1,0 +1,17 @@
+.proof-intro { max-width: 1160px; }
+.proof-intro h1 { max-width: 1000px; font-size: clamp(2.4rem, 6vw, 5.6rem); line-height: 1.04; }
+.proof-intro .lead { max-width: 800px; }
+.proof-list { padding-top: 0; }
+.proof-photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; align-items: start; margin-top: 1.5rem; }
+.proof-photo { margin: 0; min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--black); }
+.proof-photo picture { display: block; }
+.proof-photo img { display: block; width: 100%; height: auto; }
+.proof-photo figcaption { padding: 1rem; color: var(--teal); font-weight: 850; }
+.proof-card .proof-photo { margin-bottom: 1.5rem; }
+.proof-card .proof-photo img { aspect-ratio: 4 / 3; object-fit: cover; }
+.proof-card h2 { font-size: clamp(1.8rem, 3.5vw, 3rem); }
+.proof-card h2 a { color: inherit; }
+@media (max-width: 700px) {
+  .proof-photo-grid { grid-template-columns: 1fr; }
+  .proof-page .site-header .nav a[href="/about/"], .proof-page .site-header .nav a[href="/case-studies/"] { display: inline-flex; }
+}

@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { business, businessSchema, profileLinks } from "./business-schema.mjs";
 
 const ROOT = process.cwd();
 const BASE_URL = "https://www.sneakycleantn.com";
@@ -123,8 +124,8 @@ function bookingModal(page) {
       <div id="service-wrap">
         <label for="service">Service</label>
         <select id="service">
-          <option value="refresh">Refresh Detail — from $199</option>
-          <option value="reset">Full Reset Detail — from $299</option>
+          <option value="refresh">Refresh Detail — from $${business.services.find((service) => service.name === "Refresh Detail").startingPrice}</option>
+          <option value="reset">Full Reset Detail — from $${business.services.find((service) => service.name === "Full Reset Detail").startingPrice}</option>
         </select>
       </div>
 
@@ -169,36 +170,7 @@ function localBusinessSchema(page) {
   return {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": ["LocalBusiness", "AutomotiveBusiness"],
-        "@id": `${BASE_URL}/#localbusiness`,
-        name: "Sneaky Clean",
-        url: `${BASE_URL}/`,
-        image: `${BASE_URL}/assets/images/og-image.jpg`,
-        logo: `${BASE_URL}/assets/images/sneaky-clean-mascot.png`,
-        telephone: "+17178709439",
-        priceRange: "$$",
-        description:
-          "Premium mobile auto detailing that comes to you in Murfreesboro, Smyrna, Nashville, and surrounding Middle Tennessee.",
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "Murfreesboro",
-          addressRegion: "TN",
-          addressCountry: "US",
-        },
-        areaServed: [
-          "Murfreesboro, TN",
-          "Smyrna, TN",
-          "Nashville, TN",
-          "La Vergne, TN",
-          "Franklin, TN",
-          "Brentwood, TN",
-          "Eagleville, TN",
-          "Christiana, TN",
-          "Middle Tennessee",
-        ],
-        sameAs: [GOOGLE_BUSINESS_URL],
-      },
+      businessSchema(),
       {
         "@type": "WebSite",
         "@id": `${BASE_URL}/#website`,
@@ -477,6 +449,7 @@ ${page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidde
   <footer class="site-footer">
     <div class="wrap site-footer__inner">
       <span>Sneaky Clean is a locally owned mobile auto detailing company based in Murfreesboro, Tennessee, serving Murfreesboro, Smyrna, Nashville, La Vergne, and surrounding Middle Tennessee.</span>
+      ${profileLinks("../")}
       <nav aria-label="Sneaky Clean services">
         <a href="../mobile-detailing-murfreesboro/">Mobile detailing</a> ·
         <a href="../interior-detailing-murfreesboro/">Interior detailing</a> ·
@@ -513,6 +486,10 @@ function sitemapXml() {
     { loc: `${BASE_URL}/shop/` },
     { loc: `${BASE_URL}/host-a-pop-up/` },
     { loc: `${BASE_URL}/fleet-commercial/` },
+    { loc: `${BASE_URL}/about/` },
+    { loc: `${BASE_URL}/case-studies/` },
+    { loc: `${BASE_URL}/case-studies/silverado-interior-detail/` },
+    { loc: `${BASE_URL}/case-studies/porsche-911-exterior-detail/` },
     ...pages.map((page) => ({
       loc: `${BASE_URL}/${page.slug}/`,
     })),
@@ -541,4 +518,4 @@ for (const page of pages.filter(p=>!selectedSlug||p.slug===selectedSlug)) {
 }
 
 if(!selectedSlug) await fs.writeFile(path.join(ROOT, "sitemap.xml"), sitemapXml());
-console.log(`Generated sitemap.xml with ${pages.length + 4} URLs`);
+console.log(`Generated sitemap.xml with ${pages.length + 8} URLs`);

@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "silverado-interior-detail",
+    "title": "Chevrolet Silverado Interior Detail: Before & After",
+    "description": "See the same Chevrolet Silverado cabin before and after Sneaky Clean interior detailing, including the driver and passenger footwells, mats and dashboard.",
+    "vehicle": "Chevrolet Silverado",
+    "service": "Interior detailing",
+    "intro": "The floor mats, footwells and dashboard tell the story. These photos show the same Silverado cabin before and after an interior detail by Sneaky Clean.",
+    "sections": [
+      { "heading": "The starting point", "body": "Dirt and loose debris were visible in the footwells and on the floor mats. The driver and passenger photos show the cabin from two angles before cleaning." },
+      { "heading": "The result", "body": "The after photos show cleaner mats and footwells, with the dashboard, console and surrounding interior surfaces refreshed. Compare the matching angles below to see the change." }
+    ],
+    "images": [
+      { "src": "silverado-driver-before", "width": 1400, "height": 1050, "label": "Before · Driver side", "alt": "Chevrolet Silverado driver footwell and floor mat with dirt and loose debris before interior detailing" },
+      { "src": "silverado-driver-after", "width": 1400, "height": 1050, "label": "After · Driver side", "alt": "The same Chevrolet Silverado driver footwell and floor mat after Sneaky Clean interior detailing" },
+      { "src": "silverado-passenger-before", "width": 1400, "height": 1050, "label": "Before · Passenger side", "alt": "Chevrolet Silverado passenger dashboard and footwell before interior detailing" },
+      { "src": "silverado-passenger-after", "width": 1400, "height": 1050, "label": "After · Passenger side", "alt": "The same Chevrolet Silverado passenger dashboard and footwell after Sneaky Clean interior detailing" }
+    ],
+    "serviceUrl": "interior-detailing-murfreesboro/",
+    "serviceLinkText": "See interior detailing services and prices",
+    "quoteUrl": "estimate/?service=interior",
+    "quoteText": "Price My Interior Detail"
+  },
+  {
+    "slug": "porsche-911-exterior-detail",
+    "title": "Porsche 911 Exterior Detail: Wash & Finished Result",
+    "description": "See a Porsche 911 during the foam wash and after exterior detailing by Sneaky Clean, a mobile detailing business based in Murfreesboro, TN.",
+    "vehicle": "Porsche 911",
+    "service": "Exterior detailing",
+    "intro": "A closer look at the work behind the finish. This photo set follows a gray Porsche 911 through the foam wash and shows the finished exterior after detailing by Sneaky Clean.",
+    "sections": [
+      { "heading": "During the wash", "body": "The process photo shows the Porsche covered in foam during the exterior wash. It is a look at the work in progress before the finished photograph." },
+      { "heading": "The finished exterior", "body": "The final photo shows the gray paint, wheels and exterior after the detail. The reflections and clean finish are visible in the original photograph." }
+    ],
+    "images": [
+      { "src": "porsche-911-foam", "width": 1400, "height": 1867, "label": "During · Foam wash", "alt": "Gray Porsche 911 covered in foam during a Sneaky Clean exterior wash" },
+      { "src": "porsche-911-finished", "width": 1800, "height": 1350, "label": "After · Finished exterior", "alt": "Gray Porsche 911 with clean paint and wheels after Sneaky Clean exterior detailing" }
+    ],
+    "serviceUrl": "mobile-detailing-murfreesboro/",
+    "serviceLinkText": "Explore mobile detailing packages",
+    "quoteUrl": "estimate/",
+    "quoteText": "Request My Detail Quote"
+  }
+]
