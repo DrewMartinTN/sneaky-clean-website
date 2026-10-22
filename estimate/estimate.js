@@ -1,3 +1,32 @@
+// BEGIN shared attribution
+// Capture only campaign labels and public page paths; never contact fields, queries, or private fragments.
+(function () {
+  const key = 'sc-attribution-v1', ttl = 90 * 86400000;
+  const clean = value => typeof value === 'string' && /^[a-z0-9][a-z0-9._ -]{0,99}$/i.test(value) ? value.trim().toLowerCase() : '';
+  const publicPath = value => /^\/(?:[a-z][a-z-]*\/?)?$/.test(value || '') ? value : '/';
+  const host = value => { try { return new URL(value).hostname.toLowerCase().replace(/^www\./, ''); } catch { return ''; } };
+  const own = h => /^(www\.)?sneakycleantn\.com$/.test(h) || h === location.hostname || h.endsWith('.workers.dev');
+  const query = new URLSearchParams(location.search || ''), referrer = host(document.referrer || '');
+  const utm = Object.fromEntries(['source','medium','campaign','content','term'].map(k => [k, clean(query.get('utm_' + k))]));
+  let source = utm.source, medium = utm.medium, confidence = source ? 'tagged_link' : 'unknown';
+  if (!source && referrer && !own(referrer)) {
+    source = /(^|\.)google\./.test(referrer) ? 'google' : /(^|\.)bing\.com$/.test(referrer) ? 'bing' : /(^|\.)(instagram\.com|l\.instagram\.com)$/.test(referrer) ? 'instagram' : /(^|\.)facebook\.com$/.test(referrer) ? 'facebook' : /(^|\.)yelp\.com$/.test(referrer) ? 'yelp' : referrer;
+    medium = ['google','bing'].includes(source) ? 'organic' : 'referral'; confidence = 'referrer';
+  }
+  const touch = {source: source || 'unknown', medium: medium || (source ? 'unspecified' : 'unknown'), campaign: utm.campaign, content: utm.content, term: utm.term, referrer: referrer && !own(referrer) ? referrer : '', landingPath: publicPath(location.pathname), confidence, capturedAt: new Date().toISOString()};
+  let saved;
+  try { saved = JSON.parse(localStorage.getItem(key)); } catch {}
+  if (!saved || !saved.first || !saved.last || !Number.isFinite(Date.parse(saved.first.capturedAt)) || Date.now() - Date.parse(saved.first.capturedAt) > ttl) saved = {first:touch,last:touch};
+  // Internal navigation and return visits preserve the latest attributable visit.
+  if (touch.source !== 'unknown') saved.last = touch;
+  try { localStorage.setItem(key, JSON.stringify(saved)); } catch {}
+  window.SneakyCleanAttribution = {
+    capture(bookingPath, reportedSource = '') {
+      return JSON.parse(JSON.stringify({first:saved.first,last:saved.last,bookingPath,reportedSource:clean(reportedSource)}));
+    }
+  };
+})();
+// END shared attribution
 'use strict';
 // Autumn Refresh offer. Change the wording, choices or end date here only: the banner, the per-vehicle choice and the notes
 // tag all disappear on their own after `ends`, evaluated in Central time (a plain 'YYYY-MM-DD' means through that Chicago day).
@@ -27,9 +56,9 @@ const images=new Map(),bookSelections=new Map(),vehicleSizes=new Map(),sizeReque
 window.dataLayer=window.dataLayer||[];
 function gtag(){dataLayer.push(arguments);}
 const pageURL=()=>location.origin+location.pathname+location.search,measured=new Set();
-const TAG_PARAMS={estimate_start:[],estimate_details_started:[],estimate_customize_opened:[],generate_lead:[],estimate_quoted:['value','currency'],quote_accepted:['value','currency'],appointment_booked:['value','currency','transaction_id'],click_call_now:[],conversion:['value','currency','transaction_id']};
-const SAFE={value:v=>Number.isFinite(v)&&v>=0,currency:v=>v==='USD',transaction_id:v=>/^est-[0-9a-f-]{36}$/.test(v)};
-function track(name,params={},sendTo){if(!TAG_PARAMS[name])return;const safe={};for(const key of TAG_PARAMS[name])if(SAFE[key](params[key]))safe[key]=params[key];gtag('event',name,{...safe,...(sendTo?{send_to:sendTo}:{}),page_location:pageURL()});}
+const TAG_PARAMS={booking_flow_started:[],estimate_start:[],estimate_details_started:[],estimate_customize_opened:[],generate_lead:[],estimate_quoted:['value','currency'],quote_accepted:['value','currency'],appointment_booked:['value','currency','transaction_id','booking_id'],click_call_now:[],conversion:['value','currency','transaction_id']};
+const SAFE={booking_id:v=>typeof v==='string'&&/^[a-z0-9_-]{6,40}$/i.test(v),value:v=>Number.isFinite(v)&&v>=0,currency:v=>v==='USD',transaction_id:v=>/^est-[0-9a-f-]{36}$/.test(v)};
+function track(name,params={},sendTo){if(!TAG_PARAMS[name])return;const safe={};for(const key of TAG_PARAMS[name])if(SAFE[key](params[key]))safe[key]=params[key];gtag('event',name,{...safe,...(sendTo?{send_to:sendTo}:{}),booking_path:'estimate',page_location:pageURL()});}
 function adsConversion(kind,params){if(GOOGLE_ADS_ID&&GOOGLE_ADS_LABELS[kind])track('conversion',params,GOOGLE_ADS_ID+'/'+GOOGLE_ADS_LABELS[kind]);}
 function once(key,session,fn){if(measured.has(key))return;measured.add(key);try{const store=session?sessionStorage:localStorage;if(store.getItem(key))return;store.setItem(key,'1');}catch{}fn();}
 function loadTag(){
@@ -82,10 +111,10 @@ function vehicleCard(i){
 }
 function renderForm(){
   const promo=promoActive();formStage=0;count=1;progress(0);document.body.classList.remove('quote-view');
-  app.innerHTML=`<form id="estimate-form" novalidate method="post" action="${esc(location.pathname)}"><div id="vehicles">${vehicleCard(0)}</div><button type="button" id="add-vehicle" class="secondary add-vehicle">＋ Add another vehicle</button><div id="vehicle-next"><div class="zip-field"><label for="zip">Service ZIP code</label><input id="zip" name="zip" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}(-[0-9]{4})?" maxlength="10" placeholder="e.g. 37129" required><p class="hint">Just your ZIP for now. Street address comes when you book.</p></div><div class="stage-actions"><button type="button" class="primary" id="continue-details">Continue to my free quote →</button><p>Book online after reviewing your quote. No card required.</p></div></div><div class="details-stage" id="details-stage" hidden><button type="button" class="small-link form-back" id="back-to-vehicle">← Back to my vehicle</button>${promo?promoBanner():''}<details class="optional-notes"><summary>Anything else we should know? <span>(optional)</span></summary><label for="notes">Other notes or timing preferences <span>(optional)</span></label><textarea id="notes" name="notes" maxlength="${3000-(promo?PROMO_SUMMARY_ROOM:0)}" placeholder="Anything that would help us prepare…"></textarea></details><section class="card contact-card"><div class="card-heading"><div><span class="section-num">Almost done</span><h2>How can we reach you about your quote?</h2></div></div><p class="hint">Your itemized quote appears next. You can accept it and choose an appointment online. Choose one contact method for appointment updates. No marketing signup.</p><div class="grid">${field('Full name','name','text','autocomplete="name" maxlength="200"')}<div><label for="contactMethod">Contact me by</label><select id="contactMethod" name="contactMethod">${options([['text','Text message'],['call','Phone call'],['email','Email']],'text')}</select></div><div id="phone-field">${field('Mobile phone','phone','tel','autocomplete="tel" maxlength="40"')}</div><div id="email-field" hidden>${field('Email','email','email','autocomplete="email" maxlength="254"')}</div></div><div class="trap" aria-hidden="true"><label for="website">Website</label><input name="website" id="website" tabindex="-1" autocomplete="off"></div></section><div class="submit-bar"><label class="check consent"><input type="checkbox" id="consent" required><span>I agree to Sneaky Clean using these details and photos to prepare my quote${config.automaticPhotoReview?", including automated photo review":""}, and contacting me about this request using my preferred method. This does not sign me up for marketing messages.</span></label><div class="actions"><button type="submit" class="primary" id="submit">Get my free quote →</button><p class="hint">See your itemized price next. Booking is completely optional.</p></div></div></div></form>`;
+  app.innerHTML=`<form id="estimate-form" novalidate method="post" action="${esc(location.pathname)}"><div id="vehicles">${vehicleCard(0)}</div><button type="button" id="add-vehicle" class="secondary add-vehicle">＋ Add another vehicle</button><div id="vehicle-next"><div class="zip-field"><label for="zip">Service ZIP code</label><input id="zip" name="zip" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}(-[0-9]{4})?" maxlength="10" placeholder="e.g. 37129" required><p class="hint">Just your ZIP for now. Street address comes when you book.</p></div><div class="stage-actions"><button type="button" class="primary" id="continue-details">Continue to my free quote →</button><p>Book online after reviewing your quote. No card required.</p></div></div><div class="details-stage" id="details-stage" hidden><button type="button" class="small-link form-back" id="back-to-vehicle">← Back to my vehicle</button>${promo?promoBanner():''}<details class="optional-notes"><summary>Anything else we should know? <span>(optional)</span></summary><label for="notes">Other notes or timing preferences <span>(optional)</span></label><textarea id="notes" name="notes" maxlength="${3000-(promo?PROMO_SUMMARY_ROOM:0)}" placeholder="Anything that would help us prepare…"></textarea></details><section class="card contact-card"><div class="card-heading"><div><span class="section-num">Almost done</span><h2>How can we reach you about your quote?</h2></div></div><p class="hint">Your itemized quote appears next. You can accept it and choose an appointment online. Choose one contact method for appointment updates. No marketing signup.</p><div class="grid">${field('Full name','name','text','autocomplete="name" maxlength="200"')}<div><label for="contactMethod">Contact me by</label><select id="contactMethod" name="contactMethod">${options([['text','Text message'],['call','Phone call'],['email','Email']],'text')}</select></div><div id="phone-field">${field('Mobile phone','phone','tel','autocomplete="tel" maxlength="40"')}</div><div id="email-field" hidden>${field('Email','email','email','autocomplete="email" maxlength="254"')}</div></div><label for="heardSource">How did you hear about us? <span>(optional)</span></label><select id="heardSource" name="heardSource"><option value="">Choose if you like</option><option value="google">Google</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="yelp">Yelp</option><option value="referral">Friend or customer referral</option><option value="qr">Flyer or QR code</option><option value="other">Other</option></select><div class="trap" aria-hidden="true"><label for="website">Website</label><input name="website" id="website" tabindex="-1" autocomplete="off"></div></section><div class="submit-bar"><label class="check consent"><input type="checkbox" id="consent" required><span>I agree to Sneaky Clean using these details and photos to prepare my quote${config.automaticPhotoReview?", including automated photo review":""}, and contacting me about this request using my preferred method. This does not sign me up for marketing messages.</span></label><div class="actions"><button type="submit" class="primary" id="submit">Get my free quote →</button><p class="hint">See your itemized price next. Booking is completely optional.</p></div></div></div></form>`;
   const form=document.getElementById('estimate-form');form.onsubmit=e=>{e.preventDefault();if(formStage===0){advanceDetails();return;}if(!validateVehicles())return;if(form.reportValidity&&!form.reportValidity())return;sendForm();};
   document.getElementById('continue-details').onclick=advanceDetails;document.getElementById('back-to-vehicle').onclick=()=>setFormStage(0,true);
-  for(const type of ['focusin','input','change'])form.addEventListener(type,()=>once('sc-tag-start',true,()=>track('estimate_start')));
+  for(const type of ['focusin','input','change'])form.addEventListener(type,()=>once('sc-tag-start',true,()=>{track('estimate_start');track('booking_flow_started');}));
   bindVehicle(0);document.getElementById('add-vehicle').onclick=()=>{
     if(count>=2)return;document.getElementById('vehicles').insertAdjacentHTML('beforeend',vehicleCard(1));count=2;bindVehicle(1);document.getElementById('add-vehicle').hidden=true;
     document.getElementById('remove-vehicle').onclick=()=>{document.querySelector('[data-vehicle="1"]').remove();count=1;vehicleSizes.delete(1);sizeRequests.delete(1);for(const [key,value]of images)if(key.startsWith('1:')){URL.revokeObjectURL(value.url);images.delete(key);}document.getElementById('add-vehicle').hidden=false;};
@@ -188,7 +217,7 @@ function inputData(){
     const pick=get(`promo-${i}`);if(pick)picks.push(count>1?`${get(`year-${i}`)} ${make} ${model} — ${pick}`:pick);
     return {year:Number(get(`year-${i}`)),make,model,service:get(`service-${i}`),rearSeats:form.has(`rear-${i}`),extras:Object.fromEntries(Object.keys(config.extras).filter(key=>['hair','extraction','odor'].includes(key)||get(`${key}-${i}`)!=='none').map(key=>[key,get(`${key}-${i}`)])),odorSource:get(`odor-source-${i}`),notes:tagNotes(pick,get(`vehicle-notes-${i}`),2000,`the notes for vehicle ${i+1}`)};
   });
-  return {name:get('name'),phone:get('phone'),email:get('email'),zip:get('zip'),contactMethod:get('contactMethod'),notes:tagNotes(picks.join('; '),get('notes'),3000,'your other notes'),vehicles,consent:document.getElementById('consent').checked,website:get('website')};
+  return {attribution:window.SneakyCleanAttribution?.capture('estimate',get('heardSource')),name:get('name'),phone:get('phone'),email:get('email'),zip:get('zip'),contactMethod:get('contactMethod'),notes:tagNotes(picks.join('; '),get('notes'),3000,'your other notes'),vehicles,consent:document.getElementById('consent').checked,website:get('website')};
 }
 function restoreDraft(){
   if(!token)return;let draft;try{draft=JSON.parse(sessionStorage.getItem('estimate-'+token));}catch{}if(!draft)return;
@@ -220,7 +249,8 @@ function measure(){
   const value=q.totalCents/100,currency='USD';
   once('sc-tag-quoted-'+state.id,false,()=>{track('estimate_quoted',{value,currency});adsConversion('quote',{value,currency});});
   if(state.state!=='quoted')once('sc-tag-accepted-'+state.id,false,()=>track('quote_accepted',{value,currency}));
-  if(q.vehicles.some(v=>confirmedBooking(v.index)))once('sc-tag-booked-'+state.id,false,()=>{const booked={value,currency,transaction_id:'est-'+state.id};track('appointment_booked',booked);adsConversion('booked',booked);});
+  for(const v of q.vehicles.filter(v=>confirmedBooking(v.index))){const id=state.bookings.find(b=>b.vehicle===v.index).booking.id;once('sc-tag-appointment-'+id,false,()=>track('appointment_booked',{value:v.totalCents/100,currency,booking_id:id}));}
+  if(q.vehicles.some(v=>confirmedBooking(v.index)))once('sc-tag-booked-'+state.id,false,()=>{const booked={value,currency,transaction_id:'est-'+state.id};adsConversion('booked',booked);});
 }
 function renderState(){
   for(const card of depositCards.values())card.destroy().catch(()=>{});depositCards.clear();

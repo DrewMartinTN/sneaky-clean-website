@@ -205,6 +205,7 @@ function handleModalKeydown(event) {
 }
 
 function openBooking(serviceKey, variationId, preferredDate) {
+  window.dispatchEvent(new CustomEvent('sneakyclean:booking-opened'));
   if (state.submitting) return;
   const service = SERVICES[serviceKey];
   if (!service) return;
@@ -501,6 +502,7 @@ async function submitBooking() {
           phone: el("phone").value.trim(),
         },
         notes,
+        attribution: window.SneakyCleanAttribution?.capture('main_site', document.getElementById('booking-source')?.value || ''),
       }),
     });
 
@@ -519,7 +521,7 @@ async function submitBooking() {
       : "You're on the list! We'll text you shortly to confirm your spot.";
     state.slot = null;
     submit.textContent = "Done";
-    window.dispatchEvent(new CustomEvent("sneakyclean:booking-submitted"));
+    window.dispatchEvent(new CustomEvent("sneakyclean:booking-submitted", { detail: { bookingId: data.bookingId } }));
     if (membership) {
       state.membershipBookedVehicles.push(state.membershipVehicle);
       const otherVehicle = ["1", "2"].find(vehicle => !state.membershipBookedVehicles.includes(vehicle));
@@ -652,3 +654,14 @@ window.SneakyCleanBook = openBooking;
 window.SneakyCleanBookVariation = openByVariation;
 checkHash();
 initNextOpen();
+
+// One optional attribution question, shared by all pages using the booking modal.
+if (!document.getElementById('booking-source')) {
+  const label = document.createElement('label');
+  label.htmlFor = 'booking-source'; label.textContent = 'How did you hear about us? (optional)';
+  const select = document.createElement('select'); select.id = 'booking-source';
+  for (const [value, text] of [['','Choose if you like'],['google','Google'],['instagram','Instagram'],['facebook','Facebook'],['yelp','Yelp'],['referral','Friend or customer referral'],['qr','Flyer or QR code'],['other','Other']]) {
+    const option = document.createElement('option'); option.value = value; option.textContent = text; select.appendChild(option);
+  }
+  const notes = document.getElementById('notes'); notes.after(label, select);
+}
