@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -76,5 +78,67 @@ test("internal links and referenced local images resolve on every indexable page
       const targetFile = path.join(root, relative.endsWith("/") || !relative ? `${relative}index.html` : relative);
       assert.ok(fs.existsSync(targetFile), `${file}: broken local reference ${value}`);
     }
+  }
+});
+
+test("search intent groups have distinct keywords and reachable canonical destinations", () => {
+  const intents = JSON.parse(read("content/search-intents.json"));
+  const assigned = new Set();
+  for (const cluster of intents.clusters) {
+    const target = new URL(cluster.target, profile.url);
+    assert.ok(urls.includes(`${target.origin}${target.pathname}`), `${cluster.id}: indexable destination`);
+    if (target.hash) {
+      const filename = path.join(target.pathname, "index.html").replace(/^\//, "");
+      assert.ok(read(filename).includes(`id="${target.hash.slice(1)}"`), `${cluster.id}: section exists`);
+    }
+    for (const keyword of [cluster.primaryKeyword, ...cluster.supportingKeywords]) {
+      const normalized = keyword.trim().toLowerCase();
+      assert.ok(!assigned.has(normalized), `conflicting keyword assignment: ${keyword}`);
+      assigned.add(normalized);
+    }
+  }
+});
+
+test("FAQ structured data agrees with visible customer answers", () => {
+  const plain = (value) => value.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim();
+  for (const { file } of pages) {
+    const html = read(file);
+    const visible = plain(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " "));
+    for (const faq of graphs(html).filter((node) => node["@type"] === "FAQPage")) {
+      for (const question of faq.mainEntity) {
+        assert.ok(visible.includes(plain(question.name)), `${file}: visible question ${question.name}`);
+        assert.ok(visible.includes(plain(question.acceptedAnswer.text)), `${file}: matching answer ${question.name}`);
+      }
+    }
+  }
+});
+
+test("service-page builds preserve contextual links and do not invent sitemap modification dates", () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), "sneaky-search-build-"));
+  try {
+    for (const file of ["scripts/site/generate-seo-pages.mjs", "scripts/site/business-schema.mjs", "content/business-profile.json", "content/seo-pages.json"]) {
+      const destination = path.join(directory, file);
+      fs.mkdirSync(path.dirname(destination), { recursive: true });
+      fs.writeFileSync(destination, read(file));
+    }
+    const generate = () => execFileSync(process.execPath, ["scripts/site/generate-seo-pages.mjs"], { cwd: directory });
+    generate();
+    const firstSitemap = fs.readFileSync(path.join(directory, "sitemap.xml"), "utf8");
+    assert.doesNotMatch(firstSitemap, /<lastmod>/, "a rebuild is not a significant page update");
+    generate();
+    assert.equal(fs.readFileSync(path.join(directory, "sitemap.xml"), "utf8"), firstSitemap);
+    for (const page of JSON.parse(read("content/seo-pages.json"))) {
+      const html = fs.readFileSync(path.join(directory, page.slug, "index.html"), "utf8");
+      for (const link of page.relatedLinks || []) assert.ok(html.includes(`href="${link.href}"`), `${page.slug}: contextual destination ${link.href}`);
+      if (page.serviceName === "Mobile Detailing") {
+        for (const service of ["Interior Only", "Refresh Detail", "Full Reset Detail"]) {
+          const price = profile.services.find((item) => item.name === service).startingPrice;
+          assert.ok(html.includes(`<strong>From $${price}</strong>`), `${page.slug}: package price`);
+        }
+      }
+    }
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true });
   }
 });

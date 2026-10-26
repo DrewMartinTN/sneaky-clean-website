@@ -1,11 +1,11 @@
 [
   {
     "slug": "mobile-detailing-murfreesboro",
-    "title": "Mobile Detailing Murfreesboro TN | Sneaky Clean",
-    "description": "Premium mobile detailing in Murfreesboro, TN. Sneaky Clean comes to your home or office for refresh details, full reset details, and monthly maintenance.",
+    "title": "Mobile Car Detailing in Murfreesboro, TN | Sneaky Clean",
+    "description": "Mobile car detailing at your home or work in Murfreesboro, TN. Interior Only from $150, Refresh from $249, Full Reset from $399. See prices and book.",
     "eyebrow": "Murfreesboro Mobile Detailing",
-    "headline": "Mobile Detailing In Murfreesboro That Comes To You",
-    "lead": "Professional detailing at your home, office, apartment, or approved location in Murfreesboro and nearby Middle Tennessee communities.",
+    "headline": "Mobile Detailing in Murfreesboro",
+    "lead": "Your car stays at home or work. We bring the detail to your approved Murfreesboro location, with interior-only cleaning and interior-and-exterior packages to match the work you need.",
     "primaryCta": "Book Online",
     "secondaryCta": "Call Now",
     "heroImage": "assets/images/work/case-05.webp",
@@ -14,21 +14,21 @@
     "caseText": "Family SUV · Refresh Detail",
     "serviceName": "Mobile Detailing",
     "serviceArea": "Murfreesboro, TN",
-    "intro": "Sneaky Clean is built for people who want the result without rearranging their day. We bring the mobile setup to you and handle the detail while your vehicle is already parked where life happens.",
+    "intro": "Sneaky Clean is a mobile auto detailing business based in Murfreesboro. Compare the packages below, then choose an appointment or request an itemized quote. Tell us your vehicle size, condition and service address so we can confirm the right setup.",
     "proof": [
-      "Homes, offices, apartments, and approved business locations",
-      "Refresh Details from $249",
-      "Full Reset Details from $399",
-      "Monthly maintenance available"
+      "Based in Murfreesboro, Tennessee",
+      "Interior Only from $150 before tax",
+      "Refresh from $249; Full Reset from $399",
+      "Service at approved homes and workplaces"
     ],
     "sections": [
       {
-        "heading": "Who is mobile detailing for?",
-        "body": "Most Murfreesboro customers are not looking for a science lesson. They want the vehicle clean, comfortable, and easier to live with. That is the job."
+        "heading": "Detailing at your home, office or apartment",
+        "body": "You do not need to drop off the vehicle. Tell us where it will be parked and confirm that the property allows mobile detailing. Apartments, shared parking and office lots need permission and enough room to work safely around the vehicle. Call before booking if you are unsure about your location."
       },
       {
-        "heading": "Which mobile detailing package should I choose?",
-        "body": "If the vehicle is already maintained, a Refresh Detail may be enough. If it needs a real reset, the Full Reset Detail is usually the better fit."
+        "heading": "What should I tell you before the appointment?",
+        "body": "Include your vehicle year, make and model, the service address and the areas that need attention. Mention pet hair, stains or odors so the work can be scoped accurately. Photos are useful for problem areas. Interior Only quotes do not require photos, and any additional work needs your approval."
       }
     ],
     "gallery": [
@@ -64,14 +64,36 @@
       {
         "question": "Can I call before booking?",
         "answer": "Yes. Calling is often the fastest way to choose the right package or decide if photos are needed for a quote."
+      },
+      {
+        "question": "Can I book interior-only car cleaning in Murfreesboro?",
+        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
       }
     ],
-    "primaryHref": "#sc-book-reset"
+    "primaryHref": "#sc-book-reset",
+    "relatedLinks": [
+      {
+        "href": "/case-studies/silverado-interior-detail/",
+        "title": "Silverado interior: before and after",
+        "description": "Compare matching driver and passenger views from a real customer vehicle."
+      },
+      {
+        "href": "/case-studies/porsche-911-exterior-detail/",
+        "title": "Porsche 911: wash and finished result",
+        "description": "See the foam wash and finished exterior from a real Sneaky Clean detail."
+      },
+      {
+        "href": "/ceramic-coating-murfreesboro/",
+        "title": "Ceramic coating and paint correction",
+        "description": "Ask about paint preparation, coating options and maintenance before choosing the work."
+      }
+    ],
+    "relatedHeading": "See the work and explore protection options."
   },
   {
     "slug": "mobile-detailing-smyrna",
-    "title": "Mobile Detailing Smyrna TN | Sneaky Clean",
-    "description": "Mobile detailing in Smyrna, TN. Sneaky Clean details your car at home or work. Refresh from $249, Full Reset from $399. Book online Mon, Wed, Fri.",
+    "title": "Mobile Car Detailing in Smyrna, TN | Sneaky Clean",
+    "description": "Mobile car detailing at your home or work in Smyrna, TN. Interior Only from $150, Refresh from $249, Full Reset from $399. See prices and book.",
     "eyebrow": "Smyrna Mobile Detailing",
     "headline": "Mobile Detailing In Smyrna That Doesn't Need Your Day Off",
     "lead": "Sneaky Clean brings the detail to your Smyrna driveway, office lot, or apartment parking — no drop-off, no waiting room, no lost Saturday.",
@@ -93,8 +115,8 @@
     ],
     "sections": [
       {
-        "heading": "Who books mobile detailing in Smyrna?",
-        "body": "Mostly people whose cars work as hard as they do: commuters logging daily miles into Nashville, shift workers with early clock-ins, and families running the school-and-practice circuit from newer subdivisions. The one thing they share is a car that sits parked for hours at home or at the office — which is exactly when we do the job."
+        "heading": "Can you detail my car while I am at work?",
+        "body": "Yes, when your workplace permits mobile detailing and there is enough room around the vehicle. Share the Smyrna service address and any access restrictions before booking. A driveway, apartment lot or office parking space can work when the property approves the setup."
       },
       {
         "heading": "Refresh or Full Reset?",
@@ -142,13 +164,34 @@
       {
         "question": "Aren't you based in Murfreesboro?",
         "answer": "We are, and Smyrna sits squarely in our regular service area alongside Nashville and surrounding Middle Tennessee. Mobile means the drive is our job, not yours."
+      },
+      {
+        "question": "Can I book interior-only car cleaning in Smyrna?",
+        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
+      }
+    ],
+    "relatedLinks": [
+      {
+        "href": "/interior-detailing-murfreesboro/",
+        "title": "Interior car detailing",
+        "description": "See what is included, compare vehicle-size prices, and choose pet hair removal, extraction or odor treatment when needed."
+      },
+      {
+        "href": "/ceramic-coating-murfreesboro/",
+        "title": "Ceramic coating and paint correction",
+        "description": "Ask about paint preparation, coating options and maintenance before choosing the work."
+      },
+      {
+        "href": "/motorcycle-detailing-murfreesboro/",
+        "title": "Motorcycle detailing",
+        "description": "Care for motorcycle paint, chrome, wheels and hard-to-reach areas, quoted after reviewing the bike."
       }
     ]
   },
   {
     "slug": "mobile-detailing-la-vergne",
-    "title": "Mobile Detailing La Vergne TN | Sneaky Clean",
-    "description": "Mobile detailing in La Vergne, TN. Sneaky Clean comes to your apartment, driveway, or workplace. Refresh from $249, Full Reset from $399. Book online.",
+    "title": "Mobile Car Detailing in La Vergne, TN | Sneaky Clean",
+    "description": "Mobile car detailing at your home or work in La Vergne, TN. Interior Only from $150, Refresh from $249, Full Reset from $399. See prices and book.",
     "eyebrow": "La Vergne Mobile Detailing",
     "headline": "Mobile Detailing In La Vergne That Comes To Your Parking Spot",
     "lead": "We bring the detail to your apartment community, driveway, or workplace in La Vergne — no garage required.",
@@ -219,13 +262,34 @@
       {
         "question": "How long will the detail take?",
         "answer": "Plan on roughly 2 to 2.5 hours for a Refresh Detail and 4 to 5 for a Full Reset. Since we come to you, your day keeps moving while we work."
+      },
+      {
+        "question": "Can I book interior-only car cleaning in La Vergne?",
+        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
+      }
+    ],
+    "relatedLinks": [
+      {
+        "href": "/interior-detailing-murfreesboro/",
+        "title": "Interior car detailing",
+        "description": "See what is included, compare vehicle-size prices, and choose pet hair removal, extraction or odor treatment when needed."
+      },
+      {
+        "href": "/ceramic-coating-murfreesboro/",
+        "title": "Ceramic coating and paint correction",
+        "description": "Ask about paint preparation, coating options and maintenance before choosing the work."
+      },
+      {
+        "href": "/motorcycle-detailing-murfreesboro/",
+        "title": "Motorcycle detailing",
+        "description": "Care for motorcycle paint, chrome, wheels and hard-to-reach areas, quoted after reviewing the bike."
       }
     ]
   },
   {
     "slug": "mobile-detailing-nashville",
-    "title": "Mobile Detailing Nashville TN | Sneaky Clean",
-    "description": "Sneaky Clean brings mobile detailing to Nashville driveways and office garages by appointment. Refresh from $249, Full Reset from $399. 5.0 Google rating.",
+    "title": "Mobile Car Detailing in Nashville, TN | Sneaky Clean",
+    "description": "Mobile car detailing at your home or work in Nashville, TN. Interior Only from $150, Refresh from $249, Full Reset from $399. See prices and book.",
     "eyebrow": "Nashville Mobile Detailing",
     "headline": "Mobile Detailing That Makes The Drive To Nashville",
     "lead": "By-appointment detailing at your Nashville home, office garage, or apartment community — the vehicle gets handled where it is already parked.",
@@ -296,13 +360,34 @@
       {
         "question": "Is there a plan for keeping the car clean year-round?",
         "answer": "Undercover Agent: $99/month for 1 vehicle or $179/month for 2. Once a month: exterior wash, interior vacuum, interior wipe-down, and windows; 15% off additional full details and upgrades. Special Agent: $149/month for 1 vehicle or $269/month for 2. Monthly Undercover cleaning: exterior wash, interior vacuum, interior wipe-down, and windows; One quarterly Refresh Detail, interior and exterior; 20% off additional full details and upgrades. Black Ops: $199/month for 1 vehicle or $359/month for 2. Your choice: Undercover cleaning every two weeks or one monthly deep clean; Includes the Special Agent quarterly Refresh Detail, interior and exterior; 30% off additional full details and upgrades. Each vehicle requires a separate $199 initial deep clean ($398 for two). Book each initial clean online; recurring billing is set up separately in Square after the initial clean."
+      },
+      {
+        "question": "Can I book interior-only car cleaning in Nashville?",
+        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
+      }
+    ],
+    "relatedLinks": [
+      {
+        "href": "/interior-detailing-murfreesboro/",
+        "title": "Interior car detailing",
+        "description": "See what is included, compare vehicle-size prices, and choose pet hair removal, extraction or odor treatment when needed."
+      },
+      {
+        "href": "/ceramic-coating-murfreesboro/",
+        "title": "Ceramic coating and paint correction",
+        "description": "Ask about paint preparation, coating options and maintenance before choosing the work."
+      },
+      {
+        "href": "/motorcycle-detailing-murfreesboro/",
+        "title": "Motorcycle detailing",
+        "description": "Care for motorcycle paint, chrome, wheels and hard-to-reach areas, quoted after reviewing the bike."
       }
     ]
   },
   {
     "slug": "mobile-detailing-franklin",
-    "title": "Mobile Detailing Franklin TN | Sneaky Clean",
-    "description": "Sneaky Clean brings mobile detailing to Franklin driveways and offices by appointment. Refresh from $249, Full Reset from $399, ceramic coating by quote.",
+    "title": "Mobile Car Detailing in Franklin, TN | Sneaky Clean",
+    "description": "Mobile car detailing at your home or work in Franklin, TN. Interior Only from $150, Refresh from $249, Full Reset from $399. See prices and book.",
     "eyebrow": "Franklin Mobile Detailing",
     "headline": "Your Franklin Driveway Just Became The Detail Shop",
     "lead": "Sneaky Clean comes to Franklin by appointment — your home, your office, or another approved spot — and handles the detail while you get on with your day.",
@@ -373,13 +458,34 @@
       {
         "question": "My car is garage-kept — do I still need the big detail?",
         "answer": "Probably not. Maintained, garage-kept vehicles usually do great with a Refresh Detail, and the Full Reset is there when a daily driver needs deeper attention."
+      },
+      {
+        "question": "Can I book interior-only car cleaning in Franklin?",
+        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
+      }
+    ],
+    "relatedLinks": [
+      {
+        "href": "/interior-detailing-murfreesboro/",
+        "title": "Interior car detailing",
+        "description": "See what is included, compare vehicle-size prices, and choose pet hair removal, extraction or odor treatment when needed."
+      },
+      {
+        "href": "/ceramic-coating-murfreesboro/",
+        "title": "Ceramic coating and paint correction",
+        "description": "Ask about paint preparation, coating options and maintenance before choosing the work."
+      },
+      {
+        "href": "/motorcycle-detailing-murfreesboro/",
+        "title": "Motorcycle detailing",
+        "description": "Care for motorcycle paint, chrome, wheels and hard-to-reach areas, quoted after reviewing the bike."
       }
     ]
   },
   {
     "slug": "mobile-detailing-brentwood",
-    "title": "Mobile Detailing Brentwood TN | Sneaky Clean",
-    "description": "Mobile detailing in Brentwood, TN by appointment. Sneaky Clean comes to your home or office — details from $249, monthly plans for two-car garages.",
+    "title": "Mobile Car Detailing in Brentwood, TN | Sneaky Clean",
+    "description": "Mobile car detailing at your home or work in Brentwood, TN. Interior Only from $150, Refresh from $249, Full Reset from $399. See prices and book.",
     "eyebrow": "Brentwood Mobile Detailing",
     "headline": "Mobile Detailing In Brentwood That Works Around Your Calendar",
     "lead": "Sneaky Clean comes to Brentwood homes and offices by appointment — a planned detail in your driveway instead of one more stop in your week.",
@@ -450,20 +556,41 @@
       {
         "question": "Where can you set up in Brentwood?",
         "answer": "Homes, offices, apartments, and approved locations — anywhere your vehicle can park and the property allows it."
+      },
+      {
+        "question": "Can I book interior-only car cleaning in Brentwood?",
+        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
+      }
+    ],
+    "relatedLinks": [
+      {
+        "href": "/interior-detailing-murfreesboro/",
+        "title": "Interior car detailing",
+        "description": "See what is included, compare vehicle-size prices, and choose pet hair removal, extraction or odor treatment when needed."
+      },
+      {
+        "href": "/ceramic-coating-murfreesboro/",
+        "title": "Ceramic coating and paint correction",
+        "description": "Ask about paint preparation, coating options and maintenance before choosing the work."
+      },
+      {
+        "href": "/motorcycle-detailing-murfreesboro/",
+        "title": "Motorcycle detailing",
+        "description": "Care for motorcycle paint, chrome, wheels and hard-to-reach areas, quoted after reviewing the bike."
       }
     ]
   },
   {
     "slug": "ceramic-coating-murfreesboro",
     "title": "Ceramic Coating Murfreesboro TN | Sneaky Clean",
-    "description": "Ceramic coating consultations and maintenance in Murfreesboro, TN. Sneaky Clean helps protect gloss and keep vehicles cleaner longer.",
+    "description": "Ceramic coating and paint correction in Murfreesboro, TN. Review your paint condition, preparation and maintenance needs with Sneaky Clean. Request a quote.",
     "eyebrow": "Ceramic Coating",
-    "headline": "Ceramic Coating For Murfreesboro Vehicles",
-    "lead": "Protection, gloss, and easier maintenance for vehicles that deserve more than a basic wash.",
+    "headline": "Ceramic Coating in Murfreesboro",
+    "lead": "Start with the condition of your paint and the finish you want. We review preparation, paint correction and ongoing care before recommending a coating.",
     "primaryCta": "Request Coating Quote",
     "secondaryCta": "Call Now",
     "heroImage": "assets/images/work/case-08.webp",
-    "heroAlt": "Silver BMW after ceramic coating style detail",
+    "heroAlt": "Silver BMW exterior after a Sneaky Clean detail",
     "caseLabel": "Case File #074",
     "caseText": "BMW · Gloss & protection",
     "serviceName": "Ceramic Coating",
@@ -477,12 +604,16 @@
     ],
     "sections": [
       {
-        "heading": "What does ceramic coating do?",
-        "body": "A coating is not magic, but the right prep and maintenance can make a vehicle easier to clean and better looking between details."
+        "heading": "Paint correction before ceramic coating",
+        "body": "Paint correction and ceramic coating address different needs. Polishing may be recommended to reduce visible swirls or dullness before protection is applied. A coating does not remove those defects. We review the condition first and quote the preparation and protection your vehicle needs."
       },
       {
-        "heading": "Does every vehicle need the same coating preparation?",
-        "body": "Some vehicles need paint correction first. Some only need a coating consultation and a clear recommendation. We keep the advice honest."
+        "heading": "What determines the ceramic coating quote?",
+        "body": "Vehicle size, current paint condition, preparation and the protection requested affect the scope. Tell us the year, make and model, how the vehicle is used, and any known coating history. Your quote will specify the preparation and protection recommended for your vehicle."
+      },
+      {
+        "heading": "Care after the coating",
+        "body": "Coated vehicles still need proper washing and maintenance. Ask about a maintenance detail and check-in so the care plan matches the protection on your vehicle."
       }
     ],
     "gallery": [
@@ -516,14 +647,32 @@
         "answer": "Yes. Coatings make maintenance easier, but they still need proper washing and periodic check-ins."
       }
     ],
-    "primaryHref": "#sc-book-ceramic-consult"
+    "primaryHref": "#sc-book-ceramic-consult",
+    "evidenceIntro": "Examples of our detailing work. These photographs show finished vehicles; they do not establish which coating or correction service was used.",
+    "relatedLinks": [
+      {
+        "href": "/mobile-detailing-murfreesboro/",
+        "title": "Mobile detailing packages",
+        "description": "Compare Interior Only, Refresh and Full Reset before choosing an appointment."
+      },
+      {
+        "href": "/case-studies/porsche-911-exterior-detail/",
+        "title": "Porsche 911: wash and finished result",
+        "description": "See the foam wash and finished exterior from a real Sneaky Clean detail."
+      },
+      {
+        "href": "/#membership",
+        "title": "Monthly car-care memberships",
+        "description": "Compare maintenance plans and the separate initial-clean requirement."
+      }
+    ]
   },
   {
     "slug": "motorcycle-detailing-murfreesboro",
     "title": "Motorcycle Detailing Murfreesboro TN | Sneaky Clean",
-    "description": "Motorcycle detailing in Murfreesboro, TN. Careful cleaning for bikes, chrome, paint, wheels, tight spaces, and show-ready finishes.",
+    "description": "Mobile motorcycle detailing in Murfreesboro, Smyrna and La Vergne, TN. Cleaning for paint, chrome, wheels and tight spaces. Request a quote for your bike.",
     "eyebrow": "Motorcycle Detailing",
-    "headline": "Motorcycle Detailing With A Careful Eye",
+    "headline": "Motorcycle Detailing in Murfreesboro",
     "lead": "Detailed attention for bikes, chrome, paint, wheels, and the tight spots that make motorcycles different from cars.",
     "primaryCta": "Request Motorcycle Quote",
     "secondaryCta": "Call Now",
@@ -542,12 +691,16 @@
     ],
     "sections": [
       {
-        "heading": "What is included in motorcycle detailing?",
-        "body": "A motorcycle detail is about more than a quick wipe-down. The small areas are the detail."
+        "heading": "What does a motorcycle detail include?",
+        "body": "We review the paint, chrome, wheels, trim and tight access points that need cleaning. The scope depends on the bike and its condition. Tell us which areas matter most so we can confirm what is included in your quote."
       },
       {
-        "heading": "Why is a motorcycle photo review needed?",
-        "body": "Motorcycles vary a lot by style, condition, and access. Photos help us quote fairly and recommend the right approach."
+        "heading": "Get a quote for your bike",
+        "body": "Send the motorcycle make and model, your location, and clear photos of the whole bike and any areas needing attention. Chrome, bodywork and access vary between bikes, so we review the work before confirming a price and appointment."
+      },
+      {
+        "heading": "Mobile motorcycle detailing in Smyrna and La Vergne",
+        "body": "Sneaky Clean is based in Murfreesboro and also serves Smyrna and La Vergne. Share your service address and confirm permission for mobile work at your home, workplace or other approved location. We confirm the setup and appointment availability before scheduling."
       }
     ],
     "gallery": [
@@ -574,16 +727,37 @@
       {
         "question": "Should I send photos first?",
         "answer": "Photos are helpful and often the fastest way to get a clear motorcycle detailing quote."
+      },
+      {
+        "question": "Do you provide motorcycle detailing in La Vergne and Smyrna?",
+        "answer": "Yes. Share your bike details, service address and photos so we can confirm the scope, setup and appointment availability for your location."
       }
     ],
-    "primaryHref": "#sc-bookvar-37OHZSEUAONVHAKJMBQ4YH6U"
+    "primaryHref": "#sc-bookvar-37OHZSEUAONVHAKJMBQ4YH6U",
+    "relatedLinks": [
+      {
+        "href": "/mobile-detailing-la-vergne/",
+        "title": "Mobile detailing in La Vergne",
+        "description": "Planning care for a car as well as your bike? Compare local service options."
+      },
+      {
+        "href": "/mobile-detailing-smyrna/",
+        "title": "Mobile detailing in Smyrna",
+        "description": "Find interior and exterior car detailing options at approved homes and workplaces."
+      },
+      {
+        "href": "/mobile-detailing-murfreesboro/",
+        "title": "Mobile detailing packages",
+        "description": "Compare Interior Only, Refresh and Full Reset before choosing an appointment."
+      }
+    ]
   },
   {
     "slug": "interior-detailing-murfreesboro",
     "title": "Interior Car Cleaning & Detailing in Murfreesboro | Sneaky Clean",
     "description": "Crumbs, dirty carpets or pet hair? Sneaky Clean brings interior car cleaning to your home or office in Murfreesboro. See real results and get an interior-only quote.",
     "eyebrow": "Mobile Interior Detailing · Murfreesboro, TN",
-    "headline": "Feel Good Getting In Again.",
+    "headline": "Interior Car Detailing in Murfreesboro",
     "lead": "Crumbs between the seats. Dirt in the mats. The mess that keeps getting put off. We bring interior car cleaning to your home or office. Choose your vehicle, see your vehicle’s price, and add only the extra work you need.",
     "primaryCta": "Price My Interior Detail",
     "secondaryCta": "Call Now",
@@ -609,6 +783,10 @@
       {
         "heading": "How do I get an interior quote?",
         "body": "Tap Price My Interior Detail. Choose your vehicle and the Interior Only service, then add any extra work you want. Your price updates as you select add-ons. Tax is shown separately in your itemized quote. Photos are optional. Review your itemized quote and choose an available appointment. Prefer a conversation? Call (717) 870-9439."
+      },
+      {
+        "heading": "Pet hair, upholstery extraction and odor treatment",
+        "body": "These are separate add-ons rather than automatic parts of the base interior detail. Choose the work you need in your quote and describe any problem areas. Stain and odor results depend on the material and source; we set expectations before extra work is approved."
       }
     ],
     "gallery": [
@@ -660,6 +838,23 @@
     ],
     "primaryHref": "/estimate/?service=interior",
     "quoteRequired": true,
-    "estimateHref": "/estimate/?service=interior"
+    "estimateHref": "/estimate/?service=interior",
+    "relatedLinks": [
+      {
+        "href": "/case-studies/silverado-interior-detail/",
+        "title": "Silverado interior: before and after",
+        "description": "Compare matching driver and passenger views from a real customer vehicle."
+      },
+      {
+        "href": "/mobile-detailing-murfreesboro/",
+        "title": "Mobile detailing packages",
+        "description": "Compare Interior Only, Refresh and Full Reset before choosing an appointment."
+      },
+      {
+        "href": "/case-studies/porsche-911-exterior-detail/",
+        "title": "Porsche 911: wash and finished result",
+        "description": "See the foam wash and finished exterior from a real Sneaky Clean detail."
+      }
+    ]
   }
 ]

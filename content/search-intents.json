@@ -1,0 +1,176 @@
+{
+  "reviewedOn": "2026-10-26",
+  "basis": "Google Search Console observations and Rutherford County Google Keyword Planner research. Targets express page intent; a target is not a ranking claim or a verified volume.",
+  "clusters": [
+    {
+      "id": "murfreesboro-car-detailing",
+      "target": "/",
+      "primaryKeyword": "car detailing murfreesboro tn",
+      "supportingKeywords": [
+        "murfreesboro car detailing",
+        "auto detailing murfreesboro",
+        "car detailing murfreesboro",
+        "sneaky clean",
+        "sneaky clean llc"
+      ],
+      "priority": 1,
+      "purpose": "Introduce the local business, show services and starting prices, and help a customer choose a detail."
+    },
+    {
+      "id": "murfreesboro-mobile-detailing",
+      "target": "/mobile-detailing-murfreesboro/",
+      "primaryKeyword": "mobile detailing murfreesboro tn",
+      "supportingKeywords": [
+        "mobile car detailing murfreesboro",
+        "mobile car detailing murfreesboro tn",
+        "mobile detailing murfreesboro",
+        "car detailing at home service"
+      ],
+      "priority": 1,
+      "purpose": "Explain mobile setup and compare Interior Only, Refresh and Full Reset."
+    },
+    {
+      "id": "interior-detailing",
+      "target": "/interior-detailing-murfreesboro/",
+      "primaryKeyword": "interior car detailing murfreesboro",
+      "supportingKeywords": [
+        "interior car detailing near me",
+        "interior car cleaning near me",
+        "interior detailing",
+        "auto interior detailing",
+        "car interior detailing",
+        "auto upholstery cleaning",
+        "seat shampooing near me",
+        "car deep cleaning"
+      ],
+      "priority": 1,
+      "purpose": "Explain included interior work, vehicle-size prices, optional add-ons and real before-and-after results."
+    },
+    {
+      "id": "smyrna-mobile-detailing",
+      "target": "/mobile-detailing-smyrna/",
+      "primaryKeyword": "car detailing smyrna tn",
+      "supportingKeywords": [
+        "car detailing smyrna",
+        "mobile detailing smyrna tn"
+      ],
+      "priority": 1,
+      "purpose": "Help Smyrna customers choose a service and confirm a permitted mobile location."
+    },
+    {
+      "id": "la-vergne-mobile-detailing",
+      "target": "/mobile-detailing-la-vergne/",
+      "primaryKeyword": "car detailing la vergne tn",
+      "supportingKeywords": [
+        "car detailing la vergne",
+        "la vergne car detailing",
+        "auto detailing la vergne",
+        "la vergne auto detailing"
+      ],
+      "priority": 1,
+      "purpose": "Help La Vergne customers compare car detailing options, prices and setup requirements."
+    },
+    {
+      "id": "ceramic-and-paint-correction",
+      "target": "/ceramic-coating-murfreesboro/",
+      "primaryKeyword": "ceramic coating murfreesboro",
+      "supportingKeywords": [
+        "ceramic coating near me",
+        "paint correction murfreesboro",
+        "paint correction near me",
+        "paint protection murfreesboro tn"
+      ],
+      "priority": 1,
+      "purpose": "Explain the difference between correction and coating and what determines a quote."
+    },
+    {
+      "id": "motorcycle-detailing",
+      "target": "/motorcycle-detailing-murfreesboro/",
+      "primaryKeyword": "motorcycle detailing murfreesboro",
+      "supportingKeywords": [
+        "motorcycle detailing",
+        "motorcycle detailing near me",
+        "motorcycle detailing la vergne",
+        "mobile motorcycle detailing la vergne",
+        "bike detailing la vergne",
+        "mobile bike detailing la vergne",
+        "motorcycle polishing la vergne"
+      ],
+      "priority": 1,
+      "purpose": "Explain bike-specific scope, photo review and mobile coverage in Murfreesboro, Smyrna and La Vergne."
+    },
+    {
+      "id": "nashville-mobile-detailing",
+      "target": "/mobile-detailing-nashville/",
+      "primaryKeyword": "mobile car detailing nashville tn",
+      "supportingKeywords": [
+        "car detailing nashville tn",
+        "mobile detailing nashville"
+      ],
+      "priority": 2,
+      "purpose": "Confirm route timing and an approved service location before choosing a Nashville appointment."
+    },
+    {
+      "id": "franklin-mobile-detailing",
+      "target": "/mobile-detailing-franklin/",
+      "primaryKeyword": "mobile car detailing franklin tn",
+      "supportingKeywords": [
+        "car detailing franklin tn",
+        "mobile car detailing in franklin",
+        "car detailing maintenance plans in franklin, tn"
+      ],
+      "priority": 2,
+      "purpose": "Help Franklin customers plan a mobile visit and find the appropriate specialist service."
+    },
+    {
+      "id": "brentwood-mobile-detailing",
+      "target": "/mobile-detailing-brentwood/",
+      "primaryKeyword": "mobile car detailing brentwood tn",
+      "supportingKeywords": [
+        "car detailing brentwood tn",
+        "brentwood car detailing",
+        "auto detailing brentwood tn"
+      ],
+      "priority": 2,
+      "purpose": "Help Brentwood customers plan mobile care and compare packages for their vehicles."
+    },
+    {
+      "id": "fleet-detailing",
+      "target": "/fleet-commercial/",
+      "primaryKeyword": "fleet detailing murfreesboro",
+      "supportingKeywords": [
+        "fleet cleaning murfreesboro tn",
+        "fleet cleaning service murfreesboro tn",
+        "commercial mobile detailing services in franklin, tn",
+        "fleet detailing services in franklin, tn"
+      ],
+      "priority": 2,
+      "purpose": "Collect the actual vehicle count, location and scope for a commercial quote."
+    },
+    {
+      "id": "maintenance-memberships",
+      "target": "/#membership",
+      "primaryKeyword": "car detailing membership murfreesboro",
+      "supportingKeywords": [
+        "monthly car detailing murfreesboro",
+        "mobile detailing maintenance plans"
+      ],
+      "priority": 2,
+      "purpose": "Compare recurring care and explain the separate per-vehicle initial clean and billing setup."
+    }
+  ],
+  "excludedIntents": [
+    {
+      "intent": "RV, marine and boat detailing",
+      "reason": "Not in the verified service catalog; incidental impressions do not establish an offered service."
+    },
+    {
+      "intent": "$99 same-day full detail",
+      "reason": "Does not match the published full-detail prices or appointment rules. The $99 membership has separate terms."
+    },
+    {
+      "intent": "Graffiti removal, upholstery repair and competitor brand names",
+      "reason": "Not verified Sneaky Clean services or relevant landing-page targets."
+    }
+  ]
+}

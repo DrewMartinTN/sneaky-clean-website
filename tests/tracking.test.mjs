@@ -35,11 +35,11 @@ function page(links, { gtag = true } = {}) {
   const windowListeners = {};
   const window = {
     addEventListener: (type, fn) => (windowListeners[type] ||= []).push(fn),
-    dispatch: (type) => (windowListeners[type] || []).forEach((fn) => fn()),
+    dispatch: (type, detail) => (windowListeners[type] || []).forEach((fn) => fn({detail})),
   };
   if (gtag) window.gtag = (...args) => calls.push(args);
   const document = { querySelectorAll: (selector) => links.filter((el) => matches(el, selector)) };
-  vm.runInContext(read('assets/js/main.js'), vm.createContext({ window, document }));
+  vm.runInContext(read('assets/js/main.js'), vm.createContext({ window, document, URL, URLSearchParams, location:{hostname:'www.sneakycleantn.com',pathname:'/',search:''}, localStorage:{getItem:()=>null,setItem(){}},sessionStorage:{getItem:()=>null,setItem(){}} }));
   return { calls, window };
 }
 
@@ -59,10 +59,12 @@ test('a phone link click sends the Website - Call click conversion with nothing 
 
 test('a confirmed booking request sends the Website - Booking request conversion', () => {
   const { calls, window } = page([]);
-  window.dispatch('sneakyclean:booking-submitted');
+  window.dispatch('sneakyclean:booking-submitted',{bookingId:'test-booking'});
+  window.dispatch('sneakyclean:booking-submitted',{bookingId:'test-booking'});
   assert.deepEqual(plain(calls), [
-    ['event', 'booking_request_submitted', {}],
-    ['event', 'conversion', { send_to: `${ADS}/jaaTCKS9voUdENr6p_FB` }],
+    ['event', 'booking_request_submitted', {booking_id:'test-booking',booking_path:'main_site'}],
+    ['event', 'appointment_booked', {booking_id:'test-booking',booking_path:'main_site'}],
+    ['event', 'conversion', { send_to: `${ADS}/jaaTCKS9voUdENr6p_FB`, transaction_id:'test-booking' }],
   ]);
 });
 
@@ -84,13 +86,12 @@ test('tracking is a no-op when the Google tag is missing', () => {
   assert.doesNotThrow(() => { call.click(); window.dispatch('sneakyclean:booking-submitted'); });
 });
 
-function sitePages(dir = '.') {
-  const skip = new Set(['.git', '.claude', 'node_modules', 'native-app', 'growth', 'tests']);
-  return fs.readdirSync(new URL(dir + '/', root), { withFileTypes: true }).flatMap((entry) => {
-    const file = path.posix.join(dir, entry.name);
-    if (entry.isDirectory()) return skip.has(entry.name) ? [] : sitePages(file);
-    return entry.name.endsWith('.html') ? [file] : [];
-  });
+function sitePages() {
+  // Files Git tracks or would track, so ignored preview and publish copies (build/, tmp/) don't count.
+  const listed = execFileSync('git', ['ls-files', '-z', '--cached', '--others', '--exclude-standard', '--', '*.html'],
+    { cwd: fileURLToPath(root), encoding: 'utf8' });
+  return [...new Set(listed.split('\0').filter(Boolean))]
+    .filter((file) => !/^(\.claude|native-app|growth|tests)\//.test(file));
 }
 
 test('every page that loads main.js configures the Google Ads tag after GA4', () => {

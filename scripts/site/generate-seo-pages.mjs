@@ -295,6 +295,45 @@ function pageHtml(page) {
     )
     .join("");
 
+  const serviceOptions = page.serviceName === "Mobile Detailing" ? `
+    <section class="section seo-info" aria-labelledby="options-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Choose Your Detail</p>
+          <h2 id="options-title">Interior only, or inside and out?</h2>
+          <p>Starting prices are before tax. Vehicle size, condition and selected add-ons affect the total.</p>
+        </div>
+        <div class="area-grid">${[
+            ["Interior Only", "/interior-detailing-murfreesboro/", "Interior cleaning without an exterior wash. Sedans start at $150, small SUVs and small trucks at $180, and large SUVs, 3-row vehicles and full-size trucks at $210. Pet hair, extraction and odor treatment are separate add-ons.", "See interior prices and what’s included"],
+            ["Refresh Detail", "#sc-book-refresh", "Interior and exterior care for a vehicle that is already maintained. Allow about 2 to 2.5 hours, depending on vehicle size.", "See Refresh appointment times"],
+            ["Full Reset Detail", "#sc-book-reset", "A deeper interior and exterior detail for daily drivers and family vehicles. Allow about 4 to 5 hours, depending on vehicle size.", "See Full Reset appointment times"],
+          ].map(([name, href, description, cta]) => `
+          <article>
+            <h3>${escapeHtml(name)}</h3>
+            <strong>From $${business.services.find((service) => service.name === name).startingPrice}</strong>
+            <p>${escapeHtml(description)}</p>
+            <a class="text-link" href="${escapeHtml(href)}">${escapeHtml(cta)}</a>
+          </article>`).join("")}
+        </div>
+      </div>
+    </section>` : "";
+
+  const relatedLinks = page.relatedLinks?.length ? `
+    <section class="section seo-info" aria-labelledby="related-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Keep Looking</p>
+          <h2 id="related-title">${escapeHtml(page.relatedHeading || "Find the right service for your vehicle.")}</h2>
+        </div>
+        <div class="area-grid">${page.relatedLinks.map((link) => `
+          <article>
+            <h3><a href="${escapeHtml(link.href)}">${escapeHtml(link.title)}</a></h3>
+            <p>${escapeHtml(link.description)}</p>
+          </article>`).join("")}
+        </div>
+      </div>
+    </section>` : "";
+
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -401,6 +440,7 @@ ${page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidde
       </div>
     </section>
 
+${serviceOptions}
     <section class="section seo-info" aria-label="${escapeHtml(page.serviceName)} details">
       <div class="wrap seo-info-grid">${sectionCards}
       </div>
@@ -420,6 +460,7 @@ ${page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidde
       </div>
     </section>
 
+${relatedLinks}
     <section class="section faq" aria-labelledby="faq-title">
       <div class="wrap">
         <div class="section-head">
@@ -480,7 +521,6 @@ ${page.quoteRequired ? "" : '  <script src="../assets/js/membership-data.js?v=20
 }
 
 function sitemapXml() {
-  const lastmod = new Date().toISOString().slice(0, 10);
   const urls = [
     { loc: `${BASE_URL}/` },
     { loc: `${BASE_URL}/shop/` },
@@ -501,7 +541,6 @@ ${urls
   .map(
     (url) => `  <url>
     <loc>${url.loc}</loc>
-    <lastmod>${lastmod}</lastmod>
   </url>`,
   )
   .join("\n")}
@@ -510,6 +549,9 @@ ${urls
 }
 
 const selectedSlug=process.argv.find(a=>a.startsWith("--slug="))?.slice(7);
+if (selectedSlug && !pages.some((page) => page.slug === selectedSlug)) {
+  throw new Error(`Unknown service page: ${selectedSlug}`);
+}
 for (const page of pages.filter(p=>!selectedSlug||p.slug===selectedSlug)) {
   const dir = path.join(ROOT, page.slug);
   await fs.mkdir(dir, { recursive: true });
