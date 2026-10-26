@@ -3,7 +3,7 @@ const WORKER_URL = "https://sneaky-clean-booking.drew-martin331.workers.dev";
 const SERVICES = {
   interior: {
     title: "Interior Only Detail",
-    subtitle: "Interior cleaning only. Prices before tax. Heavy pet hair, extraction and odor treatment are additional services. See the estimate page to select add-ons.",
+    subtitle: "Interior cleaning only. Prices before tax. Heavy pet hair, extraction and odor treatment are additional services. Describe them in your notes so we can review the extra work with you.",
     tiers: [{"id": "TIMTDZFI354VXBKRRSUQFACX", "label": "Coupe/Sedan \u2014 $150 (2h)"}, {"id": "FMTDVCFXRGAQ3E6BYC46R27D", "label": "Small SUV / Small Truck \u2014 $180 (2.5h)"}, {"id": "44HQHNKNFKRW2LKI7Z32BD4U", "label": "Large SUV / 3-Row / Full-Size Truck \u2014 $210 (3h)"}],
   },
   refresh: {

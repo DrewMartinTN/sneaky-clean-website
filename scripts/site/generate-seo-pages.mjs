@@ -108,11 +108,11 @@ function hrefForPage(href) {
 const SMS_QUOTE_HREF = "sms:+17178709439?&amp;body=Hi%20Sneaky%20Clean!%20I%27d%20like%20a%20quote%20for%20my%20vehicle.%20Photos%20coming.";
 
 function bookingModal(page) {
-  if (page.quoteRequired) return `
+  if (page.bookingHref || page.quoteRequired) return `
   <nav class="mobile-bar" aria-label="Quick actions">
     <a href="${PHONE_HREF}">Call</a>
-    <a href="${page.estimateHref ? SMS_QUOTE_HREF : escapeHtml(page.primaryHref)}">Text Photos</a>
-    <a class="mobile-bar__book" href="${escapeHtml(page.primaryHref)}">Get a Quote</a>
+    <a href="${page.bookingHref || page.estimateHref ? SMS_QUOTE_HREF : escapeHtml(page.primaryHref)}">Text Photos</a>
+    <a class="mobile-bar__book" href="${escapeHtml(page.primaryHref)}">${page.bookingHref ? "Book Interior Only" : "Get a Quote"}</a>
   </nav>`;
   return `
   <div class="booking-modal" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-title">
@@ -381,7 +381,7 @@ function pageHtml(page) {
       <a href="../#packages">Packages</a>
       <a href="../#membership">Membership</a>
       <a href="${PHONE_HREF}">${PHONE_DISPLAY}</a>
-      <a class="nav__cta" href="${page.quoteRequired ? escapeHtml(page.primaryHref) : "#sc-book-reset"}">${page.quoteRequired ? "Get a Quote" : "Book Online"}</a>
+      <a class="nav__cta" href="${page.bookingHref || page.quoteRequired ? escapeHtml(page.primaryHref) : "#sc-book-reset"}">${page.bookingHref ? "Book Interior Only" : page.quoteRequired ? "Get a Quote" : "Book Online"}</a>
     </nav>
   </header>
 
@@ -393,7 +393,7 @@ function pageHtml(page) {
           <p class="eyebrow">${escapeHtml(page.eyebrow)}</p>
           <h1>${escapeHtml(page.headline)}</h1>
           <p class="lead">${escapeHtml(page.lead)}</p>
-${page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidden>
+${page.bookingHref || page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidden>
             <span class="next-open__dot" aria-hidden="true"></span>
             Next opening: <strong></strong>
           </p>`}
@@ -402,7 +402,7 @@ ${page.quoteRequired ? "" : `          <p class="next-open" id="next-open" hidde
             <a class="button button--dark" href="${PHONE_HREF}">Call Now</a>
           </div>
           <p class="text-quote">
-            ${page.quoteRequired ? `${page.estimateHref ? "See your vehicle’s price, choose add-ons, and book online. Photos are optional." : "Text your vehicle year, make, model and a few interior photos. We confirm the price before you book."}` : `Prefer to text? <a href="${SMS_QUOTE_HREF}">Send a photo to ${SMS_DISPLAY}</a> for a fast quote.`}
+            ${page.bookingHref ? "Choose your vehicle size and request an appointment. We confirm by text." : page.quoteRequired ? `${page.estimateHref ? "See your vehicle’s price, choose add-ons, and book online. Photos are optional." : "Text your vehicle year, make, model and a few interior photos. We confirm the price before you book."}` : `Prefer to text? <a href="${SMS_QUOTE_HREF}">Send a photo to ${SMS_DISPLAY}</a> for a fast quote.`}
           </p>
           <ul class="trust-list">
             <li>★★★★★ 5.0 Google Rating</li>
@@ -476,8 +476,8 @@ ${relatedLinks}
       <div class="wrap final-cta__panel">
         <div>
           <p class="eyebrow">Open Cases</p>
-          <h2 id="final-title">${page.quoteRequired ? "Ready for your interior quote?" : "Ready to get on the schedule?"}</h2>
-          <p>${page.quoteRequired ? (page.estimateHref ? "See your vehicle’s price and choose only the add-ons you want. Review your quote before booking." : "Text interior photos and your vehicle details. We will review the condition and confirm pricing before scheduling.") : "Book online in about a minute, or text a photo for a quote. Sneaky Clean comes to you."}</p>
+          <h2 id="final-title">${page.bookingHref ? "Ready for your interior detail?" : page.quoteRequired ? "Ready for your interior quote?" : "Ready to get on the schedule?"}</h2>
+          <p>${page.bookingHref ? "Choose your vehicle size and request an available appointment. Tell us about any extra work in your notes; additional work needs your approval." : page.quoteRequired ? (page.estimateHref ? "See your vehicle’s price and choose only the add-ons you want. Review your quote before booking." : "Text interior photos and your vehicle details. We will review the condition and confirm pricing before scheduling.") : "Book online in about a minute, or text a photo for a quote. Sneaky Clean comes to you."}</p>
         </div>
         <div class="actions">
           <a class="button" href="${escapeHtml(hrefForPage(page.primaryHref || "#sc-book-reset"))}">${escapeHtml(page.primaryCta)}</a>
@@ -514,7 +514,7 @@ ${relatedLinks}
 ${bookingModal(page)}
 
   <script src="../assets/js/main.js" defer></script>
-${page.quoteRequired ? "" : '  <script src="../assets/js/membership-data.js?v=20260916" defer></script>\n  <script src="../assets/js/booking.js?v=20261009-base-prices" defer></script>'}
+${page.bookingHref || page.quoteRequired ? "" : '  <script src="../assets/js/membership-data.js?v=20260916" defer></script>\n  <script src="../assets/js/booking.js?v=20261026-interior-booking" defer></script>'}
 </body>
 </html>
 `;

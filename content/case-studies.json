@@ -18,8 +18,8 @@
     ],
     "serviceUrl": "interior-detailing-murfreesboro/",
     "serviceLinkText": "See interior detailing services and prices",
-    "quoteUrl": "estimate/?service=interior",
-    "quoteText": "Price My Interior Detail"
+    "quoteUrl": "#sc-book-interior",
+    "quoteText": "Book Interior Only"
   },
   {
     "slug": "porsche-911-exterior-detail",
@@ -38,7 +38,7 @@
     ],
     "serviceUrl": "mobile-detailing-murfreesboro/",
     "serviceLinkText": "Explore mobile detailing packages",
-    "quoteUrl": "estimate/",
-    "quoteText": "Request My Detail Quote"
+    "quoteUrl": "#sc-book-interior",
+    "quoteText": "Book Interior Only"
   }
 ]

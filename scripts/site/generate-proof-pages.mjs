@@ -61,18 +61,18 @@ function layout({ route, title, description, body, nodes = [], imageUrl }) {
 <body class="proof-page">
   <header class="site-header">
     <a class="brand" href="/" aria-label="Sneaky Clean home"><img src="/assets/images/sneaky-clean-mascot.png" alt="Sneaky Clean detective mascot" width="879" height="879"><span>Sneaky Clean</span></a>
-    <nav class="nav" aria-label="Primary navigation"><a href="/about/">About</a><a href="/case-studies/">Case Studies</a><a href="/#packages">Services &amp; Pricing</a><a href="tel:${business.telephone}">${business.phoneDisplay}</a><a class="nav__cta" href="/estimate/" data-quote-form>Get a Quote</a></nav>
+    <nav class="nav" aria-label="Primary navigation"><a href="/about/">About</a><a href="/case-studies/">Case Studies</a><a href="/#packages">Services &amp; Pricing</a><a href="tel:${business.telephone}">${business.phoneDisplay}</a><a class="nav__cta" href="/#sc-book-interior">Book Interior Only</a></nav>
   </header>
   <main id="top">${body}</main>
   <footer class="site-footer"><div class="wrap site-footer__inner"><span>Sneaky Clean · Mobile auto detailing · Murfreesboro, Tennessee · Established 2025</span><p class="business-hours">Business hours: ${business.hoursDisplay}</p>${profileLinks("/")}<nav aria-label="Sneaky Clean services"><a href="/mobile-detailing-murfreesboro/">Mobile detailing</a> · <a href="/interior-detailing-murfreesboro/">Interior detailing</a> · <a href="/ceramic-coating-murfreesboro/">Ceramic coating</a> · <a href="/fleet-commercial/">Fleet services</a></nav><a href="tel:${business.telephone}">${business.phoneDisplay}</a></div></footer>
-  <nav class="mobile-bar" aria-label="Quick actions"><a href="tel:${business.telephone}">Call</a><a href="sms:${business.telephone}">Text</a><a class="mobile-bar__book" href="/estimate/" data-quote-form>Get a Quote</a></nav>
+  <nav class="mobile-bar" aria-label="Quick actions"><a href="tel:${business.telephone}">Call</a><a href="sms:${business.telephone}">Text</a><a class="mobile-bar__book" href="/#sc-book-interior">Book Interior Only</a></nav>
   <script src="/assets/js/main.js?v=20260927-ads" defer></script>
 </body>
 </html>
 `;
 }
 
-const cta = (study) => `<section class="section final-cta"><div class="wrap final-cta__panel"><div><p class="eyebrow">Your next detail</p><h2>Let's take care of yours.</h2><p>We come to homes, workplaces and approved locations in Murfreesboro, Smyrna and surrounding Middle Tennessee communities.</p></div><div class="actions"><a class="button" href="/${study?.quoteUrl || "estimate/"}" data-quote-form>${study?.quoteText || "Request My Detail Quote"}</a><a class="button button--dark" href="tel:${business.telephone}">Call Drew</a></div></div></section>`;
+const cta = (study) => `<section class="section final-cta"><div class="wrap final-cta__panel"><div><p class="eyebrow">Your next detail</p><h2>Let's take care of yours.</h2><p>We come to homes, workplaces and approved locations in Murfreesboro, Smyrna and surrounding Middle Tennessee communities.</p></div><div class="actions"><a class="button" href="/${study?.quoteUrl || "#sc-book-interior"}">${study?.quoteText || "Book Interior Only"}</a><a class="button button--dark" href="tel:${business.telephone}">Call Drew</a></div></div></section>`;
 
 const indexBody = `<section class="section"><div class="wrap proof-intro"><a class="breadcrumb" href="/">Sneaky Clean / The Evidence</a><p class="eyebrow">The Evidence</p><h1>Real vehicles. Real results.</h1><p class="lead">A closer look at interior and exterior detailing by Sneaky Clean. Follow the work through the original photos and see what changed.</p></div></section><section class="section proof-list"><div class="wrap seo-info-grid">${cases.map(card).join("")}</div></section>${cta()}`;
 const files = [{ route: "case-studies/", title: "Mobile Detailing Case Studies", description: "See real Sneaky Clean detailing results: Silverado interior before-and-after photos and a Porsche 911 exterior wash and finished result.", body: indexBody,

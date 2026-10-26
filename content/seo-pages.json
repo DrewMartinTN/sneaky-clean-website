@@ -28,7 +28,7 @@
       },
       {
         "heading": "What should I tell you before the appointment?",
-        "body": "Include your vehicle year, make and model, the service address and the areas that need attention. Mention pet hair, stains or odors so the work can be scoped accurately. Photos are useful for problem areas. Interior Only quotes do not require photos, and any additional work needs your approval."
+        "body": "Include your vehicle year, make and model, the service address and the areas that need attention. Mention pet hair, stains or odors so the work can be scoped accurately. Photos are useful for problem areas. Photos are optional for Interior Only booking, and any additional work needs your approval."
       }
     ],
     "gallery": [
@@ -67,7 +67,7 @@
       },
       {
         "question": "Can I book interior-only car cleaning in Murfreesboro?",
-        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
+        "answer": "Yes. Tap Book Interior Only, choose your vehicle size, and request an available appointment. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Describe pet hair, stains or odors in your booking notes so any extra work can be reviewed with you before approval."
       }
     ],
     "primaryHref": "#sc-book-reset",
@@ -167,7 +167,7 @@
       },
       {
         "question": "Can I book interior-only car cleaning in Smyrna?",
-        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
+        "answer": "Yes. Tap Book Interior Only, choose your vehicle size, and request an available appointment. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Describe pet hair, stains or odors in your booking notes so any extra work can be reviewed with you before approval."
       }
     ],
     "relatedLinks": [
@@ -265,7 +265,7 @@
       },
       {
         "question": "Can I book interior-only car cleaning in La Vergne?",
-        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
+        "answer": "Yes. Tap Book Interior Only, choose your vehicle size, and request an available appointment. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Describe pet hair, stains or odors in your booking notes so any extra work can be reviewed with you before approval."
       }
     ],
     "relatedLinks": [
@@ -363,7 +363,7 @@
       },
       {
         "question": "Can I book interior-only car cleaning in Nashville?",
-        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
+        "answer": "Yes. Tap Book Interior Only, choose your vehicle size, and request an available appointment. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Describe pet hair, stains or odors in your booking notes so any extra work can be reviewed with you before approval."
       }
     ],
     "relatedLinks": [
@@ -461,7 +461,7 @@
       },
       {
         "question": "Can I book interior-only car cleaning in Franklin?",
-        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
+        "answer": "Yes. Tap Book Interior Only, choose your vehicle size, and request an available appointment. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Describe pet hair, stains or odors in your booking notes so any extra work can be reviewed with you before approval."
       }
     ],
     "relatedLinks": [
@@ -559,7 +559,7 @@
       },
       {
         "question": "Can I book interior-only car cleaning in Brentwood?",
-        "answer": "Yes. Interior Only is available through our estimate page. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction and odor treatment are separate add-ons. Confirm your service address and review your itemized quote before booking."
+        "answer": "Yes. Tap Book Interior Only, choose your vehicle size, and request an available appointment. Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Describe pet hair, stains or odors in your booking notes so any extra work can be reviewed with you before approval."
       }
     ],
     "relatedLinks": [
@@ -755,11 +755,11 @@
   {
     "slug": "interior-detailing-murfreesboro",
     "title": "Interior Car Cleaning & Detailing in Murfreesboro | Sneaky Clean",
-    "description": "Crumbs, dirty carpets or pet hair? Sneaky Clean brings interior car cleaning to your home or office in Murfreesboro. See real results and get an interior-only quote.",
+    "description": "Mobile interior car detailing in Murfreesboro, TN. Interior Only starts at $150 before tax. See real results, choose your vehicle size and book online.",
     "eyebrow": "Mobile Interior Detailing · Murfreesboro, TN",
     "headline": "Interior Car Detailing in Murfreesboro",
-    "lead": "Crumbs between the seats. Dirt in the mats. The mess that keeps getting put off. We bring interior car cleaning to your home or office. Choose your vehicle, see your vehicle’s price, and add only the extra work you need.",
-    "primaryCta": "Price My Interior Detail",
+    "lead": "Crumbs between the seats. Dirt in the mats. The mess that keeps getting put off. We bring interior car cleaning to your home or office. Choose your vehicle size and request an appointment online.",
+    "primaryCta": "Book Interior Only",
     "secondaryCta": "Call Now",
     "heroImage": "assets/images/evidence/silverado-driver-after.webp",
     "heroAlt": "Clean driver footwell, floor mat and dashboard in a customer's Chevrolet Silverado after Sneaky Clean interior detailing",
@@ -767,26 +767,26 @@
     "caseText": "Chevrolet Silverado · Interior results",
     "serviceName": "Interior Detailing",
     "serviceArea": "Murfreesboro, TN",
-    "intro": "Interior Only starts at $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks, before tax. Your itemized quote shows tax separately before you book. Heavy pet hair, extraction, odor treatment and excessive trash removal are separate add-ons. Any additional work needs your approval.",
+    "intro": "Interior Only starts at $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks, before tax. Heavy pet hair, extraction, odor treatment and excessive trash removal are separate add-ons. Describe any problem areas in your booking notes. Any additional work needs your approval.",
     "evidenceIntro": "Before and after the same customer's Silverado. Seats, mats, footwells and the surfaces you see every day.",
     "proof": [
-      "See your vehicle’s price",
-      "Interior-only service",
-      "Choose add-ons online",
+      "Interior Only from $150 before tax",
+      "Choose your vehicle size",
+      "Request an appointment online",
       "Mobile service at your location"
     ],
     "sections": [
       {
         "heading": "A clean built around your interior",
-        "body": "Your base detail includes a thorough interior blowout and vacuum, mats, seats, vents, dashboard, console, cupholders, door panels, inside glass, door jambs and light spot treatment. No exterior wash is included. Select pet hair removal, upholstery extraction or odor treatment separately when needed."
+        "body": "Your base detail includes a thorough interior blowout and vacuum, mats, seats, vents, dashboard, console, cupholders, door panels, inside glass, door jambs and light spot treatment. No exterior wash is included. Tell us if pet hair removal, upholstery extraction or odor treatment is needed so we can review those additional services with you."
       },
       {
-        "heading": "How do I get an interior quote?",
-        "body": "Tap Price My Interior Detail. Choose your vehicle and the Interior Only service, then add any extra work you want. Your price updates as you select add-ons. Tax is shown separately in your itemized quote. Photos are optional. Review your itemized quote and choose an available appointment. Prefer a conversation? Call (717) 870-9439."
+        "heading": "How do I book an interior detail?",
+        "body": "Tap Book Interior Only to open our booking form with Interior Only selected. Choose your vehicle size, pick an available date and time, and add your vehicle and address. Mention any problem areas in your notes, then request the appointment. We confirm by text. Prefer a conversation? Call (717) 870-9439."
       },
       {
         "heading": "Pet hair, upholstery extraction and odor treatment",
-        "body": "These are separate add-ons rather than automatic parts of the base interior detail. Choose the work you need in your quote and describe any problem areas. Stain and odor results depend on the material and source; we set expectations before extra work is approved."
+        "body": "Pet hair removal, upholstery extraction and odor treatment are separate add-ons rather than automatic parts of the base interior detail. Describe any problem areas in your booking notes or text us photos so we can review the extra work with you. Stain and odor results depend on the material and source; any additional work needs your approval."
       }
     ],
     "gallery": [
@@ -809,7 +809,7 @@
     "faqs": [
       {
         "question": "Can I book just an interior clean?",
-        "answer": "Yes. Choose Interior Only on our estimate page, see the price including tax, and book an available time after accepting your quote. Refresh and Full Reset include interior and exterior work."
+        "answer": "Yes. Tap Book Interior Only to open our booking form with Interior Only selected. Choose your vehicle size and request an available appointment. Refresh and Full Reset include interior and exterior work."
       },
       {
         "question": "Will every stain or odor come out?",
@@ -817,7 +817,7 @@
       },
       {
         "question": "How much does Interior Detail cost?",
-        "answer": "Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Your itemized quote shows tax separately. Pet hair removal, extraction, odor treatment and excessive trash removal are additional services."
+        "answer": "Base prices before tax are $150 for sedans, $180 for small SUVs and small trucks, and $210 for large SUVs, 3-row vehicles and full-size trucks. Pet hair removal, extraction, odor treatment and excessive trash removal are additional services that we review with you before approval."
       },
       {
         "question": "Can you handle family vehicle messes?",
@@ -836,9 +836,7 @@
         "answer": "Yes. Sneaky Clean is mobile and serves Murfreesboro and surrounding Middle Tennessee areas."
       }
     ],
-    "primaryHref": "/estimate/?service=interior",
-    "quoteRequired": true,
-    "estimateHref": "/estimate/?service=interior",
+    "primaryHref": "https://www.sneakycleantn.com/#sc-book-interior",
     "relatedLinks": [
       {
         "href": "/case-studies/silverado-interior-detail/",
@@ -855,6 +853,7 @@
         "title": "Porsche 911: wash and finished result",
         "description": "See the foam wash and finished exterior from a real Sneaky Clean detail."
       }
-    ]
+    ],
+    "bookingHref": "https://www.sneakycleantn.com/#sc-book-interior"
   }
 ]

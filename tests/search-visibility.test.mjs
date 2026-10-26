@@ -99,6 +99,22 @@ test("search intent groups have distinct keywords and reachable canonical destin
   }
 });
 
+test("public booking entry links use Interior Only instead of the retired estimate destination", () => {
+  const destination = new URL('#sc-book-interior', profile.url).href;
+  assert.ok(read('index.html').includes('href="#sc-book-interior">Book Interior Only</a>'));
+  const interior = JSON.parse(read('content/seo-pages.json')).find(page => page.slug === 'interior-detailing-murfreesboro');
+  assert.equal(interior.primaryHref, destination);
+  assert.equal(interior.bookingHref, destination);
+  assert.ok(read('interior-detailing-murfreesboro/index.html').includes(`href="${destination}">Book Interior Only</a>`));
+  for (const { url, file } of pages) {
+    for (const match of read(file).matchAll(/href="([^"]+)"/g)) {
+      const link = new URL(match[1].replaceAll('&amp;', '&'), url);
+      if (link.origin === new URL(profile.url).origin) assert.doesNotMatch(link.pathname, /^\/estimate\/?$/, `${file}: legacy estimate entry`);
+    }
+  }
+  assert.ok(fs.existsSync(path.join(root, 'estimate/index.html')), 'existing saved estimates remain reachable');
+});
+
 test("FAQ structured data agrees with visible customer answers", () => {
   const plain = (value) => value.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'")
     .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim();

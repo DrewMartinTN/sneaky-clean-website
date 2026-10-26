@@ -75,13 +75,13 @@ class Element {
   contains() { return false; }
   focus() {}
 }
-function frontend(fetch, protocol = 'https:', memberships = false) {
+function frontend(fetch, protocol = 'https:', memberships = false, hash = '') {
   const elements = new Map();
   const get = id => { if (!elements.has(id)) elements.set(id, new Element(['date', 'tier', 'service'].includes(id) ? 'SELECT' : 'DIV')); return elements.get(id); };
   const body = new Element();
   const context = vm.createContext({ Date: FixedDate, Intl, AbortSignal, setTimeout, clearTimeout, fetch, HTMLElement: Element,
     window: { dispatchEvent() {} }, CustomEvent: class { constructor(name) { this.type = name; } },
-    location: { protocol, hash: '', pathname: '/', search: '' }, history: { replaceState() {} },
+    location: { protocol, hash, pathname: '/', search: '' }, history: { replaceState() {} },
     document: { getElementById: get, createElement: tag => new Element(tag.toUpperCase()), body, activeElement: body },
   });
   if (memberships) {
@@ -90,10 +90,25 @@ function frontend(fetch, protocol = 'https:', memberships = false) {
   }
   // Split at the initialization block (not the identical statement inside closeBooking).
   const full = fs.readFileSync(new URL('../assets/js/booking.js', import.meta.url), 'utf8');
-  vm.runInContext(full.slice(0, full.lastIndexOf('\nmodal.setAttribute("aria-hidden", "true");')) + '\nglobalThis.api = { openBooking, loadSlots, initNextOpen, businessMidnight, populateDates, checkReady, state, openByVariation, bookingNotes, updateMembershipFields, submitBooking };', context);
+  vm.runInContext(full.slice(0, full.lastIndexOf('\nmodal.setAttribute("aria-hidden", "true");')) + '\nglobalThis.api = { openBooking, loadSlots, initNextOpen, businessMidnight, populateDates, checkReady, state, openByVariation, bookingNotes, updateMembershipFields, submitBooking, checkHash };', context);
   return { ...context.api, get };
 }
 const flush = () => new Promise(resolve => setImmediate(resolve));
+
+test('the advertised interior hash opens Interior Only with the correct vehicle prices', async () => {
+  const app = frontend(async () => reply({ slots: [] }), 'https:', false, '#sc-book-interior');
+  app.checkHash();
+  await flush();
+  assert.equal(app.state.serviceKey, 'interior');
+  assert.equal(app.get('booking-title').textContent, 'Interior Only Detail');
+  assert.deepEqual(app.get('tier').options.map(option => option.value), [
+    'TIMTDZFI354VXBKRRSUQFACX', 'FMTDVCFXRGAQ3E6BYC46R27D', '44HQHNKNFKRW2LKI7Z32BD4U',
+  ]);
+  for (const [index, price] of [150, 180, 210].entries()) {
+    assert.ok(app.get('tier').options[index].textContent.includes(`$${price}`));
+  }
+  assert.equal(app.state.variationId, 'TIMTDZFI354VXBKRRSUQFACX');
+});
 
 test('all six membership choices keep monthly pricing separate from per-vehicle initial appointments', async () => {
   const app = frontend(async () => reply({ slots: [] }), 'https:', true);
