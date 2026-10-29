@@ -527,6 +527,8 @@ function sitemapXml() {
     { loc: `${BASE_URL}/host-a-pop-up/` },
     { loc: `${BASE_URL}/fleet-commercial/` },
     { loc: `${BASE_URL}/about/` },
+    { loc: `${BASE_URL}/terms/` },
+    { loc: `${BASE_URL}/privacy/` },
     { loc: `${BASE_URL}/case-studies/` },
     { loc: `${BASE_URL}/case-studies/silverado-interior-detail/` },
     { loc: `${BASE_URL}/case-studies/porsche-911-exterior-detail/` },
@@ -560,4 +562,4 @@ for (const page of pages.filter(p=>!selectedSlug||p.slug===selectedSlug)) {
 }
 
 if(!selectedSlug) await fs.writeFile(path.join(ROOT, "sitemap.xml"), sitemapXml());
-console.log(`Generated sitemap.xml with ${pages.length + 8} URLs`);
+console.log(`Generated sitemap.xml with ${pages.length + 10} URLs`);
